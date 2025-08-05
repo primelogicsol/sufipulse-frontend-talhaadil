@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import Link from 'next/link';
 import { Heart, Globe, Users, Award, BookOpen, Star, ArrowRight, Shield, Zap, Target, Building, Compass } from 'lucide-react';

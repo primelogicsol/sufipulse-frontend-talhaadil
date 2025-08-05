@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { PenTool, MapPin, Languages, BookOpen, Star, Plus, Filter, Award, Globe, Heart, Users, ArrowRight } from 'lucide-react';
