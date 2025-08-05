@@ -1,11 +1,10 @@
-
-import GuestBlogs from '@/components/pages/Home'
+import MediaPress from '@/components/pages/MediaPress'
 import React from 'react'
 
 function page() {
   return (
     <div>
-      <GuestBlogs/>
+        <MediaPress/>
     </div>
   )
 }

@@ -1,11 +1,10 @@
-
-import GuestBlogs from '@/components/pages/Home'
+import EthicalPolicy from '@/components/pages/EthicalPolicy'
 import React from 'react'
 
 function page() {
   return (
     <div>
-      <GuestBlogs/>
+        <EthicalPolicy/>
     </div>
   )
 }

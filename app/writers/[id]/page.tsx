@@ -1,11 +1,10 @@
-
-import GuestBlogs from '@/components/pages/Home'
+import Writers from '@/components/pages/Writers'
 import React from 'react'
 
 function page() {
   return (
     <div>
-      <GuestBlogs/>
+        <Writers/>
     </div>
   )
 }
