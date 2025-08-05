@@ -19,9 +19,9 @@ import {
   Music,
   Star
 } from 'lucide-react';
-import Input from '../components/ui/Input';
-import Button from '../components/ui/Button';
-import PasswordStrength from '../components/ui/PasswordStrength';
+import Input from '../ui/Input';
+import Button from '../ui/Button';
+import PasswordStrength from '../ui/PasswordStrength';
 
 const Join = () => {
   const [step, setStep] = useState(1); // 1: Role Selection, 2: Registration Form, 3: Success
