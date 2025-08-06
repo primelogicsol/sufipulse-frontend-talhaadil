@@ -1,122 +1,171 @@
 'use client'
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import toast from 'react-hot-toast';
-import { User, Mail, Lock, MapPin, PenTool, Mic, Users, Heart, Globe, Award } from 'lucide-react';
-import { Shield, UserCheck } from 'lucide-react';
-import Input from '../ui/Input';
-import Button from '../ui/Button';
-import FormCard from '../ui/FormCard';
-import PasswordStrength from '../ui/PasswordStrength';
 
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import toast from 'react-hot-toast'
+import { User, Mail, Lock, PenTool, Mic, Globe, Award } from 'lucide-react'
+import Input from '../ui/Input'
+import Button from '../ui/Button'
+import FormCard from '../ui/FormCard'
+import PasswordStrength from '../ui/PasswordStrength'
+import OTPVerification from './OtpVerify'
+import {supabase} from '@/lib/supabase'
 const Register = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     password: '',
     confirmPassword: '',
-    userType: 'writer', 
+    userType: 'writer',
     acceptTerms: false
-  });
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  })
+
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [showOTPVerification, setShowOTPVerification] = useState(false)
+  const [userEmail, setUserEmail] = useState('')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked } = e.target
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
-    }));
-    
+    }))
+
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors(prev => ({ ...prev, [name]: '' }))
     }
-  };
+  }
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {};
+    const newErrors: Record<string, string> = {}
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full name is required';
+      newErrors.fullName = 'Full name is required'
     }
 
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = 'Email is required'
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
+      newErrors.email = 'Please enter a valid email'
     }
 
-   
-
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = 'Password is required'
     } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
+      newErrors.password = 'Password must be at least 8 characters'
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
+      newErrors.confirmPassword = 'Please confirm your password'
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = 'Passwords do not match'
     }
 
     if (!formData.acceptTerms) {
-      newErrors.acceptTerms = 'You must accept the terms and conditions';
+      newErrors.acceptTerms = 'You must accept the terms and conditions'
     }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+    e.preventDefault()
+
     if (!validateForm()) {
-      toast.error('Please fix the errors below');
-      return;
+      toast.error('Please fix the errors below')
+      return
     }
 
-    setLoading(true);
-    
+    setLoading(true)
+
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Store user info in localStorage
-      localStorage.setItem('isRegistered', 'true');
-      localStorage.setItem('hasEverRegistered', 'true');
-      localStorage.setItem('userRole', formData.userType);
-      localStorage.setItem('userName', formData.fullName);
-      
-      toast.success('Welcome to SufiPulse! Please check your email to verify your account.');
-      
-      // Redirect to appropriate dashboard based on user type
-      setTimeout(() => {
-        if (formData.userType === 'writer') {
-          window.location.href = '/writer-dashboard';
-        } else if (formData.userType === 'vocalist') {
-          window.location.href = '/vocalist-dashboard';
-        } else if (['super_admin', 'moderator', 'collaborator'].includes(formData.userType)) {
-          window.location.href = '/admin-dashboard';
+      // Sign up user with Supabase
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            full_name: formData.fullName,
+            user_type: formData.userType,
+          },
+          emailRedirectTo: `${window.location.origin}/auth/callback`
         }
-      }, 1000);
-    } catch (error) {
-      toast.error('Registration failed. Please try again.');
+      })
+
+      if (error) {
+        if (error.message.includes('User already registered')) {
+          toast.error('An account with this email already exists. Please sign in instead.')
+          return
+        }
+        throw error
+      }
+
+      if (data.user) {
+        console.log(data.user)
+        setUserEmail(formData.email)
+        setShowOTPVerification(true)
+        toast.success('Please check your email for the verification code!')
+      }
+
+    } catch (error: any) {
+      console.error('Registration error:', error)
+      toast.error(error.message || 'Registration failed. Please try again.')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
+
+  const handleOTPVerified = async () => {
+    try {
+      // Create user profile in profiles table
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (user) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert({
+            id: user.id,
+            full_name: formData.fullName,
+            email: formData.email,
+            user_type: formData.userType,
+          })
+
+        if (profileError) {
+          console.error('Profile creation error:', profileError)
+          // Don't throw error here as user is already registered
+        }
+
+        toast.success('Welcome to SufiPulse! Your account has been verified.')
+        
+        // Redirect based on user type
+        setTimeout(() => {
+          if (formData.userType === 'writer') {
+            window.location.href = '/writer-dashboard'
+          } else if (formData.userType === 'vocalist') {
+            window.location.href = '/vocalist-dashboard'
+          } else if (['super_admin', 'moderator', 'collaborator'].includes(formData.userType)) {
+            window.location.href = '/admin-dashboard'
+          }
+        }, 1000)
+      }
+    } catch (error: any) {
+      console.error('Post-verification error:', error)
+      toast.error('Account verified but there was an issue setting up your profile. Please contact support.')
+    }
+  }
 
   const stats = [
     { number: "89", label: "Writers Joined", icon: PenTool },
     { number: "43", label: "Vocalists", icon: Mic },
     { number: "50+", label: "Countries", icon: Globe },
     { number: "100%", label: "Free Service", icon: Award }
-  ];
+  ]
 
   const userTypes = [
     {
@@ -131,8 +180,17 @@ const Register = () => {
       icon: Mic,
       description: 'Lend your voice to divine words'
     },
-    
-  ];
+  ]
+
+  if (showOTPVerification) {
+    return (
+      <OTPVerification
+        email={userEmail}
+        onVerified={handleOTPVerified}
+        onBack={() => setShowOTPVerification(false)}
+      />
+    )
+  }
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -218,7 +276,7 @@ const Register = () => {
               className="grid grid-cols-2 gap-4"
             >
               {stats.map((stat, index) => {
-                const Icon = stat.icon;
+                const Icon = stat.icon
                 return (
                   <motion.div
                     key={index}
@@ -229,7 +287,7 @@ const Register = () => {
                     <div className="text-2xl font-bold text-white mb-1">{stat.number}</div>
                     <div className="text-sm text-slate-300">{stat.label}</div>
                   </motion.div>
-                );
+                )
               })}
             </motion.div>
           </motion.div>
@@ -254,7 +312,7 @@ const Register = () => {
                   
                   <div className="flex flex-col md:flex-row gap-2">
                     {userTypes.map((type) => {
-                      const Icon = type.icon;
+                      const Icon = type.icon
                       return (
                         <motion.button
                           key={type.id}
@@ -278,10 +336,11 @@ const Register = () => {
                             </div>
                           </div>
                         </motion.button>
-                      );
+                      )
                     })}
                   </div>
-                  </div>
+                </div>
+
                 <Input
                   label="Full Name"
                   type="text"
@@ -305,9 +364,7 @@ const Register = () => {
                   error={errors.email}
                   required
                 />
-
                 
-
                 <div>
                   <Input
                     label="Password"
@@ -396,7 +453,7 @@ const Register = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register
