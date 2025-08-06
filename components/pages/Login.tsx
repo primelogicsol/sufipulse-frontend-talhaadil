@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { Mail, Lock, Users, Heart, Globe, Award } from 'lucide-react';
-import Input from '../components/ui/Input';
-import Button from '../components/ui/Button';
-import FormCard from '../components/ui/FormCard';
+import Input from '../ui/Input';
+import Button from '../ui/Button';
+import FormCard from '../ui/FormCard';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -99,9 +99,7 @@ const Login = () => {
   const roleOptions = [
     { id: 'writer', label: 'Writer', description: 'Submit sacred poetry' },
     { id: 'vocalist', label: 'Vocalist', description: 'Lend voice to divine words' },
-    { id: 'super_admin', label: 'Super Admin', description: 'Full system access' },
-    { id: 'moderator', label: 'Moderator', description: 'Review and moderate content' },
-    { id: 'collaborator', label: 'Collaborator', description: 'Assist with operations' }
+   
   ];
 
   const stats = [
@@ -227,7 +225,7 @@ const Login = () => {
                   <label className="block text-sm font-medium text-slate-700 mb-3">
                     Login as:
                   </label>
-                  <div className="grid grid-cols-1 gap-2">
+                  <div className="flex flex-col md:flex-row gap-2">
                     {roleOptions.map((role) => (
                       <motion.button
                         key={role.id}

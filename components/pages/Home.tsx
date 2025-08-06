@@ -1,156 +1,84 @@
 'use client'
-import React, { useState } from "react";
-import Link from "next/link";
-import {
-  Users,
-  Calendar,
-  User,
-  Clock,
-  Heart,
-  Globe,
-  BookOpen,
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { 
+  Play, 
+  Users, 
+  Globe, 
+  Heart, 
+  PenTool, 
+  Mic, 
+  ArrowRight, 
   Star,
-  ArrowRight,
-  Eye,
-  MessageCircle,
-  Share2,
-  Filter,
-  Search,
+  Music,
+  BookOpen,
   Award,
-  PenTool,
-  Mic,
-} from "lucide-react";
+  CheckCircle
+} from 'lucide-react';
 
-const GuestBlogs = () => {
-  const [activeFilter, setActiveFilter] = useState("all");
-  const [searchTerm, setSearchTerm] = useState("");
+const Home = () => {
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
 
-  const guestPosts = [
+  const featuredKalam = [
     {
       id: 1,
-      title: "The Sacred Art of Qawwali: Bridging Heaven and Earth",
-      author: "Dr. Hassan Al-Sufi",
-      role: "Islamic Scholar & Musicologist",
-      location: "Cairo, Egypt",
-      date: "2024-01-20",
-      category: "musicology",
-      readTime: "12 min read",
-      excerpt:
-        "Qawwali is not merely music—it is a spiritual technology, a divine algorithm that transforms the human heart through sacred sound...",
-      content:
-        "In the mystical tradition of Islam, few art forms possess the transformative power of Qawwali. This sacred musical expression, born in the Sufi gatherings of the Indian subcontinent, serves as a bridge between the earthly and the divine.",
-      image:
-        "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400",
-      views: "4.2K",
-      comments: 67,
-      featured: true,
-      tags: ["Qawwali", "Sacred Music", "Spirituality"],
+      title: "Ishq-e-Haqiqi",
+      writer: "Amina Rahman",
+      vocalist: "Muhammad Ali",
+      thumbnail: "https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=400",
+      views: "12.5K",
+      duration: "4:32"
     },
     {
       id: 2,
-      title: "Poetry as Prayer: The Mystical Language of Sufi Verse",
-      author: "Sister Amina Wadud",
-      role: "Sufi Poet & Teacher",
-      location: "Istanbul, Turkey",
-      date: "2024-01-18",
-      category: "poetry",
-      readTime: "8 min read",
-      excerpt:
-        "When we write sacred poetry, we are not crafting words—we are opening doorways for the Divine to speak through us...",
-      content:
-        "The pen becomes a prayer tool, the page a sacred space where the human heart meets divine inspiration. In Sufi poetry, every word carries the weight of spiritual longing.",
-      image:
-        "https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg?auto=compress&cs=tinysrgb&w=400",
-      views: "3.1K",
-      comments: 52,
-      tags: ["Poetry", "Prayer", "Divine Inspiration"],
+      title: "Wahdat Symphony",
+      writer: "Dr. Sarah Ahmed",
+      vocalist: "Fatima Zahra",
+      thumbnail: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400",
+      views: "8.7K",
+      duration: "6:18"
     },
     {
       id: 3,
-      title: "The Science of Sacred Sound: How Dhikr Transforms Consciousness",
-      author: "Prof. Maria Santos",
-      role: "Neuroscientist & Spiritual Researcher",
-      location: "Barcelona, Spain",
-      date: "2024-01-15",
-      category: "science",
-      readTime: "10 min read",
-      excerpt:
-        "Modern neuroscience is beginning to understand what Sufis have known for centuries—repetitive sacred sound fundamentally alters brain states...",
-      content:
-        "Through advanced neuroimaging, we can now observe how dhikr practices create measurable changes in brain activity, particularly in areas associated with transcendence and spiritual experience.",
-      image:
-        "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400",
-      views: "2.8K",
-      comments: 43,
-      tags: ["Neuroscience", "Dhikr", "Consciousness"],
-    },
-    {
-      id: 4,
-      title: "Kashmir's Mystical Heritage: Preserving Sacred Traditions",
-      author: "Tariq Ahmad Shah",
-      role: "Cultural Historian",
-      location: "Srinagar, Kashmir",
-      date: "2024-01-12",
-      category: "heritage",
-      readTime: "9 min read",
-      excerpt:
-        "The valleys of Kashmir have nurtured mystical traditions for over a millennium. Today, platforms like SufiPulse help preserve this sacred heritage...",
-      content:
-        "From the teachings of Lal Ded to the poetry of Habba Khatoon, Kashmir's mystical tradition represents one of humanity's greatest spiritual treasures. Digital preservation ensures these voices continue to inspire.",
-      image:
-        "https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=400",
-      views: "3.5K",
-      comments: 58,
-      tags: ["Kashmir", "Heritage", "Preservation"],
-    },
-    {
-      id: 5,
-      title: "Global Unity Through Sacred Music: A Vocalist's Perspective",
-      author: "Fatima Al-Zahra",
-      role: "International Vocalist",
-      location: "Fez, Morocco",
-      date: "2024-01-10",
-      category: "collaboration",
-      readTime: "7 min read",
-      excerpt:
-        "Singing kalam from writers across the globe has taught me that divine love speaks the same language in every culture...",
-      content:
-        "When I lend my voice to sacred poetry from different cultures, I discover the universal nature of spiritual longing. Each collaboration becomes a bridge between hearts.",
-      image:
-        "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=400",
-      views: "2.6K",
-      comments: 39,
-      tags: ["Collaboration", "Unity", "Global Music"],
-    },
+      title: "Path of Fanaa",
+      writer: "Ahmad Hassan",
+      vocalist: "Ensemble Voice",
+      thumbnail: "https://images.pexels.com/photos/1616403/pexels-photo-1616403.jpeg?auto=compress&cs=tinysrgb&w=400",
+      views: "15.2K",
+      duration: "5:45"
+    }
   ];
 
-  const categories = [
-    { id: "all", label: "All Posts", count: 15 },
-    { id: "musicology", label: "Sacred Musicology", count: 4 },
-    { id: "poetry", label: "Spiritual Poetry", count: 3 },
-    { id: "science", label: "Spiritual Science", count: 3 },
-    { id: "heritage", label: "Cultural Heritage", count: 2 },
-    { id: "collaboration", label: "Global Collaboration", count: 3 },
+  const testimonials = [
+    {
+      name: "Amina Rahman",
+      location: "Karachi, Pakistan",
+      role: "Sufi Writer",
+      quote: "SufiPulse transformed my humble kalam into a global spiritual experience. The production quality and respect for the sacred message exceeded all expectations.",
+      image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Muhammad Ali",
+      location: "Istanbul, Turkey",
+      role: "Qawwali Vocalist",
+      quote: "Being part of SufiPulse's mission feels like serving the divine. Every collaboration is a spiritual journey that connects hearts across continents.",
+      image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Dr. Sarah Ahmed",
+      location: "London, UK",
+      role: "Contemporary Spiritual Poet",
+      quote: "The platform bridges ancient wisdom with modern expression beautifully. My English kalam found its perfect Urdu voice through their expert team.",
+      image: "https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg?auto=compress&cs=tinysrgb&w=200"
+    }
   ];
 
   const stats = [
-    { number: "15", label: "Guest Contributors", icon: Users },
-    { number: "25", label: "Published Articles", icon: BookOpen },
-    { number: "12", label: "Countries Represented", icon: Globe },
-    { number: "18K+", label: "Total Reads", icon: Eye },
+    { number: "300+", label: "Sacred Collaborations", icon: Heart },
+    { number: "50+", label: "Countries Represented", icon: Globe },
+    { number: "150+", label: "Divine Kalam Created", icon: Music },
+    { number: "100%", label: "Free for Writers", icon: Award }
   ];
-
-  const filteredPosts = guestPosts.filter((post) => {
-    const matchesFilter =
-      activeFilter === "all" || post.category === activeFilter;
-    const matchesSearch =
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesFilter && matchesSearch;
-  });
-
-  const featuredPost = guestPosts.find((post) => post.featured);
 
   return (
     <div className="min-h-screen bg-white">
@@ -160,42 +88,56 @@ const GuestBlogs = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
+              <div className="flex items-center space-x-4 mb-6">
+                <img 
+                  src="/Untitled (250 x 250 px) (1).png" 
+                  alt="SufiPulse Logo" 
+                  className="w-16 h-16 rounded-2xl shadow-2xl object-contain bg-white p-2"
+                />
+                <div>
+                  <h1 className="text-2xl font-bold text-emerald-400">SufiPulse</h1>
+                  <p className="text-emerald-300 text-sm">Global Sufi Collaboration Studio</p>
+                </div>
+              </div>
               <div className="space-y-4">
-                <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
-                  Guest
-                  <span className="block text-emerald-400">Blogs</span>
-                </h1>
+                <h2 className="text-4xl lg:text-6xl font-bold leading-tight">
+                  Global Sufi
+                  <span className="block text-emerald-400">Collaboration Studio</span>
+                </h2>
                 <p className="text-xl lg:text-2xl text-slate-300 leading-relaxed">
-                  Voices from our global spiritual community sharing insights on
-                  sacred music, mystical poetry, and the divine art of
-                  collaboration.
+                  From Kashmir's sacred valleys to the global ummah — submit your Sufi kalam. 
+                  Let the world hear its pulse.
                 </p>
               </div>
-
+              
               <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-emerald-500/20">
-                <p className="text-emerald-300 font-medium mb-2">
-                  Community Wisdom
-                </p>
+                <p className="text-emerald-300 font-medium mb-2">Our Sacred Promise</p>
                 <blockquote className="text-lg italic">
-                  "Every guest voice adds a new dimension to our understanding
-                  of the sacred"
+                  "We don't sell divine lyrics. We amplify them."
                 </blockquote>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
-                  href="/contact?type=guest-blog"
+                  href="/contact?type=writer"
                   className="inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
                 >
                   <PenTool className="w-5 h-5" />
-                  <span>Submit Guest Post</span>
+                  <span>Submit Your Kalam</span>
                 </Link>
                 <Link
-                  href="/writers"
+                  href="/contact?type=vocalist"
                   className="inline-flex items-center justify-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
                 >
-                  <Users className="w-5 h-5" />
-                  <span>Meet Our Writers</span>
+                  <Mic className="w-5 h-5" />
+                  <span>Join Vocalist Pool</span>
+                </Link>
+                <Link
+                  href="/gallery"
+                  className="inline-flex items-center justify-center space-x-2 border-2 border-white/30 hover:border-emerald-400 text-white hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
+                >
+                  <Play className="w-5 h-5" />
+                  <span>Watch Videos</span>
                 </Link>
               </div>
             </div>
@@ -203,23 +145,19 @@ const GuestBlogs = () => {
             <div className="relative">
               <div className="aspect-video bg-slate-800 rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Guest Blogs"
+                  src="https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  alt="SufiPulse Studio"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <button className="w-20 h-20 bg-emerald-600/90 hover:bg-emerald-600 rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110">
-                    <Users className="w-8 h-8 text-white" />
+                    <Play className="w-8 h-8 text-white ml-1" />
                   </button>
                 </div>
                 <div className="absolute bottom-6 left-6 right-6">
-                  <h3 className="text-white text-xl font-bold mb-2">
-                    Global Spiritual Voices
-                  </h3>
-                  <p className="text-slate-200 text-sm">
-                    Insights from scholars, artists, and practitioners worldwide
-                  </p>
+                  <h3 className="text-white text-xl font-bold mb-2">SufiPulse Studio Experience</h3>
+                  <p className="text-slate-200 text-sm">Where divine kalam meets world-class production</p>
                 </div>
               </div>
             </div>
@@ -238,9 +176,7 @@ const GuestBlogs = () => {
                   <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Icon className="w-8 h-8 text-emerald-600" />
                   </div>
-                  <div className="text-3xl font-bold text-slate-800 mb-2">
-                    {stat.number}
-                  </div>
+                  <div className="text-3xl font-bold text-slate-800 mb-2">{stat.number}</div>
                   <div className="text-slate-600 font-medium">{stat.label}</div>
                 </div>
               );
@@ -249,193 +185,51 @@ const GuestBlogs = () => {
         </div>
       </section>
 
-      {/* Featured Post */}
-      {featuredPost && (
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-                Featured Guest Article
-              </h2>
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                A profound exploration from one of our distinguished guest
-                contributors
-              </p>
-            </div>
-
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-                <div className="relative">
-                  <img
-                    src={featuredPost.image}
-                    alt={featuredPost.title}
-                    className="w-full h-64 lg:h-full object-cover"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                      Featured
-                    </span>
-                  </div>
-                </div>
-                <div className="p-8 lg:p-12">
-                  <div className="flex items-center space-x-4 mb-4">
-                    <span className="text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
-                      {featuredPost.category}
-                    </span>
-                    <span className="text-sm text-slate-500">
-                      {featuredPost.readTime}
-                    </span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-800 mb-4">
-                    {featuredPost.title}
-                  </h3>
-                  <div className="flex items-center space-x-4 text-sm text-slate-600 mb-4">
-                    <div className="flex items-center space-x-1">
-                      <User className="w-4 h-4" />
-                      <span>{featuredPost.author}</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <Calendar className="w-4 h-4" />
-                      <span>
-                        {new Date(featuredPost.date).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </div>
-                  <p className="text-slate-600 leading-relaxed mb-6">
-                    {featuredPost.content}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4 text-sm text-slate-500">
-                      <span>{featuredPost.views} views</span>
-                      <span>{featuredPost.comments} comments</span>
-                    </div>
-                    <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200">
-                      Read Full Article
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Search and Filters */}
-      <section className="py-20 bg-slate-50">
+      {/* Featured Kalam */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-slate-100">
-            <div className="relative mb-6">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search guest articles..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-              />
-            </div>
-
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center space-x-2 overflow-x-auto pb-2">
-                <Filter className="w-5 h-5 text-slate-500 flex-shrink-0" />
-                {categories.map((category) => (
-                  <button
-                    key={category.id}
-                    onClick={() => setActiveFilter(category.id)}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg whitespace-nowrap font-medium transition-all duration-200 ${
-                      activeFilter === category.id
-                        ? "bg-emerald-600 text-white"
-                        : "bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600"
-                    }`}
-                  >
-                    <span>{category.label}</span>
-                    <span
-                      className={`text-xs px-2 py-1 rounded-full ${
-                        activeFilter === category.id
-                          ? "bg-white/20"
-                          : "bg-slate-300"
-                      }`}
-                    >
-                      {category.count}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="text-sm text-slate-600">
-              Showing {filteredPosts.length} of {guestPosts.length} articles
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
+              Featured Sacred Collaborations
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Experience the divine fusion of sacred poetry and spiritual voices from our global community
+            </p>
           </div>
 
-          {/* Guest Posts Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts.map((post) => (
-              <div
-                key={post.id}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100"
-              >
-                <div className="relative">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
-                    <span className="text-xs font-medium text-white bg-emerald-600 px-2 py-1 rounded-lg">
-                      {post.category}
-                    </span>
-                    <div className="flex items-center space-x-1 text-white text-xs bg-black/40 backdrop-blur-sm px-2 py-1 rounded-lg">
-                      <Clock className="w-3 h-3" />
-                      <span>{post.readTime}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-slate-800 mb-3 line-clamp-2">
-                    {post.title}
-                  </h3>
-                  <div className="flex items-center space-x-2 text-sm text-slate-600 mb-2">
-                    <User className="w-4 h-4" />
-                    <span>{post.author}</span>
-                  </div>
-                  <div className="text-xs text-slate-500 mb-3">
-                    {post.role} • {post.location}
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm text-slate-500 mb-4">
-                    <Calendar className="w-4 h-4" />
-                    <span>{new Date(post.date).toLocaleDateString()}</span>
-                  </div>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-3">
-                    {post.excerpt}
-                  </p>
-
-                  <div className="flex flex-wrap gap-1 mb-4">
-                    {post.tags.slice(0, 2).map((tag, index) => (
-                      <span
-                        key={index}
-                        className="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3 text-xs text-slate-500">
-                      <div className="flex items-center space-x-1">
-                        <Eye className="w-3 h-3" />
-                        <span>{post.views}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <MessageCircle className="w-3 h-3" />
-                        <span>{post.comments}</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {featuredKalam.map((kalam) => (
+              <div key={kalam.id} className="group cursor-pointer">
+                <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100">
+                  <div className="relative">
+                    <img
+                      src={kalam.thumbnail}
+                      alt={kalam.title}
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="w-16 h-16 bg-emerald-600/90 rounded-full flex items-center justify-center">
+                        <Play className="w-8 h-8 text-white ml-1" />
                       </div>
                     </div>
-                    <button className="p-2 text-slate-400 hover:text-emerald-600 transition-colors">
-                      <Share2 className="w-4 h-4" />
-                    </button>
+                    <div className="absolute bottom-4 left-4 right-4 text-white">
+                      <div className="flex justify-between items-end">
+                        <div>
+                          <h3 className="font-bold text-lg">{kalam.title}</h3>
+                          <p className="text-sm opacity-90">by {kalam.writer}</p>
+                        </div>
+                        <div className="text-xs bg-black/40 backdrop-blur-sm px-2 py-1 rounded">
+                          {kalam.duration}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center justify-between text-sm text-slate-600">
+                      <span>Vocalist: {kalam.vocalist}</span>
+                      <span>{kalam.views} views</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -443,9 +237,160 @@ const GuestBlogs = () => {
           </div>
 
           <div className="text-center mt-12">
-            <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200">
-              Load More Articles
-            </button>
+            <Link
+              href="/gallery"
+              className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
+            >
+              <span>Explore All Kalam</span>
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
+              Your Sacred Journey
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              From divine inspiration to global spiritual impact — discover how SufiPulse brings your kalam to life
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <PenTool className="w-10 h-10 text-emerald-600" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-800 mb-4">1. Submit Your Kalam</h3>
+              <p className="text-slate-600 leading-relaxed">
+                Share your sacred poetry with our global community. We accept kalam in any language and provide translation services if needed.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Music className="w-10 h-10 text-slate-600" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-800 mb-4">2. We Create & Produce</h3>
+              <p className="text-slate-600 leading-relaxed">
+                Our team handles everything — musical direction, vocalist selection, professional recording, and production — completely free.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Globe className="w-10 h-10 text-emerald-600" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-800 mb-4">3. Global Sharing</h3>
+              <p className="text-slate-600 leading-relaxed">
+                Your kalam reaches the world through our platform and networks, with your authorship always prominently credited.
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link
+              href="/process"
+              className="inline-flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
+            >
+              <span>Learn the Complete Process</span>
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
+              Voices from Our Community
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Hear from writers and vocalists who have experienced the SufiPulse journey
+            </p>
+          </div>
+
+          <div className="relative">
+            <div className="bg-slate-800 rounded-2xl p-8 lg:p-12 text-white">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div className="lg:col-span-2">
+                  <blockquote className="text-2xl lg:text-3xl font-light italic leading-relaxed mb-6">
+                    "{testimonials[activeTestimonial].quote}"
+                  </blockquote>
+                  <div>
+                    <div className="font-bold text-xl text-emerald-300">
+                      {testimonials[activeTestimonial].name}
+                    </div>
+                    <div className="text-slate-300">
+                      {testimonials[activeTestimonial].role} • {testimonials[activeTestimonial].location}
+                    </div>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <img
+                    src={testimonials[activeTestimonial].image}
+                    alt={testimonials[activeTestimonial].name}
+                    className="w-32 h-32 rounded-full object-cover mx-auto mb-4 ring-4 ring-emerald-400"
+                  />
+                </div>
+              </div>
+              
+              <div className="flex justify-center space-x-2 mt-8">
+                {testimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveTestimonial(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                      index === activeTestimonial ? 'bg-emerald-400' : 'bg-slate-600 hover:bg-slate-500'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission Statement */}
+      <section className="py-20 bg-emerald-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-8">
+              Our Sacred Mission
+            </h2>
+            <div className="max-w-4xl mx-auto">
+              <blockquote className="text-2xl lg:text-3xl font-light italic text-slate-700 leading-relaxed mb-8">
+                "We do not monetize the sacred. We serve it."
+              </blockquote>
+              <p className="text-lg text-slate-600 leading-relaxed mb-8">
+                SufiPulse exists as a spiritual service to the global ummah, providing a platform where sacred Sufi words 
+                meet divine voices. Our mission transcends commercial interests — we are dedicated to amplifying the 
+                timeless wisdom of Sufi poetry, with particular reverence for the mystical tradition of Kashmiri Sufism.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-white rounded-xl p-6 shadow-lg">
+                  <CheckCircle className="w-8 h-8 text-emerald-600 mb-4" />
+                  <h3 className="font-bold text-slate-800 mb-2">100% Free Service</h3>
+                  <p className="text-sm text-slate-600">Complete production services at no cost to writers</p>
+                </div>
+                <div className="bg-white rounded-xl p-6 shadow-lg">
+                  <CheckCircle className="w-8 h-8 text-emerald-600 mb-4" />
+                  <h3 className="font-bold text-slate-800 mb-2">Global Reach</h3>
+                  <p className="text-sm text-slate-600">Connecting hearts across 50+ countries</p>
+                </div>
+                <div className="bg-white rounded-xl p-6 shadow-lg">
+                  <CheckCircle className="w-8 h-8 text-emerald-600 mb-4" />
+                  <h3 className="font-bold text-slate-800 mb-2">Sacred Integrity</h3>
+                  <p className="text-sm text-slate-600">Every project approached with spiritual reverence</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -454,34 +399,33 @@ const GuestBlogs = () => {
       <section className="py-20 bg-slate-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-            Share Your Spiritual Insights
+            Ready to Share Your Divine Words?
           </h2>
           <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-            Join our community of guest contributors. Share your knowledge,
-            experiences, and insights about sacred music, spiritual poetry, and
-            mystical traditions.
+            Join our global community of Sufi writers and vocalists. Whether you have sacred poetry to share 
+            or a voice to lend to the divine, you have a place in our spiritual family.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/contact?type=guest-blog"
+              href="/contact?type=writer"
               className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
             >
               <PenTool className="w-5 h-5" />
-              <span>Submit Guest Post</span>
+              <span>Submit Your Kalam</span>
             </Link>
             <Link
-              href="/writers"
+              href="/contact?type=vocalist"
               className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
-              <Users className="w-5 h-5" />
-              <span>Join Writers Community</span>
+              <Mic className="w-5 h-5" />
+              <span>Join as Vocalist</span>
             </Link>
             <Link
               href="/about"
               className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
               <BookOpen className="w-5 h-5" />
-              <span>Learn About Us</span>
+              <span>Learn More</span>
             </Link>
           </div>
         </div>
@@ -490,4 +434,4 @@ const GuestBlogs = () => {
   );
 };
 
-export default GuestBlogs;
+export default Home;

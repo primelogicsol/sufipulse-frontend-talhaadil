@@ -1,38 +1,36 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { Menu, X, ChevronDown, User, LogOut, Settings, UserCircle } from 'lucide-react';
+"use client";
+import React, { useState } from "react";
+import Link from "next/link";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  User,
+  LogOut,
+  Settings,
+  UserCircle,
+} from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  
+
   // Check authentication status from localStorage
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return localStorage.getItem('isRegistered') === 'true';
-  });
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   // Check if user has ever registered (even if not currently logged in)
-  const [hasEverRegistered, setHasEverRegistered] = useState(() => {
-    return localStorage.getItem('hasEverRegistered') === 'true';
-  });
-  
-  const [userRole, setUserRole] = useState(() => {
-    return localStorage.getItem('userRole') as 'writer' | 'vocalist' | 'super_admin' | 'moderator' | 'collaborator' || 'writer';
-  });
-  
-  const [userName, setUserName] = useState(() => {
-    return localStorage.getItem('userName') || 'User';
-  });
+  const [hasEverRegistered, setHasEverRegistered] = useState(false);
+
+  const [userRole, setUserRole] = useState("hello");
+
+  const [userName, setUserName] = useState("User");
 
   const toggleDropdown = (dropdown: string) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('isRegistered');
-    // Keep hasEverRegistered and userRole for future logins
-    // localStorage.removeItem('userRole');
-    // localStorage.removeItem('userName');
+    localStorage.removeItem("isRegistered");
+
     setIsLoggedIn(false);
     setActiveDropdown(null);
   };
@@ -40,167 +38,172 @@ const Navbar = () => {
   // Listen for storage changes (when user logs in from another tab)
   React.useEffect(() => {
     const handleStorageChange = () => {
-      setIsLoggedIn(localStorage.getItem('isRegistered') === 'true');
-      setHasEverRegistered(localStorage.getItem('hasEverRegistered') === 'true');
-      setUserRole(localStorage.getItem('userRole') as 'writer' | 'vocalist' | 'super_admin' | 'moderator' | 'collaborator' || 'writer');
-      setUserName(localStorage.getItem('userName') || 'User');
+      setIsLoggedIn(localStorage.getItem("isRegistered") === "true");
+      setHasEverRegistered(
+        localStorage.getItem("hasEverRegistered") === "true"
+      );
+      setUserRole(
+        (localStorage.getItem("userRole") as
+          | "writer"
+          | "vocalist"
+          | "super_admin"
+          | "moderator"
+          | "collaborator") || "writer"
+      );
+      setUserName(localStorage.getItem("userName") || "User");
     };
 
     // Also check on component mount
     handleStorageChange();
 
-    window.addEventListener('storage', handleStorageChange);
-    
+    window.addEventListener("storage", handleStorageChange);
+
     // Listen for manual localStorage changes in same tab
     const interval = setInterval(handleStorageChange, 1000);
-    
+
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
       clearInterval(interval);
     };
   }, []);
 
   const getDashboardPath = (role: string) => {
     switch (role) {
-      case 'writer':
-        return '/writer-dashboard';
-      case 'vocalist':
-        return '/vocalist-dashboard';
-      case 'super_admin':
-      case 'moderator':
-      case 'collaborator':
-        return '/admin-dashboard';
-      case 'super_admin':
-      case 'moderator':
-      case 'collaborator':
-        return '/admin-dashboard';
+      case "writer":
+        return "/writer-dashboard";
+      case "vocalist":
+        return "/vocalist-dashboard";
+      case "super_admin":
+      case "moderator":
+      case "collaborator":
+        return "/admin-dashboard";
+      case "super_admin":
+      case "moderator":
+      case "collaborator":
+        return "/admin-dashboard";
       default:
-        return '/dashboard';
+        return "/dashboard";
     }
   };
 
   const getSubmissionPath = (role: string) => {
     switch (role) {
-      case 'writer':
-        return '/contact?type=writer';
-      case 'vocalist':
-        return '/contact?type=vocalist';
-      case 'super_admin':
-      case 'moderator':
-      case 'collaborator':
-        return '/admin-dashboard';
-      case 'super_admin':
-      case 'moderator':
-      case 'collaborator':
-        return '/admin-dashboard';
+      case "writer":
+        return "/contact?type=writer";
+      case "vocalist":
+        return "/contact?type=vocalist";
+      case "super_admin":
+      case "moderator":
+      case "collaborator":
+        return "/admin-dashboard";
+      case "super_admin":
+      case "moderator":
+      case "collaborator":
+        return "/admin-dashboard";
       default:
-        return '/contact?type=writer';
+        return "/contact?type=writer";
     }
   };
 
   const getSubmissionLabel = (role: string) => {
     switch (role) {
-      case 'writer':
-        return 'Submit New Kalam';
-      case 'vocalist':
-        return 'Join New Project';
-      case 'super_admin':
-      case 'moderator':
-      case 'collaborator':
-        return 'Admin Panel';
-      case 'super_admin':
-      case 'moderator':
-      case 'collaborator':
-        return 'Admin Panel';
+      case "writer":
+        return "Submit New Kalam";
+      case "vocalist":
+        return "Join New Project";
+      case "super_admin":
+      case "moderator":
+      case "collaborator":
+        return "Admin Panel";
+      case "super_admin":
+      case "moderator":
+      case "collaborator":
+        return "Admin Panel";
       default:
-        return 'Submit New Kalam';
+        return "Submit New Kalam";
     }
   };
 
   const menuItems = [
     {
-      name: 'Watch',
-      path: '/watch',
+      name: "Watch",
+      path: "/watch",
       dropdown: [
-        { name: 'All Videos', path: '/gallery' },
-        { name: 'Qawwali', path: '/gallery?category=qawwali' },
-        { name: 'Chant', path: '/gallery?category=chant' },
-        { name: 'Anthem', path: '/gallery?category=anthem' },
-        { name: 'Whisper Kalam', path: '/gallery?category=whisper' },
-        { name: 'Instrumentals', path: '/gallery?category=instrumental' },
-        { name: 'Featured Playlist', path: '/gallery?featured=true' },
-        { name: 'By Theme', path: '/gallery?by=theme' }
-      ]
+        { name: "All Videos", path: "/gallery" },
+        { name: "Qawwali", path: "/gallery?category=qawwali" },
+        { name: "Chant", path: "/gallery?category=chant" },
+        { name: "Anthem", path: "/gallery?category=anthem" },
+        { name: "Whisper Kalam", path: "/gallery?category=whisper" },
+        { name: "Instrumentals", path: "/gallery?category=instrumental" },
+        { name: "Featured Playlist", path: "/gallery?featured=true" },
+        { name: "By Theme", path: "/gallery?by=theme" },
+      ],
     },
     {
-      name: 'Writers',
-      path: '/writers',
+      name: "Writers",
+      path: "/writers",
       dropdown: [
-        { name: 'How It Works', path: '/how-it-works' },
-        { name: 'Submit Your Kalam', path: '/submit-kalam' },
-        { name: 'Top Writers', path: '/top-writers' },
-        { name: 'Kalam Library', path: '/kalam-library' },
-        { name: 'Writer FAQs', path: '/writer-faqs' }
-      ]
+        { name: "How It Works", path: "/how-it-works" },
+        { name: "Top Writers", path: "/top-writers" },
+        { name: "Kalam Library", path: "/kalam-library" },
+        { name: "Writer FAQs", path: "/writer-faqs" },
+      ],
     },
     {
-      name: 'Vocalists',
-      path: '/vocalists',
+      name: "Vocalists",
+      path: "/vocalists",
       dropdown: [
-        { name: 'Vocalist Directory', path: '/vocalists' },
-        { name: 'How It Works', path: '/vocalist-how-it-works' },
-        { name: 'Join the Vocalist Pool', path: '/join-vocalist-pool' },
-        { name: 'Vocal Style Gallery', path: '/gallery?filter=vocals' },
-        { name: 'Submit Sample Clip', path: '/submit-sample-clip' }
-      ]
+        { name: "Vocalist Directory", path: "/vocalists" },
+        { name: "How It Works", path: "/vocalist-how-it-works" },
+        { name: "Vocal Style Gallery", path: "/gallery?filter=vocals" },
+      ],
     },
     {
-      name: 'Studio',
-      path: '/studio',
+      name: "Studio",
+      path: "/studio",
       dropdown: [
-        { name: 'Inside Our Studio', path: '/studio' },
-        { name: 'Meet the Engineers', path: '/studio-engineers' },
-        { name: 'Past Productions', path: '/studio-productions' },
-        { name: 'How We Select Music Style', path: '/music-style-selection' },
-        { name: 'Behind-the-Scenes Videos', path: '/studio-diaries' }
-      ]
+        { name: "Inside Our Studio", path: "/studio" },
+        { name: "Meet the Engineers", path: "/studio-engineers" },
+        { name: "Past Productions", path: "/studio-productions" },
+        { name: "How We Select Music Style", path: "/music-style-selection" },
+        { name: "Behind-the-Scenes Videos", path: "/studio-diaries" },
+      ],
     },
     {
-      name: 'Collaborate',
-      path: '/contact',
+      name: "Collaborate",
+      path: "/contact",
       dropdown: [
-        { name: 'Submit Your Kalam', path: '/submit-kalam' },
-        { name: 'Join Vocalist Pool', path: '/join-vocalist-pool' },
-        { name: 'Studio Visit Request', path: '/studio-visit' },
-        { name: 'Remote Recording Request', path: '/remote-recording' },
-        { name: 'Partnership Proposal', path: '/partnership' },
-        { name: 'Media & Press', path: '/media-press' }
-      ]
+        { name: "Studio Visit Request", path: "/studio-visit" },
+        { name: "Remote Recording Request", path: "/remote-recording" },
+        { name: "Partnership Proposal", path: "/partnership" },
+        { name: "Media & Press", path: "/media-press" },
+      ],
     },
     {
-      name: 'Reflections',
-      path: '/studio-diaries',
+      name: "Reflections",
+      path: "/studio-diaries",
       dropdown: [
-        { name: 'Studio Diaries', path: '/studio-diaries' },
-        { name: 'Guest Blogs', path: '/guest-blogs' },
-        { name: 'Sufi Music Theory', path: '/sufi-music-theory' },
-        { name: 'Spiritual Commentary', path: '/spiritual-commentary' },
-        { name: 'Legacy of Dr. Kumar', path: '/legacy-of-dr-kumar' }
-      ]
+        { name: "Studio Diaries", path: "/studio-diaries" },
+        { name: "Guest Blogs", path: "/guest-blogs" },
+        { name: "Sufi Music Theory", path: "/sufi-music-theory" },
+        { name: "Spiritual Commentary", path: "/spiritual-commentary" },
+        { name: "Legacy of Dr. Kumar", path: "/legacy-of-dr-kumar" },
+      ],
     },
     {
-      name: 'About',
-      path: '/about',
+      name: "About",
+      path: "/about",
       dropdown: [
-        { name: 'Who We Are', path: '/who-we-are' },
-        { name: 'Our Mission', path: '/our-mission' },
-        { name: 'Ethical Policy', path: '/ethical-policy' },
-        { name: 'Dr. Kumar Foundation USA', path: '/dr-kumar-foundation' },
-        { name: 'Sufi Science Center', path: '/sufi-science-center' },
-        { name: 'Acknowledgments', path: '/acknowledgments' },
-        { name: 'General Contact', path: '/contact' }
-      ]
-    }
+        { name: "Who We Are", path: "/who-we-are" },
+        { name: "Our Mission", path: "/our-mission" },
+        { name: "Ethical Policy", path: "/ethical-policy" },
+        { name: "Dr. Kumar Foundation USA", path: "/dr-kumar-foundation" },
+        { name: "Sufi Science Center", path: "/sufi-science-center" },
+        { name: "Acknowledgments", path: "/acknowledgments" },
+        { name: "General Contact", path: "/contact" },
+        { name: "Founder", path: "/founder" },
+      ],
+    },
   ];
 
   return (
@@ -209,14 +212,18 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <img 
-              src="/Untitled (250 x 250 px) (1).png" 
-              alt="SufiPulse Logo" 
+            <img
+              src="/Untitled (250 x 250 px) (1).png"
+              alt="SufiPulse Logo"
               className="w-10 h-10 rounded-xl shadow-lg object-contain"
             />
             <div className="flex flex-col">
-              <span className="text-xl font-bold text-slate-800">SufiPulse</span>
-              <span className="text-xs text-emerald-600 font-medium -mt-1">Global Collaboration</span>
+              <span className="text-xl font-bold text-slate-800">
+                SufiPulse
+              </span>
+              <span className="text-xs text-emerald-600 font-medium -mt-1">
+                Global Collaboration
+              </span>
             </div>
           </Link>
 
@@ -265,7 +272,7 @@ const Navbar = () => {
               /* Authenticated User Menu */
               <div className="relative">
                 <button
-                  onClick={() => toggleDropdown('user')}
+                  onClick={() => toggleDropdown("user")}
                   className="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-700 hover:text-emerald-600 hover:bg-emerald-50 transition-all duration-200"
                 >
                   <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
@@ -273,16 +280,22 @@ const Navbar = () => {
                   </div>
                   <div className="text-left">
                     <div className="font-medium text-sm">{userName}</div>
-                    <div className="text-xs text-slate-500 capitalize">{userRole}</div>
+                    <div className="text-xs text-slate-500 capitalize">
+                      {userRole}
+                    </div>
                   </div>
                   <ChevronDown className="h-4 w-4" />
                 </button>
 
-                {activeDropdown === 'user' && (
+                {activeDropdown === "user" && (
                   <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50">
                     <div className="px-4 py-3 border-b border-slate-100">
-                      <div className="font-medium text-slate-800">{userName}</div>
-                      <div className="text-sm text-slate-500 capitalize">{userRole} Account</div>
+                      <div className="font-medium text-slate-800">
+                        {userName}
+                      </div>
+                      <div className="text-sm text-slate-500 capitalize">
+                        {userRole} Account
+                      </div>
                     </div>
                     <Link
                       href={getDashboardPath(userRole)}
@@ -313,19 +326,19 @@ const Navbar = () => {
             ) : (
               /* Non-authenticated User Menu */
               <div className="flex items-center space-x-4">
-                {hasEverRegistered ? (
+               
                   <Link
                     href="/login"
                     className="px-4 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
                   >
                     Login
                   </Link>
-                ) : null}
+                
                 <Link
-                  href="/join"
+                  href="/register"
                   className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition-all duration-200"
                 >
-                  Join Community
+                  Join
                 </Link>
               </div>
             )}
@@ -382,14 +395,17 @@ const Navbar = () => {
                 </div>
               ))}
 
-
               {/* Mobile Auth */}
               <div className="pt-4 border-t border-slate-200 space-y-2">
                 {isLoggedIn ? (
                   <>
                     <div className="px-3 py-2 border-b border-slate-200 mb-2">
-                      <div className="font-medium text-slate-800">{userName}</div>
-                      <div className="text-sm text-slate-500 capitalize">{userRole} Account</div>
+                      <div className="font-medium text-slate-800">
+                        {userName}
+                      </div>
+                      <div className="text-sm text-slate-500 capitalize">
+                        {userRole} Account
+                      </div>
                     </div>
                     <Link
                       href={getDashboardPath(userRole)}

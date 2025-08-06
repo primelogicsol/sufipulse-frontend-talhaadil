@@ -5,16 +5,15 @@ import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { User, Mail, Lock, MapPin, PenTool, Mic, Users, Heart, Globe, Award } from 'lucide-react';
 import { Shield, UserCheck } from 'lucide-react';
-import Input from '../components/ui/Input';
-import Button from '../components/ui/Button';
-import FormCard from '../components/ui/FormCard';
-import PasswordStrength from '../components/ui/PasswordStrength';
+import Input from '../ui/Input';
+import Button from '../ui/Button';
+import FormCard from '../ui/FormCard';
+import PasswordStrength from '../ui/PasswordStrength';
 
 const Register = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
-    location: '',
     password: '',
     confirmPassword: '',
     userType: 'writer', 
@@ -51,9 +50,7 @@ const Register = () => {
       newErrors.email = 'Please enter a valid email';
     }
 
-    if (!formData.location.trim()) {
-      newErrors.location = 'Location is required';
-    }
+   
 
     if (!formData.password) {
       newErrors.password = 'Password is required';
@@ -134,24 +131,7 @@ const Register = () => {
       icon: Mic,
       description: 'Lend your voice to divine words'
     },
-    {
-      id: 'super_admin',
-      label: 'Super Admin',
-      icon: Shield,
-      description: 'Full system administration'
-    },
-    {
-      id: 'moderator',
-      label: 'Moderator',
-      icon: UserCheck,
-      description: 'Content review and moderation'
-    },
-    {
-      id: 'collaborator',
-      label: 'Collaborator',
-      icon: Users,
-      description: 'Assist with operations'
-    }
+    
   ];
 
   return (
@@ -271,8 +251,8 @@ const Register = () => {
                   <label className="block text-sm font-medium text-slate-700 mb-3">
                     I want to join as a:
                   </label>
-                  <div className="grid grid-cols-2 gap-3">
-                  <div className="grid grid-cols-1 gap-3">
+                  
+                  <div className="flex flex-col md:flex-row gap-2">
                     {userTypes.map((type) => {
                       const Icon = type.icon;
                       return (
@@ -302,8 +282,6 @@ const Register = () => {
                     })}
                   </div>
                   </div>
-                </div>
-
                 <Input
                   label="Full Name"
                   type="text"
@@ -328,17 +306,7 @@ const Register = () => {
                   required
                 />
 
-                <Input
-                  label="Location"
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleInputChange}
-                  placeholder="City, Country"
-                  icon={<MapPin className="w-5 h-5" />}
-                  error={errors.location}
-                  required
-                />
+                
 
                 <div>
                   <Input
