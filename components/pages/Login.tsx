@@ -1,14 +1,16 @@
-"use client";
+"use client"
 
 import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { Mail, Lock, Users, Heart, Globe, Award } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { Mail, Lock, Users, Heart, Globe, Award, Key } from "lucide-react";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 import FormCard from "../ui/FormCard";
+import { login, forgotPassword, resetPassword } from "@/services/auth";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -16,7 +18,14 @@ const Login = () => {
     password: "",
     rememberMe: false,
   });
-
+  const [forgotPasswordData, setForgotPasswordData] = useState({
+    email: "",
+    otp: "",
+    newPassword: "",
+  });
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showResetPassword, setShowResetPassword] = useState(false);
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -28,13 +37,24 @@ const Login = () => {
       [name]: type === "checkbox" ? checked : value,
     }));
 
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
-  const validateForm = () => {
+  const handleForgotPasswordInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForgotPasswordData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const validateLoginForm = () => {
     const newErrors: Record<string, string> = {};
 
     if (!formData.email) {
@@ -53,10 +73,46 @@ const Login = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const validateForgotPasswordForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!forgotPasswordData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(forgotPasswordData.email)) {
+      newErrors.email = "Please enter a valid email";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const validateResetPasswordForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!forgotPasswordData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(forgotPasswordData.email)) {
+      newErrors.email = "Please enter a valid email";
+    }
+
+    if (!forgotPasswordData.otp) {
+      newErrors.otp = "OTP is required";
+    }
+
+    if (!forgotPasswordData.newPassword) {
+      newErrors.newPassword = "New password is required";
+    } else if (forgotPasswordData.newPassword.length < 6) {
+      newErrors.newPassword = "New password must be at least 6 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) {
+    if (!validateLoginForm()) {
       toast.error("Please fix the errors below");
       return;
     }
@@ -64,32 +120,102 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
-      });
+      const response = await login(formData.email, formData.password);
 
-      if (error) {
-        console.log(error.message);
-        if (error.message.includes("Invalid login credentials")) {
-          toast.error("Invalid email or password. Please try again.");
-        } else if (error.message.includes("Email not confirmed")) {
-          toast.error("Please verify your email address before signing in.");
-        } else {
-          toast.error(error.message);
-        }
-        return;
-      }
-
-      if (data.user) {
+      if (response.data) {
+        const data = response.data;
         toast.success("Welcome back to SufiPulse!");
-        console.log("User data:", data.user);
+        console.log("User data:", response.data);
 
-      
+        Cookies.set("access_token", data.access_token, {
+          path: "/",
+          sameSite: "Strict",
+          secure: process.env.NODE_ENV === "production",
+        });
+        Cookies.set("refresh_token", data.refresh_token, {
+          path: "/",
+          sameSite: "Strict",
+          secure: process.env.NODE_ENV === "production",
+        });
+        Cookies.set("user_role", data.user.role);
+        Cookies.set("user_id", data.user.id.toString());
+        Cookies.set("is_registered", data.user.is_registered.toString());
+        Cookies.set("city", data.user.city);
+        Cookies.set("country", data.user.country);
+        Cookies.set("name", data.user.name);
+        Cookies.set("email", data.user.email);
+
+        router.push("/");
       }
     } catch (error: any) {
-      console.error("Login error:", error);
-      toast.error("Login failed. Please try again.");
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Login failed. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleForgotPasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForgotPasswordForm()) {
+      toast.error("Please fix the errors below");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await forgotPassword(forgotPasswordData.email);
+      toast.success("OTP sent to your email!");
+      setShowForgotPassword(false);
+      setShowResetPassword(true);
+    } catch (error: any) {
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Failed to send OTP. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateResetPasswordForm()) {
+      toast.error("Please fix the errors below");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await resetPassword(forgotPasswordData.email, forgotPasswordData.otp, forgotPasswordData.newPassword);
+      toast.success("Password reset successfully! Please log in.");
+      setShowResetPassword(false);
+      setForgotPasswordData({ email: "", otp: "", newPassword: "" });
+    } catch (error: any) {
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Failed to reset password. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    try {
+      window.location.href = "/api/auth/google";
+    } catch (error) {
+      toast.error("Google login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -104,11 +230,8 @@ const Login = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Animated Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-20" />
-
-        {/* Floating Elements */}
         <motion.div
           animate={{
             y: [0, -20, 0],
@@ -137,7 +260,6 @@ const Login = () => {
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Side - Welcome Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -180,7 +302,6 @@ const Login = () => {
               </blockquote>
             </motion.div>
 
-            {/* Stats */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -206,90 +327,221 @@ const Login = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right Side - Login Form */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <FormCard
-              title="Sign In"
-              subtitle="Access your sacred creative space"
-            >
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <Input
-                  label="Email Address"
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="your.email@example.com"
-                  icon={<Mail className="w-5 h-5" />}
-                  error={errors.email}
-                  required
-                />
+            {!showForgotPassword && !showResetPassword ? (
+              <FormCard
+                title="Sign In"
+                subtitle="Access your sacred creative space"
+              >
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <Input
+                    label="Email Address"
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="your.email@example.com"
+                    icon={<Mail className="w-5 h-5" />}
+                    error={errors.email}
+                    required
+                  />
 
-                <Input
-                  label="Password"
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  placeholder="Enter your password"
-                  icon={<Lock className="w-5 h-5" />}
-                  showPasswordToggle
-                  onTogglePassword={() => setShowPassword(!showPassword)}
-                  showPassword={showPassword}
-                  error={errors.password}
-                  required
-                />
+                  <Input
+                    label="Password"
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    placeholder="Enter your password"
+                    icon={<Lock className="w-5 h-5" />}
+                    showPasswordToggle
+                    onTogglePassword={() => setShowPassword(!showPassword)}
+                    showPassword={showPassword}
+                    error={errors.password}
+                    required
+                  />
 
-                <div className="flex items-center justify-between">
-                  <motion.label
-                    whileHover={{ scale: 1.02 }}
-                    className="flex items-center space-x-2 cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      name="rememberMe"
-                      checked={formData.rememberMe}
-                      onChange={handleInputChange}
-                      className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
-                    />
-                    <span className="text-sm text-slate-600">Remember me</span>
-                  </motion.label>
-
-                  <Link
-                    href="/forgot-password"
-                    className="text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
-
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="lg"
-                  loading={loading}
-                  className="w-full"
-                >
-                  Sign In to SufiPulse
-                </Button>
-
-                <div className="text-center pt-4 border-t border-slate-200">
-                  <p className="text-slate-600">
-                    Don't have an account?{" "}
-                    <Link
-                      href="/register"
-                      className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors"
+                  <div className="flex items-center justify-between">
+                    <button
+                      type="button"
+                      onClick={() => setShowForgotPassword(true)}
+                      className="text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
                     >
-                      Create one here
-                    </Link>
-                  </p>
-                </div>
-              </form>
-            </FormCard>
+                      Forgot password?
+                    </button>
+                  </div>
+
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={handleGoogleLogin}
+                      disabled={loading}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 font-medium text-sm hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M22.56 12.25C22.56 11.47 22.49 10.72 22.36 9.99H12V14.26H17.92C17.66 15.63 16.91 16.83 15.77 17.66V20.56H19.32C21.66 18.39 22.56 15.59 22.56 12.25Z"
+                          fill="#4285F4"
+                        />
+                        <path
+                          d="M12 23C15.45 23 18.32 21.86 19.32 20.56L15.77 17.66C14.77 18.34 13.52 18.76 12 18.76C8.67 18.76 5.91 16.59 4.92 13.57H1.24V16.54C2.24 18.83 4.09 20.69 6.55 21.82L12 23Z"
+                          fill="#34A853"
+                        />
+                        <path
+                          d="M4.92 13.57C4.67 12.89 4.53 12.17 4.53 11.43C4.53 10.69 4.67 9.97 4.92 9.29V6.32H1.24C0.45 7.76 0 9.38 0 11.43C0 13.48 0.45 15.1 1.24 16.54L4.92 13.57Z"
+                          fill="#FBBC05"
+                        />
+                        <path
+                          d="M12 4.24C13.66 4.24 15.17 4.83 16.34 5.93L19.55 2.72C17.32 0.69 14.45 0 12 0C6.55 0 2.24 2.17 1.24 6.32L4.92 9.29C5.91 6.27 8.67 4.24 12 4.24Z"
+                          fill="#EA4335"
+                        />
+                      </svg>
+                      Sign in with Google
+                    </button>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="lg"
+                    loading={loading}
+                    className="w-full"
+                  >
+                    Sign In to SufiPulse
+                  </Button>
+
+                  <div className="text-center pt-4 border-t border-slate-200">
+                    <p className="text-slate-600">
+                      Don't have an account?{" "}
+                      <Link
+                        href="/register"
+                        className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors"
+                      >
+                        Create one here
+                      </Link>
+                    </p>
+                  </div>
+                </form>
+              </FormCard>
+            ) : showForgotPassword ? (
+              <FormCard
+                title="Forgot Password"
+                subtitle="Enter your email to receive a reset OTP"
+              >
+                <form onSubmit={handleForgotPasswordSubmit} className="space-y-6">
+                  <Input
+                    label="Email Address"
+                    type="email"
+                    name="email"
+                    value={forgotPasswordData.email}
+                    onChange={handleForgotPasswordInputChange}
+                    placeholder="your.email@example.com"
+                    icon={<Mail className="w-5 h-5" />}
+                    error={errors.email}
+                    required
+                  />
+
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="lg"
+                    loading={loading}
+                    className="w-full"
+                  >
+                    Send OTP
+                  </Button>
+
+                  <div className="text-center pt-4">
+                    <button
+                      type="button"
+                      onClick={() => setShowForgotPassword(false)}
+                      className="text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
+                    >
+                      Back to Sign In
+                    </button>
+                  </div>
+                </form>
+              </FormCard>
+            ) : (
+              <FormCard
+                title="Reset Password"
+                subtitle="Enter the OTP and your new password"
+              >
+                <form onSubmit={handleResetPasswordSubmit} className="space-y-6">
+                  <Input
+                    label="Email Address"
+                    type="email"
+                    name="email"
+                    value={forgotPasswordData.email}
+                    onChange={handleForgotPasswordInputChange}
+                    placeholder="your.email@example.com"
+                    icon={<Mail className="w-5 h-5" />}
+                    error={errors.email}
+                    required
+                  />
+
+                  <Input
+                    label="OTP"
+                    type="text"
+                    name="otp"
+                    value={forgotPasswordData.otp}
+                    onChange={handleForgotPasswordInputChange}
+                    placeholder="Enter the OTP"
+                    icon={<Key className="w-5 h-5" />}
+                    error={errors.otp}
+                    required
+                  />
+
+                  <Input
+                    label="New Password"
+                    type={showPassword ? "text" : "password"}
+                    name="newPassword"
+                    value={forgotPasswordData.newPassword}
+                    onChange={handleForgotPasswordInputChange}
+                    placeholder="Enter your new password"
+                    icon={<Lock className="w-5 h-5" />}
+                    showPasswordToggle
+                    onTogglePassword={() => setShowPassword(!showPassword)}
+                    showPassword={showPassword}
+                    error={errors.newPassword}
+                    required
+                  />
+
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="lg"
+                    loading={loading}
+                    className="w-full"
+                  >
+                    Reset Password
+                  </Button>
+
+                  <div className="text-center pt-4">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowResetPassword(false);
+                        setShowForgotPassword(false);
+                      }}
+                      className="text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
+                    >
+                      Back to Sign In
+                    </button>
+                  </div>
+                </form>
+              </FormCard>
+            )}
           </motion.div>
         </div>
       </div>

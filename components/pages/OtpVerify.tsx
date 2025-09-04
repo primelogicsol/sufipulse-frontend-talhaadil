@@ -4,10 +4,10 @@ import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import { ArrowLeft, Mail, RefreshCw } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
 import Button from '../ui/Button'
 import FormCard from '../ui/FormCard'
-
+import { useRouter } from 'next/navigation'
+import { verifyOtp,resendOtp } from '@/services/auth'
 interface OTPVerificationProps {
   email: string
   onVerified: () => void
@@ -20,6 +20,7 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
   const [resending, setResending] = useState(false)
   const [timeLeft, setTimeLeft] = useState(60)
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+  const router = useRouter()
 
   useEffect(() => {
     // Focus first input on mount
@@ -91,32 +92,17 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
     setLoading(true)
 
     try {
-      const { data, error } = await supabase.auth.verifyOtp({
-        email,
-        token: code,
-        type: 'signup'
-      })
-
-      if (error) {
-        if (error.message.includes('expired')) {
-          toast.error('Verification code has expired. Please request a new one.')
-        } else if (error.message.includes('invalid')) {
-          toast.error('Invalid verification code. Please try again.')
-        } else {
-          toast.error(error.message)
-        }
-        return
-      }
-
-      if (data.user) {
-        toast.success('Email verified successfully!')
-        console.log('User data:', data.user)
-        onVerified()
-      }
-
+      await verifyOtp(email, code)
+      toast.success('Email verified successfully!')
+      console.log("Verified"
+      
+      )
+      router.push("/")
+      onVerified()
+      
     } catch (error: any) {
-      console.error('OTP verification error:', error)
-      toast.error('Verification failed. Please try again.')
+      toast.error(error.response?.data?.message || 'Invalid OTP. Please try again.')
+      setOtp(['', '', '', '', '', '']) // Clear OTP on error
     } finally {
       setLoading(false)
     }
@@ -128,27 +114,12 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
     setResending(true)
 
     try {
-      const { error } = await supabase.auth.resend({
-        type: 'signup',
-        email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`
-        }
-      })
-
-      if (error) {
-        toast.error(error.message)
-        return
-      }
-
-      toast.success('Verification code sent!')
-      setTimeLeft(60)
-      setOtp(['', '', '', '', '', ''])
-      inputRefs.current[0]?.focus()
-
+      await resendOtp(email)
+      toast.success('OTP resent successfully!')
+      setTimeLeft(60) // Reset timer
     } catch (error: any) {
-      console.error('Resend error:', error)
-      toast.error('Failed to resend code. Please try again.')
+      console.log(error)
+      toast.error(error.response?.data?.message || 'Failed to resend OTP. Please try again.')
     } finally {
       setResending(false)
     }

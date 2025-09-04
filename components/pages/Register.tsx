@@ -10,7 +10,9 @@ import Button from '../ui/Button'
 import FormCard from '../ui/FormCard'
 import PasswordStrength from '../ui/PasswordStrength'
 import OTPVerification from './OtpVerify'
-import {supabase} from '@/lib/supabase'
+import { signin,resendOtp,verifyOtp } from '@/services/auth' // Adjust the import path based on your project structure
+import { count } from 'console'
+
 const Register = () => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -18,7 +20,9 @@ const Register = () => {
     password: '',
     confirmPassword: '',
     userType: 'writer',
-    acceptTerms: false
+    acceptTerms: false,
+    country: '',
+    city: ''
   })
 
   const [showPassword, setShowPassword] = useState(false)
@@ -30,14 +34,14 @@ const Register = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : value,
     }))
 
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }))
+      setErrors((prev) => ({ ...prev, [name]: '' }))
     }
   }
 
@@ -85,86 +89,43 @@ const Register = () => {
     setLoading(true)
 
     try {
-      // Sign up user with Supabase
-      const { data, error } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: {
-            full_name: formData.fullName,
-            user_type: formData.userType,
-          },
-          emailRedirectTo: `${window.location.origin}/auth/callback`
-        }
-      })
+      // Assuming you want to pass a default country and city, or get them from additional form fields
+      // If you have country and city inputs, add them to formData and pass them here
+      const response = await signin(
+        formData.fullName,
+        formData.email,
+        formData.password,
+        formData.userType,
+        formData.country, // Replace with actual country if available
+        formData.city // Replace with actual city if available
+      )
 
-      if (error) {
-        if (error.message.includes('User already registered')) {
-          toast.error('An account with this email already exists. Please sign in instead.')
-          return
-        }
-        throw error
-      }
-
-      if (data.user) {
-        console.log(data.user)
-        setUserEmail(formData.email)
-        setShowOTPVerification(true)
-        toast.success('Please check your email for the verification code!')
-      }
-
+      
+      setUserEmail(formData.email)
+      setShowOTPVerification(true)
+      console.log(response.data)
+      toast.success('Registration successful! Please verify your OTP.')
     } catch (error: any) {
-      console.error('Registration error:', error)
-      toast.error(error.message || 'Registration failed. Please try again.')
+      console.log(error)
+      setLoading(false)
+      toast.error(error.response?.data?.message || 'Registration failed. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
   const handleOTPVerified = async () => {
-    try {
-      // Create user profile in profiles table
-      const { data: { user } } = await supabase.auth.getUser()
-      
-      if (user) {
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
-            id: user.id,
-            full_name: formData.fullName,
-            email: formData.email,
-            user_type: formData.userType,
-          })
-
-        if (profileError) {
-          console.error('Profile creation error:', profileError)
-          // Don't throw error here as user is already registered
-        }
-
-        toast.success('Welcome to SufiPulse! Your account has been verified.')
-        
-        // Redirect based on user type
-        setTimeout(() => {
-          if (formData.userType === 'writer') {
-            window.location.href = '/writer-dashboard'
-          } else if (formData.userType === 'vocalist') {
-            window.location.href = '/vocalist-dashboard'
-          } else if (['super_admin', 'moderator', 'collaborator'].includes(formData.userType)) {
-            window.location.href = '/admin-dashboard'
-          }
-        }, 1000)
-      }
-    } catch (error: any) {
-      console.error('Post-verification error:', error)
-      toast.error('Account verified but there was an issue setting up your profile. Please contact support.')
-    }
+    setShowOTPVerification(false)
+    toast.success('Email verified successfully!')
+    // Optionally redirect to login or dashboard
+    // e.g., router.push('/login')
   }
 
   const stats = [
-    { number: "89", label: "Writers Joined", icon: PenTool },
-    { number: "43", label: "Vocalists", icon: Mic },
-    { number: "50+", label: "Countries", icon: Globe },
-    { number: "100%", label: "Free Service", icon: Award }
+    { number: '89', label: 'Writers Joined', icon: PenTool },
+    { number: '43', label: 'Vocalists', icon: Mic },
+    { number: '50+', label: 'Countries', icon: Globe },
+    { number: '100%', label: 'Free Service', icon: Award },
   ]
 
   const userTypes = [
@@ -172,13 +133,13 @@ const Register = () => {
       id: 'writer',
       label: 'Writer',
       icon: PenTool,
-      description: 'Share your sacred poetry'
+      description: 'Share your sacred poetry',
     },
     {
       id: 'vocalist',
       label: 'Vocalist',
       icon: Mic,
-      description: 'Lend your voice to divine words'
+      description: 'Lend your voice to divine words',
     },
   ]
 
@@ -202,24 +163,24 @@ const Register = () => {
         <motion.div
           animate={{
             y: [0, -30, 0],
-            rotate: [0, 10, 0]
+            rotate: [0, 10, 0],
           }}
           transition={{
             duration: 8,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: 'easeInOut',
           }}
           className="absolute top-10 right-20 w-40 h-40 bg-emerald-500/10 rounded-full blur-xl"
         />
         <motion.div
           animate={{
             y: [0, 20, 0],
-            rotate: [0, -8, 0]
+            rotate: [0, -8, 0],
           }}
           transition={{
             duration: 10,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: 'easeInOut',
           }}
           className="absolute bottom-10 left-20 w-56 h-56 bg-slate-500/10 rounded-full blur-xl"
         />
@@ -319,7 +280,7 @@ const Register = () => {
                           type="button"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => setFormData(prev => ({ ...prev, userType: type.id }))}
+                          onClick={() => setFormData((prev) => ({ ...prev, userType: type.id }))}
                           className={`
                             p-3 rounded-xl border-2 text-sm font-medium transition-all duration-200
                             ${formData.userType === type.id
@@ -354,6 +315,34 @@ const Register = () => {
                 />
 
                 <Input
+                  label="Country"
+                  type="text"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleInputChange}
+                  placeholder="Enter your country"
+                  icon={<Globe className="w-5 h-5" />}
+                  error={errors.country}
+                  required
+                />
+                  
+                  <Input
+              label="City"
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleInputChange}
+              placeholder="Enter your city"
+              icon={<Globe className="w-5 h-5" />}
+              error={errors.city}
+              required
+            />
+
+                
+
+
+
+                <Input
                   label="Email Address"
                   type="email"
                   name="email"
@@ -364,11 +353,12 @@ const Register = () => {
                   error={errors.email}
                   required
                 />
+
                 
                 <div>
                   <Input
                     label="Password"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
@@ -385,7 +375,7 @@ const Register = () => {
 
                 <Input
                   label="Confirm Password"
-                  type={showConfirmPassword ? "text" : "password"}
+                  type={showConfirmPassword ? 'text' : 'password'}
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
