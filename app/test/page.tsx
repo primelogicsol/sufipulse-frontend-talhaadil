@@ -1,12 +1,10 @@
-
-import Home from '@/components/pages/Home'
+import SubmitSampleClip from '@/components/pages/SubmitSampleClip'
 import React from 'react'
 
 function page() {
   return (
     <div>
-      <Home/>
-  
+        <SubmitSampleClip/>
     </div>
   )
 }

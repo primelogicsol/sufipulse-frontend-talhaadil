@@ -88,6 +88,7 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
       toast.error('Please enter the complete 6-digit code')
       return
     }
+    
 
     setLoading(true)
 

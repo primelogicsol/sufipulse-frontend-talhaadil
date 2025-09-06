@@ -1,12 +1,10 @@
-
-import Home from '@/components/pages/Home'
+import Vocalist_Dashboard from '@/components/pages/Vocalist_Dashboard'
 import React from 'react'
 
 function page() {
   return (
     <div>
-      <Home/>
-  
+        <Vocalist_Dashboard/>
     </div>
   )
 }

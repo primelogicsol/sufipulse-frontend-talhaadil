@@ -19,6 +19,7 @@ import {
   Users,
   Volume2
 } from 'lucide-react';
+import { vocalistSubmitKalam } from '@/services/vocalist';
 
 const SubmitSampleClip = () => {
   const [formData, setFormData] = useState({
@@ -81,41 +82,56 @@ const SubmitSampleClip = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-      toast.error('Please fix the errors below');
-      return;
-    }
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  if (!validateForm()) {
+    toast.error("Please fix the errors below");
+    return;
+  }
 
-    setLoading(true);
-    
-    try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      toast.success('Your vocal sample has been submitted successfully! We will review it and get back to you soon.');
-      
-      // Reset form
-      setFormData({
-        fullName: '',
-        email: '',
-        location: '',
-        vocalRange: '',
-        languages: '',
-        experience: '',
-        sampleTitle: '',
-        sampleDescription: '',
-        audioFile: null,
-        portfolio: '',
-        availability: '',
-        acceptTerms: false
-      });
-    } catch (error) {
-      toast.error('Submission failed. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+
+  try {
+    // Convert formData into API payload
+    const payload = {
+      vocal_range: formData.vocalRange,
+      languages: formData.languages.split(",").map(lang => lang.trim()), // convert to array
+      sample_title: formData.sampleTitle,
+      audio_sample_url: formData.audioFile ? URL.createObjectURL(formData.audioFile) : "", 
+      sample_description: formData.sampleDescription,
+      experience_background: formData.experience,
+      portfolio: formData.portfolio,
+      availability: formData.availability,
+    };
+
+    const response = await vocalistSubmitKalam(payload);
+
+    console.log("✅ API Response:", response.data);
+    toast.success("Your vocal sample has been submitted successfully! 🎶");
+
+    // Reset form
+    setFormData({
+      fullName: "",
+      email: "",
+      location: "",
+      vocalRange: "",
+      languages: "",
+      experience: "",
+      sampleTitle: "",
+      sampleDescription: "",
+      audioFile: null,
+      portfolio: "",
+      availability: "",
+      acceptTerms: false,
+    });
+  } catch (error: any) {
+    console.error("❌ Submission Error:", error);
+    toast.error(error.response?.data?.message || "Submission failed. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const stats = [
     { number: "43", label: "Active Vocalists", icon: Mic },
