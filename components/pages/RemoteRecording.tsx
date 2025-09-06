@@ -168,232 +168,234 @@ const RemoteRecording: React.FC<RemoteRecordingProps> = ({ onSubmit }) => {
   ];
 
   return (
-    <div className="bg-white">
+    <div className="bg-white min-h-screen py-6 sm:py-8 lg:py-12">
       {/* Form Section */}
-      <div className="bg-white rounded-2xl p-8">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Personal Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Your Name *</label>
-              <input
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-                placeholder="Enter your full name"
-                required
-              />
-              {errors.fullName && <p className="text-sm text-red-600 mt-1">{errors.fullName}</p>}
+      <div className="max-w-md mx-auto px-4 sm:max-w-lg sm:px-6 md:max-w-2xl lg:max-w-3xl md:px-8">
+        <div className="bg-white rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl border border-slate-100">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+            {/* Personal Information */}
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Your Name *</label>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                  placeholder="Enter your full name"
+                  required
+                />
+                {errors.fullName && <p className="text-xs sm:text-sm text-red-600 mt-1">{errors.fullName}</p>}
+              </div>
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Email Address *</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                  placeholder="your.email@example.com"
+                  required
+                />
+                {errors.email && <p className="text-xs sm:text-sm text-red-600 mt-1">{errors.email}</p>}
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Email Address *</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-                placeholder="your.email@example.com"
-                required
-              />
-              {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email}</p>}
-            </div>
-          </div>
 
-          {/* Location Information */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">City/Location *</label>
-              <input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-                placeholder="Your city"
-                required
-              />
-              {errors.location && <p className="text-sm text-red-600 mt-1">{errors.location}</p>}
+            {/* Location Information */}
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">City/Location *</label>
+                <input
+                  type="text"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                  placeholder="Your city"
+                  required
+                />
+                {errors.location && <p className="text-xs sm:text-sm text-red-600 mt-1">{errors.location}</p>}
+              </div>
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Country *</label>
+                <input
+                  type="text"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                  placeholder="Your country"
+                  required
+                />
+                {errors.country && <p className="text-xs sm:text-sm text-red-600 mt-1">{errors.country}</p>}
+              </div>
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Time Zone</label>
+                <select
+                  name="timezone"
+                  value={formData.timezone}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                >
+                  <option value="">Select Time Zone</option>
+                  {timezones.map(tz => (
+                    <option key={tz} value={tz}>{tz}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Country *</label>
-              <input
-                type="text"
-                name="country"
-                value={formData.country}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-                placeholder="Your country"
-                required
-              />
-              {errors.country && <p className="text-sm text-red-600 mt-1">{errors.country}</p>}
+
+            {/* Project Information */}
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Your Role *</label>
+                <select
+                  name="role"
+                  value={formData.role}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                  required
+                >
+                  <option value="">Select Your Role</option>
+                  <option value="writer">Writer/Poet</option>
+                  <option value="vocalist">Vocalist</option>
+                  <option value="musician">Musician</option>
+                  <option value="collaborator">Collaborator</option>
+                  <option value="other">Other</option>
+                </select>
+                {errors.role && <p className="text-xs sm:text-sm text-red-600 mt-1">{errors.role}</p>}
+              </div>
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Project Type *</label>
+                <select
+                  name="projectType"
+                  value={formData.projectType}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                  required
+                >
+                  <option value="">Select Project Type</option>
+                  {projectTypes.map(type => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
+                {errors.projectType && <p className="text-xs sm:text-sm text-red-600 mt-1">{errors.projectType}</p>}
+              </div>
             </div>
+
+            {/* Technical Setup */}
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Recording Equipment</label>
+                <input
+                  type="text"
+                  name="equipment"
+                  value={formData.equipment}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                  placeholder="e.g., USB microphone, audio interface, etc."
+                />
+              </div>
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Internet Speed</label>
+                <input
+                  type="text"
+                  name="internetSpeed"
+                  value={formData.internetSpeed}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                  placeholder="e.g., 50 Mbps download, 10 Mbps upload"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Preferred Recording Software</label>
+                <select
+                  name="preferredSoftware"
+                  value={formData.preferredSoftware}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                >
+                  <option value="">Select Software</option>
+                  {softwareOptions.map(software => (
+                    <option key={software} value={software}>{software}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Availability</label>
+                <input
+                  type="text"
+                  name="availability"
+                  value={formData.availability}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                  placeholder="e.g., Weekends, evenings, flexible"
+                />
+              </div>
+            </div>
+
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Time Zone</label>
-              <select
-                name="timezone"
-                value={formData.timezone}
+              <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Recording Experience</label>
+              <textarea
+                name="experience"
+                value={formData.experience}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
+                rows={3}
+                className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                placeholder="Describe your experience with recording, equipment, and software..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Technical Setup Details</label>
+              <textarea
+                name="technicalSetup"
+                value={formData.technicalSetup}
+                onChange={handleInputChange}
+                rows={2}
+                className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                placeholder="Describe your recording space, acoustic treatment, equipment setup..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Additional Details</label>
+              <textarea
+                name="additionalDetails"
+                value={formData.additionalDetails}
+                onChange={handleInputChange}
+                rows={3}
+                className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
+                placeholder="Share any specific requirements, questions, or details about your remote recording needs..."
+              />
+            </div>
+
+            <div className="flex justify-center md:justify-end">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full md:w-auto inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
               >
-                <option value="">Select Time Zone</option>
-                {timezones.map(tz => (
-                  <option key={tz} value={tz}>{tz}</option>
-                ))}
-              </select>
+                {loading ? (
+                  <>
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>Submitting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Wifi className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span>Submit Remote Recording Request</span>
+                  </>
+                )}
+              </button>
             </div>
-          </div>
-
-          {/* Project Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Your Role *</label>
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-                required
-              >
-                <option value="">Select Your Role</option>
-                <option value="writer">Writer/Poet</option>
-                <option value="vocalist">Vocalist</option>
-                <option value="musician">Musician</option>
-                <option value="collaborator">Collaborator</option>
-                <option value="other">Other</option>
-              </select>
-              {errors.role && <p className="text-sm text-red-600 mt-1">{errors.role}</p>}
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Project Type *</label>
-              <select
-                name="projectType"
-                value={formData.projectType}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-                required
-              >
-                <option value="">Select Project Type</option>
-                {projectTypes.map(type => (
-                  <option key={type} value={type}>{type}</option>
-                ))}
-              </select>
-              {errors.projectType && <p className="text-sm text-red-600 mt-1">{errors.projectType}</p>}
-            </div>
-          </div>
-
-          {/* Technical Setup */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Recording Equipment</label>
-              <input
-                type="text"
-                name="equipment"
-                value={formData.equipment}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-                placeholder="e.g., USB microphone, audio interface, etc."
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Internet Speed</label>
-              <input
-                type="text"
-                name="internetSpeed"
-                value={formData.internetSpeed}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-                placeholder="e.g., 50 Mbps download, 10 Mbps upload"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Preferred Recording Software</label>
-              <select
-                name="preferredSoftware"
-                value={formData.preferredSoftware}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-              >
-                <option value="">Select Software</option>
-                {softwareOptions.map(software => (
-                  <option key={software} value={software}>{software}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Availability</label>
-              <input
-                type="text"
-                name="availability"
-                value={formData.availability}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-                placeholder="e.g., Weekends, evenings, flexible"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Recording Experience</label>
-            <textarea
-              name="experience"
-              value={formData.experience}
-              onChange={handleInputChange}
-              rows={3}
-              className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-              placeholder="Describe your experience with recording, equipment, and software..."
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Technical Setup Details</label>
-            <textarea
-              name="technicalSetup"
-              value={formData.technicalSetup}
-              onChange={handleInputChange}
-              rows={3}
-              className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-              placeholder="Describe your recording space, acoustic treatment, equipment setup..."
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Additional Details</label>
-            <textarea
-              name="additionalDetails"
-              value={formData.additionalDetails}
-              onChange={handleInputChange}
-              rows={4}
-              className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
-              placeholder="Share any specific requirements, questions, or details about your remote recording needs..."
-            />
-          </div>
-
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              disabled={loading}
-              className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
-            >
-              {loading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  <span>Submitting...</span>
-                </>
-              ) : (
-                <>
-                  <Wifi className="w-5 h-5" />
-                  <span>Submit Remote Recording Request</span>
-                </>
-              )}
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );

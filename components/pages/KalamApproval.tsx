@@ -1,118 +1,111 @@
-"use client"
-import { useState, useEffect } from "react"
-import { Music, CheckCircle, XCircle, Building2, Wifi } from "lucide-react"
-import { approveOrRejectKalam, getKalamsByVocalist } from "@/services/vocalist"
-import {
+'use client';
+import { useState, useEffect } from 'react';
+import { Music, CheckCircle, XCircle, Building2, Wifi } from 'lucide-react';
+import { approveOrRejectKalam, getKalamsByVocalist } from '@/services/vocalist';
+import { 
   createStudioVisitRequest,
   createRemoteRecordingRequest,
   getStudioVisitRequestsByVocalist,
   getRemoteRecordingRequestsByVocalist,
   checkRequestExists,
-} from "@/services/requests"
-import Cookies from "js-cookie"
-// Import the checkRequestExists API
-import StudioVisit from "./StudioVisit"
-import RemoteRecording from "./RemoteRecording"
+} from '@/services/requests';
+import Cookies from 'js-cookie';
+import StudioVisit from './StudioVisit';
+import RemoteRecording from './RemoteRecording';
 
 interface Kalam {
-  id: number
-  title: string
-  language: string
-  theme: string
-  kalam_text: string
-  description: string
-  sufi_influence: string
-  musical_preference: string
-  youtube_link: string
-  writer_id: number
-  vocalist_id: number
-  published_at: string | null
-  created_at: string
-  updated_at: string
-  vocalist_approval_status: string
+  id: number;
+  title: string;
+  language: string;
+  theme: string;
+  kalam_text: string;
+  description: string;
+  sufi_influence: string;
+  musical_preference: string;
+  youtube_link: string;
+  writer_id: number;
+  vocalist_id: number;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+  vocalist_approval_status: string;
 }
 
 const KalamApproval = () => {
-  const [kalams, setKalams] = useState<Kalam[]>([])
-  const [loading, setLoading] = useState(true)
-  const [actionLoading, setActionLoading] = useState<number | null>(null)
-  const [selectedKalam, setSelectedKalam] = useState<number | null>(null)
-  const [showRecordingOptions, setShowRecordingOptions] = useState<number | null>(null)
-  const [studioRequests, setStudioRequests] = useState<any[]>([])
-  const [remoteRequests, setRemoteRequests] = useState<any[]>([])
-  const [currentView, setCurrentView] = useState<"kalams" | "studio-requests" | "remote-requests">("kalams")
-  const [modalOpen, setModalOpen] = useState<"studio" | "remote" | null>(null)
-  const [modalKalamId, setModalKalamId] = useState<number | null>(null)
-  const [requestExistsMap, setRequestExistsMap] = useState<{ [key: number]: boolean }>({}) // Track request existence per kalam
-  const userId = Cookies.get("user_id")
+  const [kalams, setKalams] = useState<Kalam[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState<number | null>(null);
+  const [selectedKalam, setSelectedKalam] = useState<number | null>(null);
+  const [showRecordingOptions, setShowRecordingOptions] = useState<number | null>(null);
+  const [studioRequests, setStudioRequests] = useState<any[]>([]);
+  const [remoteRequests, setRemoteRequests] = useState<any[]>([]);
+  const [currentView, setCurrentView] = useState<'kalams' | 'studio-requests' | 'remote-requests'>('kalams');
+  const [modalOpen, setModalOpen] = useState<'studio' | 'remote' | null>(null);
+  const [modalKalamId, setModalKalamId] = useState<number | null>(null);
+  const [requestExistsMap, setRequestExistsMap] = useState<{ [key: number]: boolean }>({});
+  const userId = Cookies.get('user_id');
+
   useEffect(() => {
-    fetchKalams()
-  }, [])
+    fetchKalams();
+  }, []);
 
   const fetchKalams = async () => {
     try {
-      setLoading(true)
-      const response = await getKalamsByVocalist()
-      console.log("✅ Kalams API Response:", response.data)
-      const kalamsData = response.data.kalams || []
-      setKalams(kalamsData)
+      setLoading(true);
+      const response = await getKalamsByVocalist();
+      const kalamsData = response.data.kalams || [];
+      setKalams(kalamsData);
 
-      // Check request existence for each kalam
-      const requestStatusMap: { [key: number]: boolean } = {}
+      const requestStatusMap: { [key: number]: boolean } = {};
       for (const kalam of kalamsData) {
-        const requestResponse = await checkRequestExists(userId ?? "", kalam.id.toString())
-        // Replace "1" with actual vocalist_id
-        requestStatusMap[kalam.id] = requestResponse.data.is_booked
+        const requestResponse = await checkRequestExists(userId ?? '', kalam.id.toString());
+        requestStatusMap[kalam.id] = requestResponse.data.is_booked;
       }
-      setRequestExistsMap(requestStatusMap)
+      setRequestExistsMap(requestStatusMap);
     } catch (error: any) {
-      console.error("❌ Kalams API Error:", error)
+      console.error('❌ Kalams API Error:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const handleApproveReject = async (kalamId: number, action: "approved" | "rejected") => {
-    const input = { status: action, comments: "hello hi" }
+  const handleApproveReject = async (kalamId: number, action: 'approved' | 'rejected') => {
+    const input = { status: action, comments: 'hello hi' };
     try {
-      setActionLoading(kalamId)
-      const response = await approveOrRejectKalam(kalamId, input)
-      console.log("✅ Approval API Response:", response.data)
-
-      if (action === "approved") {
-        // Check if a request exists for this kalam
-        const requestResponse = await checkRequestExists("1", kalamId.toString()) // Replace "1" with actual vocalist_id
+      setActionLoading(kalamId);
+      const response = await approveOrRejectKalam(kalamId, input);
+      if (action === 'approved') {
+        const requestResponse = await checkRequestExists(userId ?? '', kalamId.toString());
         setRequestExistsMap((prev) => ({
           ...prev,
-          [kalamId]: requestResponse.data.exists,
-        }))
-        if (!requestResponse.data.exists) {
-          setShowRecordingOptions(kalamId) // Show recording options only if no request exists
+          [kalamId]: requestResponse.data.is_booked,
+        }));
+        if (!requestResponse.data.is_booked) {
+          setShowRecordingOptions(kalamId);
         }
       }
-
-      await fetchKalams()
+      await fetchKalams();
     } catch (error: any) {
-      console.error("❌ Approval API Error:", error)
+      console.error('❌ Approval API Error:', error);
     } finally {
-      setActionLoading(null)
+      setActionLoading(null);
     }
-  }
+  };
 
-  const handleRecordingRequest = (type: "studio" | "remote", kalamId: number) => {
-    setModalKalamId(kalamId)
-    setModalOpen(type)
-    setShowRecordingOptions(null)
-  }
+  const handleRecordingRequest = (type: 'studio' | 'remote', kalamId: number) => {
+    setModalKalamId(kalamId);
+    setModalOpen(type);
+    setShowRecordingOptions(null);
+  };
 
   const handleStudioFormSubmit = async (formData: any) => {
-    if (!modalKalamId) return
+    if (!modalKalamId) return;
     try {
       if (!userId) {
-        throw new Error("User ID is missing")
+        throw new Error('User ID is missing');
       }
       const requestData = {
-        vocalist_id: Number(userId), // Ensure vocalist_id is a number
+        vocalist_id: Number(userId),
         kalam_id: modalKalamId,
         name: formData.fullName,
         email: formData.email,
@@ -124,24 +117,22 @@ const KalamApproval = () => {
         number_of_visitors: Number(formData.numberOfVisitors),
         additional_details: formData.additionalDetails,
         special_requests: formData.specialRequests,
-      }
-
-      const response = await createStudioVisitRequest(requestData)
-      console.log("✅ Studio Request API Response:", response.data)
-      setModalOpen(null)
-      setCurrentView("studio-requests")
-      setRequestExistsMap((prev) => ({ ...prev, [modalKalamId]: true })) // Update request status
-      await fetchStudioRequests()
+      };
+      const response = await createStudioVisitRequest(requestData);
+      setModalOpen(null);
+      setCurrentView('studio-requests');
+      setRequestExistsMap((prev) => ({ ...prev, [modalKalamId]: true }));
+      await fetchStudioRequests();
     } catch (error: any) {
-      console.error("❌ Studio Request API Error:", error)
+      console.error('❌ Studio Request API Error:', error);
     }
-  }
+  };
 
   const handleRemoteFormSubmit = async (formData: any) => {
-    if (!modalKalamId) return
+    if (!modalKalamId) return;
     try {
       const requestData = {
-        vocalist_id: Number(userId), // Replace with actual vocalist ID
+        vocalist_id: Number(userId),
         kalam_id: modalKalamId,
         name: formData.fullName,
         email: formData.email,
@@ -157,129 +148,136 @@ const KalamApproval = () => {
         recording_experience: formData.experience,
         technical_setup: formData.technicalSetup,
         additional_details: formData.additionalDetails,
-      }
-
-      const response = await createRemoteRecordingRequest(requestData)
-      console.log("✅ Remote Request API Response:", response.data)
-      setModalOpen(null)
-      setCurrentView("remote-requests")
-      setRequestExistsMap((prev) => ({ ...prev, [modalKalamId]: true })) // Update request status
-      await fetchRemoteRequests()
+      };
+      const response = await createRemoteRecordingRequest(requestData);
+      setModalOpen(null);
+      setCurrentView('remote-requests');
+      setRequestExistsMap((prev) => ({ ...prev, [modalKalamId]: true }));
+      await fetchRemoteRequests();
     } catch (error: any) {
-      console.error("❌ Remote Request API Error:", error)
+      console.error('❌ Remote Request API Error:', error);
     }
-  }
+  };
 
   const fetchStudioRequests = async () => {
     try {
-      const response = await getStudioVisitRequestsByVocalist()
-      console.log("✅ Studio Requests API Response:", response.data)
-      setStudioRequests(response.data || [])
+      const response = await getStudioVisitRequestsByVocalist();
+      setStudioRequests(response.data || []);
     } catch (error: any) {
-      console.error("❌ Studio Requests API Error:", error)
+      console.error('❌ Studio Requests API Error:', error);
     }
-  }
+  };
 
   const fetchRemoteRequests = async () => {
     try {
-      const response = await getRemoteRecordingRequestsByVocalist()
-      console.log("✅ Remote Requests API Response:", response.data)
-      setRemoteRequests(response.data || [])
+      const response = await getRemoteRecordingRequestsByVocalist();
+      setRemoteRequests(response.data || []);
     } catch (error: any) {
-      console.error("❌ Remote Requests API Error:", error)
+      console.error('❌ Remote Requests API Error:', error);
     }
-  }
+  };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-600">Loading kalams...</p>
+          <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-base sm:text-lg text-slate-600">Loading kalams...</p>
         </div>
       </div>
-    )
+    );
   }
 
   const renderKalams = () => (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {kalams.map((kalam) => (
-        <div key={kalam.id} className="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
-          <div className="flex justify-between items-start mb-4">
+        <div
+          key={kalam.id}
+          className="bg-white rounded-xl shadow-lg border border-slate-200 p-4 sm:p-6"
+        >
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
             <div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">{kalam.title}</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 truncate">
+                {kalam.title}
+              </h3>
               <div className="flex flex-wrap gap-2 mb-3">
-                <span className="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-sm font-medium">
+                <span className="px-2 sm:px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs sm:text-sm font-medium">
                   {kalam.language}
                 </span>
-                <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium">
+                <span className="px-2 sm:px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs sm:text-sm font-medium">
                   {kalam.theme}
                 </span>
               </div>
             </div>
             <div
-              className={`px-3 py-1 rounded-full text-sm font-medium ${
-                kalam.vocalist_approval_status === "approved"
-                  ? "bg-emerald-100 text-emerald-800"
-                  : kalam.vocalist_approval_status === "rejected"
-                    ? "bg-red-100 text-red-800"
-                    : "bg-yellow-100 text-yellow-800"
+              className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium mt-2 sm:mt-0 ${
+                kalam.vocalist_approval_status === 'approved'
+                  ? 'bg-emerald-100 text-emerald-800'
+                  : kalam.vocalist_approval_status === 'rejected'
+                    ? 'bg-red-100 text-red-800'
+                    : 'bg-yellow-100 text-yellow-800'
               }`}
             >
               {kalam.vocalist_approval_status}
             </div>
           </div>
 
-          <p className="text-slate-600 mb-4 leading-relaxed">{kalam.description}</p>
+          <p className="text-sm sm:text-base text-slate-600 mb-4 leading-relaxed line-clamp-3">
+            {kalam.description}
+          </p>
 
           {kalam.kalam_text && (
-            <div className="mb-4 p-4 bg-slate-50 rounded-lg">
-              <p className="text-slate-800 italic leading-relaxed">{kalam.kalam_text}</p>
+            <div className="mb-4 p-3 sm:p-4 bg-slate-50 rounded-lg">
+              <p className="text-sm sm:text-base text-slate-800 italic leading-relaxed line-clamp-4">
+                {kalam.kalam_text}
+              </p>
             </div>
           )}
 
-          {kalam.vocalist_approval_status === "pending" && (
-            <div className="flex space-x-4 mt-4">
+          {kalam.vocalist_approval_status === 'pending' && (
+            <div className="flex flex-col sm:flex-row sm:space-x-4 mt-4 gap-2">
               <button
-                onClick={() => handleApproveReject(kalam.id, "approved")}
+                onClick={() => handleApproveReject(kalam.id, 'approved')}
                 disabled={actionLoading === kalam.id}
-                className="flex items-center space-x-2 px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 transition-colors"
+                className="flex items-center justify-center space-x-2 px-4 py-2 sm:px-6 sm:py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 transition-colors text-sm sm:text-base"
               >
                 {actionLoading === kalam.id ? (
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                 ) : (
-                  <CheckCircle className="w-4 h-4" />
+                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                 )}
                 <span>Accept</span>
               </button>
               <button
-                onClick={() => handleApproveReject(kalam.id, "rejected")}
+                onClick={() => handleApproveReject(kalam.id, 'rejected')}
                 disabled={actionLoading === kalam.id}
-                className="flex items-center space-x-2 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
+                className="flex items-center justify-center space-x-2 px-4 py-2 sm:px-6 sm:py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors text-sm sm:text-base"
               >
-                <XCircle className="w-4 h-4" />
+                <XCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>Reject</span>
               </button>
             </div>
           )}
 
-          {(kalam.vocalist_approval_status === "approved" && !requestExistsMap[kalam.id]) ||
+          {(kalam.vocalist_approval_status === 'approved' && !requestExistsMap[kalam.id]) ||
           showRecordingOptions === kalam.id ? (
-            <div className="mt-4 p-4 bg-emerald-50 rounded-lg border border-emerald-200">
-              <h4 className="font-medium text-emerald-800 mb-3">Choose Recording Option:</h4>
-              <div className="flex space-x-4">
+            <div className="mt-4 p-3 sm:p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+              <h4 className="font-medium text-emerald-800 mb-2 sm:mb-3 text-sm sm:text-base">
+                Choose Recording Option:
+              </h4>
+              <div className="flex flex-col sm:flex-row sm:space-x-4 gap-2">
                 <button
-                  onClick={() => handleRecordingRequest("studio", kalam.id)}
-                  className="flex items-center space-x-2 px-6 py-3 bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition-colors"
+                  onClick={() => handleRecordingRequest('studio', kalam.id)}
+                  className="flex items-center justify-center space-x-2 px-4 py-2 sm:px-6 sm:py-3 bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition-colors text-sm sm:text-base"
                 >
-                  <Building2 className="w-4 h-4" />
+                  <Building2 className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Studio Visit Request</span>
                 </button>
                 <button
-                  onClick={() => handleRecordingRequest("remote", kalam.id)}
-                  className="flex items-center space-x-2 px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+                  onClick={() => handleRecordingRequest('remote', kalam.id)}
+                  className="flex items-center justify-center space-x-2 px-4 py-2 sm:px-6 sm:py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-sm sm:text-base"
                 >
-                  <Wifi className="w-4 h-4" />
+                  <Wifi className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Remote Recording Request</span>
                 </button>
               </div>
@@ -288,29 +286,32 @@ const KalamApproval = () => {
         </div>
       ))}
     </div>
-  )
+  );
 
-  const renderRequests = (requests: any[], type: "studio" | "remote") => (
+  const renderRequests = (requests: any[], type: 'studio' | 'remote') => (
     <div className="space-y-4">
       {requests.length > 0 ? (
         requests.map((request, index) => (
-          <div key={index} className="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center space-x-3">
-                {type === "studio" ? (
-                  <Building2 className="w-6 h-6 text-slate-600" />
+          <div
+            key={index}
+            className="bg-white rounded-xl shadow-lg border border-slate-200 p-4 sm:p-6"
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                {type === 'studio' ? (
+                  <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-slate-600" />
                 ) : (
-                  <Wifi className="w-6 h-6 text-emerald-600" />
+                  <Wifi className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600" />
                 )}
-                <h3 className="text-lg font-bold text-slate-900">
-                  {type === "studio" ? "Studio Visit" : "Remote Recording"} Request
+                <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                  {type === 'studio' ? 'Studio Visit' : 'Remote Recording'} Request
                 </h3>
               </div>
-              <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
-                {request.status || "Pending"}
+              <span className="px-2 sm:px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs sm:text-sm font-medium mt-2 sm:mt-0">
+                {request.status || 'Pending'}
               </span>
             </div>
-            <div className="text-slate-600">
+            <div className="text-sm sm:text-base text-slate-600">
               <p>
                 <strong>Request ID:</strong> {request.id}
               </p>
@@ -326,56 +327,56 @@ const KalamApproval = () => {
           </div>
         ))
       ) : (
-        <div className="text-center py-12">
-          {type === "studio" ? (
-            <Building2 className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+        <div className="text-center py-8 sm:py-12">
+          {type === 'studio' ? (
+            <Building2 className="w-12 h-12 sm:w-16 sm:h-16 text-slate-300 mx-auto mb-4" />
           ) : (
-            <Wifi className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+            <Wifi className="w-12 h-12 sm:w-16 sm:h-16 text-slate-300 mx-auto mb-4" />
           )}
-          <p className="text-slate-500 text-lg">No {type} requests found</p>
+          <p className="text-base sm:text-lg text-slate-500">No {type} requests found</p>
         </div>
       )}
     </div>
-  )
+  );
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-slate-50 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-full sm:max-w-4xl lg:max-w-5xl mx-auto">
         {/* Navigation */}
-        <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 mb-6">
-          <div className="flex space-x-4">
+        <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-4 sm:p-6 mb-4 sm:mb-6">
+          <div className="flex flex-col sm:flex-row sm:space-x-4 gap-2">
             <button
-              onClick={() => setCurrentView("kalams")}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                currentView === "kalams"
-                  ? "bg-emerald-600 text-white"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              onClick={() => setCurrentView('kalams')}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${
+                currentView === 'kalams'
+                  ? 'bg-emerald-600 text-white'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
               Kalams
             </button>
             <button
               onClick={() => {
-                setCurrentView("studio-requests")
-                fetchStudioRequests()
+                setCurrentView('studio-requests');
+                fetchStudioRequests();
               }}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                currentView === "studio-requests"
-                  ? "bg-emerald-600 text-white"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${
+                currentView === 'studio-requests'
+                  ? 'bg-emerald-600 text-white'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
               Studio Requests
             </button>
             <button
               onClick={() => {
-                setCurrentView("remote-requests")
-                fetchRemoteRequests()
+                setCurrentView('remote-requests');
+                fetchRemoteRequests();
               }}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                currentView === "remote-requests"
-                  ? "bg-emerald-600 text-white"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${
+                currentView === 'remote-requests'
+                  ? 'bg-emerald-600 text-white'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
               Remote Requests
@@ -384,43 +385,50 @@ const KalamApproval = () => {
         </div>
 
         {/* Content */}
-        <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-8">
-          <div className="flex items-center space-x-3 mb-6">
-            {currentView === "kalams" && <Music className="w-6 h-6 text-emerald-600" />}
-            {currentView === "studio-requests" && <Building2 className="w-6 h-6 text-slate-600" />}
-            {currentView === "remote-requests" && <Wifi className="w-6 h-6 text-emerald-600" />}
-            <h2 className="text-2xl font-bold text-slate-900">
-              {currentView === "kalams" && "Kalam Approvals"}
-              {currentView === "studio-requests" && "Studio Visit Requests"}
-              {currentView === "remote-requests" && "Remote Recording Requests"}
+        <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-4 sm:p-6 lg:p-8">
+          <div className="flex items-center space-x-2 sm:space-x-3 mb-4 sm:mb-6">
+            {currentView === 'kalams' && <Music className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600" />}
+            {currentView === 'studio-requests' && (
+              <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-slate-600" />
+            )}
+            {currentView === 'remote-requests' && (
+              <Wifi className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600" />
+            )}
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900">
+              {currentView === 'kalams' && 'Kalam Approvals'}
+              {currentView === 'studio-requests' && 'Studio Visit Requests'}
+              {currentView === 'remote-requests' && 'Remote Recording Requests'}
             </h2>
           </div>
 
-          {currentView === "kalams" && renderKalams()}
-          {currentView === "studio-requests" && renderRequests(studioRequests, "studio")}
-          {currentView === "remote-requests" && renderRequests(remoteRequests, "remote")}
+          {currentView === 'kalams' && renderKalams()}
+          {currentView === 'studio-requests' && renderRequests(studioRequests, 'studio')}
+          {currentView === 'remote-requests' && renderRequests(remoteRequests, 'remote')}
         </div>
 
         {/* Modal for StudioVisit and RemoteRecording */}
         {modalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-2xl shadow-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl shadow-xl p-4 sm:p-6 w-full max-w-[90vw] sm:max-w-2xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-slate-900">
-                  {modalOpen === "studio" ? "Studio Visit Request" : "Remote Recording Request"}
+                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900">
+                  {modalOpen === 'studio' ? 'Studio Visit Request' : 'Remote Recording Request'}
                 </h2>
-                <button onClick={() => setModalOpen(null)} className="text-slate-500 hover:text-slate-700">
-                  <XCircle className="w-6 h-6" />
+                <button
+                  onClick={() => setModalOpen(null)}
+                  className="text-slate-500 hover:text-slate-700"
+                >
+                  <XCircle className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
               </div>
-              {modalOpen === "studio" && <StudioVisit onSubmit={handleStudioFormSubmit} />}
-              {modalOpen === "remote" && <RemoteRecording onSubmit={handleRemoteFormSubmit} />}
+              {modalOpen === 'studio' && <StudioVisit onSubmit={handleStudioFormSubmit} />}
+              {modalOpen === 'remote' && <RemoteRecording onSubmit={handleRemoteFormSubmit} />}
             </div>
           </div>
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default KalamApproval
+export default KalamApproval;
