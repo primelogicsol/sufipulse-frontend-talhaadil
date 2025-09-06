@@ -2,8 +2,7 @@
 import { useState, useEffect } from "react"
 import { User, Globe, Award, MapPin, Mic, Clock } from "lucide-react"
 import { getVocalistProfile } from "@/services/vocalist"
-import { Calendar } from "lucide-react";
-
+import { Calendar } from "lucide-react"
 
 interface VocalistProfileData {
   vocalist_id: string
@@ -91,11 +90,13 @@ const VocalistProfile = () => {
               <p className="text-slate-800 text-lg font-medium">ID: {profileData?.vocalist_id}</p>
               <div className="flex items-center justify-center sm:justify-start space-x-2 mt-3">
                 <MapPin className="w-5 h-5 text-slate-800" />
-                <p className="text-slate-800 text-base font-medium">{profileData?.city}, {profileData?.country}</p>
+                <p className="text-slate-800 text-base font-medium">
+                  {profileData?.city}, {profileData?.country}
+                </p>
               </div>
             </div>
           </div>
-          
+
           {/* Profile Details */}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 text-base">
             <div className="flex items-center space-x-3 bg-emerald-50 p-4 rounded-lg">
@@ -129,7 +130,9 @@ const VocalistProfile = () => {
             )}
             <div className="flex items-center space-x-3 bg-emerald-50 p-4 rounded-lg">
               <Calendar className="w-5 h-5 text-emerald-900" />
-              <span className="text-slate-800 font-medium">Joined: {new Date(profileData?.created_at || "").toLocaleDateString()}</span>
+              <span className="text-slate-800 font-medium">
+                Joined: {new Date(profileData?.created_at || "").toLocaleDateString()}
+              </span>
             </div>
           </div>
 

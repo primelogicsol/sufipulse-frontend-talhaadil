@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
-import { 
-  Mic, 
-  User, 
-  Mail, 
-  MapPin, 
-  Upload, 
-  Music, 
+import {
+  Mic,
+  User,
+  Mail,
+  MapPin,
+  Upload,
+  Music,
   Heart,
   CheckCircle,
   ArrowRight,
@@ -42,12 +42,12 @@ const SubmitSampleClip = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
-    
+
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-    
+
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -56,7 +56,7 @@ const SubmitSampleClip = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     setFormData(prev => ({ ...prev, audioFile: file }));
-    
+
     if (errors.audioFile) {
       setErrors(prev => ({ ...prev, audioFile: '' }));
     }
@@ -81,10 +81,11 @@ const SubmitSampleClip = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       toast.error("Please fix the errors below");
       return;
@@ -97,7 +98,7 @@ const SubmitSampleClip = () => {
         vocal_range: formData.vocalRange,
         languages: formData.languages.split(",").map(lang => lang.trim()),
         sample_title: formData.sampleTitle,
-        audio_sample_url: formData.audioFile ? URL.createObjectURL(formData.audioFile) : "", 
+        audio_sample_url: formData.audioFile ? URL.createObjectURL(formData.audioFile) : "",
         sample_description: formData.sampleDescription,
         experience_background: formData.experience,
         portfolio: formData.portfolio,
@@ -105,6 +106,7 @@ const SubmitSampleClip = () => {
       };
 
       const response = await vocalistSubmitKalam(payload);
+
 
       console.log("✅ API Response:", response.data);
       toast.success("Your vocal sample has been submitted successfully! 🎶");
@@ -140,7 +142,7 @@ const SubmitSampleClip = () => {
 
   const vocalRanges = [
     'Soprano',
-    'Mezzo-Soprano', 
+    'Mezzo-Soprano',
     'Alto',
     'Tenor',
     'Baritone',
@@ -173,16 +175,16 @@ const SubmitSampleClip = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="py-20 bg-emerald-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6">
-            Submit Your Sample Clip to Access Your Vocalist Dashboard
-          </h1>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Share your voice to unlock your personalized dashboard and join our community of sacred vocalists.
-          </p>
-        </div>
+      <section className="fixed bottom-5 right-5 w-80 bg-white border border-slate-200 shadow-lg rounded-lg p-4 text-center">
+        <h2 className="text-lg font-semibold text-slate-800 mb-2">
+          Submit Your Sample Clip
+        </h2>
+        <p className="text-sm text-slate-600 mb-3">
+          Share your voice to unlock your personalized dashboard and join our community of sacred vocalists.
+        </p>
+        
       </section>
+
 
       {/* Sample Guidelines */}
       <section className="py-20 bg-white">
@@ -195,7 +197,7 @@ const SubmitSampleClip = () => {
               Follow these guidelines to ensure your vocal sample receives the best evaluation
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {sampleGuidelines.map((guideline, index) => {
               const Icon = guideline.icon;
@@ -390,8 +392,8 @@ const SubmitSampleClip = () => {
               <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6">
                 <h4 className="font-medium text-emerald-800 mb-2">Sacred Commitment</h4>
                 <p className="text-sm text-emerald-700 mb-4">
-                  By submitting this vocal sample, I express interest in lending my voice for the sacred purpose 
-                  of amplifying divine kalam with sincerity and spiritual intention. I understand this is a 
+                  By submitting this vocal sample, I express interest in lending my voice for the sacred purpose
+                  of amplifying divine kalam with sincerity and spiritual intention. I understand this is a
                   non-commercial spiritual service where I will receive full credit for any vocal contributions.
                 </p>
                 <label className="flex items-start space-x-3 cursor-pointer">
