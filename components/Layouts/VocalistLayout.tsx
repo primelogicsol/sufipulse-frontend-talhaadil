@@ -103,20 +103,20 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
       {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-60 z-30 lg:hidden"
+          className="fixed inset-0 bg-transparent bg-opacity-60 z-30 lg:hidden blur-2xl"
           onClick={() => setSidebarOpen(false)}
           aria-hidden="true"
         />
       )}
 
       {/* Main Content */}
-      <div className="lg:ml-64">
+      <div >
         <header className="bg-white shadow-sm border-b border-slate-200 px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3 sm:space-x-4">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="lg:hidden p-2 bg-white rounded-lg shadow-sm border border-slate-200"
+                className="lg:hidden p-2 rounded-lg shadow-sm"
                 aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
               >
                 {sidebarOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6 text-slate-600" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6 text-slate-600" />}

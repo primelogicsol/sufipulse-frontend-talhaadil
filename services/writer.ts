@@ -7,3 +7,12 @@ export const getKalamsByWriter = () => {
     },
   });
 };
+
+
+export const getKalamDetails = (kalamId: string) => {
+  return api.get(`/kalams/${kalamId}`, {
+    headers: {
+      requiresAuth: true,
+    },
+  });
+}

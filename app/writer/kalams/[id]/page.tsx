@@ -5,6 +5,7 @@ import type React from "react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import { BookOpen, User, PenTool, Menu, X, ArrowLeft, CheckCircle, XCircle, AlertCircle, Clock } from "lucide-react"
+import { getKalamDetails } from "@/services/writer"
 
 interface Kalam {
   id: number
@@ -51,11 +52,7 @@ export default function KalamDetail() {
     writer_comments: "",
   })
 
-  const navigation = [
-    { name: "Dashboard", href: "/", icon: User, current: false },
-    { name: "Submit Kalam", href: "/submit", icon: PenTool, current: false },
-    { name: "My Kalams", href: "/kalams", icon: BookOpen, current: false },
-  ]
+
 
   useEffect(() => {
     if (params.id) {
@@ -65,12 +62,10 @@ export default function KalamDetail() {
 
   const fetchKalam = async () => {
     try {
-      const response = await fetch(`https://sufi-sigma.vercel.app/kalams/${params.id}`)
-      if (response.ok) {
-        const text = await response.text()
-        // Parse the response as JSON since it's mentioned in the requirements
-        const data = JSON.parse(text)
-        setKalamData(data)
+      const response = await getKalamDetails(String(params.id))
+      if (response.status === 200) {
+        // Axios automatically parses JSON responses
+        setKalamData(response.data)
       }
     } catch (error) {
       console.error("Failed to fetch kalam:", error)
@@ -164,7 +159,7 @@ export default function KalamDetail() {
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <h3 className="text-lg font-medium text-slate-900 mb-2">Kalam not found</h3>
-          <Link href="/kalams" className="text-emerald-900 hover:text-emerald-800">
+          <Link href="/writer/kalams" className="text-emerald-900 hover:text-emerald-800">
             Back to My Kalams
           </Link>
         </div>
@@ -177,62 +172,9 @@ export default function KalamDetail() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Mobile sidebar */}
-      <div className={`fixed inset-0 z-50 lg:hidden ${sidebarOpen ? "block" : "hidden"}`}>
-        <div className="fixed inset-0 bg-slate-900/50" onClick={() => setSidebarOpen(false)} />
-        <div className="fixed inset-y-0 left-0 w-64 bg-slate-900 p-6">
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-xl font-bold text-white">SufiPulse</h1>
-            <button onClick={() => setSidebarOpen(false)} className="text-slate-400 hover:text-white">
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-          <nav className="space-y-2">
-            {navigation.map((item) => {
-              const Icon = item.icon
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                    item.current ? "bg-emerald-900 text-white" : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                  }`}
-                >
-                  <Icon className="w-5 h-5" />
-                  <span>{item.name}</span>
-                </Link>
-              )
-            })}
-          </nav>
-        </div>
-      </div>
-
-      {/* Desktop sidebar */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:w-64 lg:bg-slate-900 lg:p-6 lg:block">
-        <div className="mb-8">
-          <h1 className="text-xl font-bold text-white">SufiPulse Writer</h1>
-          <p className="text-slate-400 text-sm mt-1">Dashboard</p>
-        </div>
-        <nav className="space-y-2">
-          {navigation.map((item) => {
-            const Icon = item.icon
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                  item.current ? "bg-emerald-900 text-white" : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                }`}
-              >
-                <Icon className="w-5 h-5" />
-                <span>{item.name}</span>
-              </Link>
-            )
-          })}
-        </nav>
-      </div>
-
+     
       {/* Main content */}
-      <div className="lg:ml-64">
+      <div >
         {/* Top bar */}
         <div className="bg-white border-b border-slate-200 px-4 py-4 lg:px-8">
           <div className="flex items-center justify-between">
@@ -240,14 +182,14 @@ export default function KalamDetail() {
               <Menu className="w-6 h-6" />
             </button>
             <div className="flex items-center space-x-4">
-              <Link href="/kalams" className="text-slate-600 hover:text-slate-900">
+              <Link href="/writer/kalams" className="text-slate-600 hover:text-slate-900">
                 <ArrowLeft className="w-5 h-5" />
               </Link>
               <h2 className="text-xl font-semibold text-slate-900">Kalam Details</h2>
             </div>
             {!["final_approved", "complete_approved"].includes(submission.status) && (
               <Link
-                href={`/kalams/${kalam.id}/edit`}
+                href={`/writer/kalams/${kalam.id}/edit`}
                 className="px-4 py-2 bg-emerald-900 text-white rounded-lg hover:bg-emerald-800 transition-colors"
               >
                 Edit
