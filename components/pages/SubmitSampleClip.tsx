@@ -82,56 +82,54 @@ const SubmitSampleClip = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  
-  if (!validateForm()) {
-    toast.error("Please fix the errors below");
-    return;
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      toast.error("Please fix the errors below");
+      return;
+    }
 
-  setLoading(true);
+    setLoading(true);
 
-  try {
-    // Convert formData into API payload
-    const payload = {
-      vocal_range: formData.vocalRange,
-      languages: formData.languages.split(",").map(lang => lang.trim()), // convert to array
-      sample_title: formData.sampleTitle,
-      audio_sample_url: formData.audioFile ? URL.createObjectURL(formData.audioFile) : "", 
-      sample_description: formData.sampleDescription,
-      experience_background: formData.experience,
-      portfolio: formData.portfolio,
-      availability: formData.availability,
-    };
+    try {
+      const payload = {
+        vocal_range: formData.vocalRange,
+        languages: formData.languages.split(",").map(lang => lang.trim()),
+        sample_title: formData.sampleTitle,
+        audio_sample_url: formData.audioFile ? URL.createObjectURL(formData.audioFile) : "", 
+        sample_description: formData.sampleDescription,
+        experience_background: formData.experience,
+        portfolio: formData.portfolio,
+        availability: formData.availability,
+      };
 
-    const response = await vocalistSubmitKalam(payload);
+      const response = await vocalistSubmitKalam(payload);
 
-    console.log("✅ API Response:", response.data);
-    toast.success("Your vocal sample has been submitted successfully! 🎶");
+      console.log("✅ API Response:", response.data);
+      toast.success("Your vocal sample has been submitted successfully! 🎶");
 
-    // Reset form
-    setFormData({
-      fullName: "",
-      email: "",
-      location: "",
-      vocalRange: "",
-      languages: "",
-      experience: "",
-      sampleTitle: "",
-      sampleDescription: "",
-      audioFile: null,
-      portfolio: "",
-      availability: "",
-      acceptTerms: false,
-    });
-  } catch (error: any) {
-    console.error("❌ Submission Error:", error);
-    toast.error(error.response?.data?.message || "Submission failed. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+      setFormData({
+        fullName: "",
+        email: "",
+        location: "",
+        vocalRange: "",
+        languages: "",
+        experience: "",
+        sampleTitle: "",
+        sampleDescription: "",
+        audioFile: null,
+        portfolio: "",
+        availability: "",
+        acceptTerms: false,
+      });
+    } catch (error: any) {
+      console.error("❌ Submission Error:", error);
+      toast.error(error.response?.data?.message || "Submission failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const stats = [
     { number: "43", label: "Active Vocalists", icon: Mic },
@@ -175,64 +173,14 @@ const handleSubmit = async (e: React.FormEvent) => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-          <div className="text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="w-20 h-20 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6"
-            >
-              <Upload className="w-10 h-10 text-white" />
-            </motion.div>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-4xl lg:text-6xl font-bold leading-tight mb-6"
-            >
-              Submit Your
-              <span className="block text-emerald-400">Sample Clip</span>
-            </motion.h1>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-4xl mx-auto"
-            >
-              <p className="text-xl text-slate-300 leading-relaxed mb-6">
-                Share your vocal talent with our team. Submit a sample clip to be considered 
-                for our global pool of sacred vocalists and spiritual collaborators.
-              </p>
-              <blockquote className="text-2xl font-light italic text-emerald-300 mb-4">
-                "Every voice has the potential to touch hearts across continents"
-              </blockquote>
-              <p className="text-slate-300">
-                Professional evaluation and feedback provided for all submissions.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, index) => {
-              const Icon = stat.icon;
-              return (
-                <div key={index} className="text-center">
-                  <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Icon className="w-8 h-8 text-emerald-600" />
-                  </div>
-                  <div className="text-3xl font-bold text-slate-800 mb-2">{stat.number}</div>
-                  <div className="text-slate-600 font-medium">{stat.label}</div>
-                </div>
-              );
-            })}
-          </div>
+      <section className="py-20 bg-emerald-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6">
+            Submit Your Sample Clip to Access Your Vocalist Dashboard
+          </h1>
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            Share your voice to unlock your personalized dashboard and join our community of sacred vocalists.
+          </p>
         </div>
       </section>
 
@@ -482,42 +430,6 @@ const handleSubmit = async (e: React.FormEvent) => {
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-20 bg-slate-800 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-            Share Your Sacred Voice
-          </h2>
-          <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-            Your vocal sample is the first step toward joining our global community of sacred vocalists. 
-            We evaluate every submission with care and provide professional feedback.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/vocalists"
-              className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
-            >
-              <Users className="w-5 h-5" />
-              <span>Meet Our Vocalists</span>
-            </Link>
-            <Link
-              href="/gallery"
-              className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
-            >
-              <Music className="w-5 h-5" />
-              <span>Listen to Collaborations</span>
-            </Link>
-            <Link
-              href="/join-vocalist-pool"
-              className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
-            >
-              <Star className="w-5 h-5" />
-              <span>Full Application</span>
-            </Link>
           </div>
         </div>
       </section>
