@@ -77,14 +77,14 @@ const VocalistProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         {/* Header Section */}
         <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 mb-8 transform transition-all duration-300 hover:shadow-2xl">
           <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-6 sm:space-y-0 sm:space-x-6">
             <div className="w-24 h-24 bg-emerald-900 rounded-full flex items-center justify-center relative overflow-hidden">
               <User className="w-12 h-12 text-white" />
-              <div className="absolute inset-0 bg-emerald-900/20 animate-pulse"></div>
+              <div className="absolute inset-0 bg-emerald-900/20"></div>
             </div>
             <div className="text-center sm:text-left">
               <h1 className="text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Vocalist Profile</h1>

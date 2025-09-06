@@ -8,6 +8,7 @@ import Button from '../ui/Button'
 import FormCard from '../ui/FormCard'
 import { useRouter } from 'next/navigation'
 import { verifyOtp,resendOtp } from '@/services/auth'
+import Cookies from 'js-cookie'
 interface OTPVerificationProps {
   email: string
   onVerified: () => void
@@ -93,12 +94,35 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
     setLoading(true)
 
     try {
-      await verifyOtp(email, code)
-      toast.success('Email verified successfully!')
-      console.log("Verified"
+      const response = await verifyOtp(email, code)
+       if (response.data) {
+        const data = response.data;
+        toast.success("Welcome back to SufiPulse!");
+        console.log("User data:", response.data);
+
+        Cookies.set("access_token", data.access_token, {
+          path: "/",
+          sameSite: "Strict",
+          secure: process.env.NODE_ENV === "production",
+        });
+        Cookies.set("refresh_token", data.refresh_token, {
+          path: "/",
+          sameSite: "Strict",
+          secure: process.env.NODE_ENV === "production",
+        });
+        Cookies.set("user_role", data.user.role);
+        Cookies.set("user_id", data.user.id.toString());
+        Cookies.set("is_registered", data.user.is_registered.toString());
+        Cookies.set("city", data.user.city);
+        Cookies.set("country", data.user.country);
+        Cookies.set("name", data.user.name);
+        Cookies.set("email", data.user.email);
+
+        router.push("/");
+      }
+     
       
-      )
-      router.push("/")
+      
       onVerified()
       
     } catch (error: any) {

@@ -7,7 +7,10 @@ import {
   createRemoteRecordingRequest,
   getStudioVisitRequestsByVocalist,
   getRemoteRecordingRequestsByVocalist,
+  checkRequestExists
 } from "@/services/requests";
+import Cookies from "js-cookie";
+// Import the checkRequestExists API
 import StudioVisit from "./StudioVisit";
 import RemoteRecording from "./RemoteRecording";
 
@@ -40,7 +43,8 @@ const KalamApproval = () => {
   const [currentView, setCurrentView] = useState<"kalams" | "studio-requests" | "remote-requests">("kalams");
   const [modalOpen, setModalOpen] = useState<"studio" | "remote" | null>(null);
   const [modalKalamId, setModalKalamId] = useState<number | null>(null);
-
+  const [requestExistsMap, setRequestExistsMap] = useState<{ [key: number]: boolean }>({}); // Track request existence per kalam
+  const userId = Cookies.get("user_id");
   useEffect(() => {
     fetchKalams();
   }, []);
@@ -50,7 +54,17 @@ const KalamApproval = () => {
       setLoading(true);
       const response = await getKalamsByVocalist();
       console.log("✅ Kalams API Response:", response.data);
-      setKalams(response.data.kalams || []);
+      const kalamsData = response.data.kalams || [];
+      setKalams(kalamsData);
+
+      // Check request existence for each kalam
+      const requestStatusMap: { [key: number]: boolean } = {};
+      for (const kalam of kalamsData) {
+        const requestResponse = await checkRequestExists(userId ?? "", kalam.id.toString()); 
+        // Replace "1" with actual vocalist_id
+        requestStatusMap[kalam.id] = requestResponse.data.is_booked; 
+      }
+      setRequestExistsMap(requestStatusMap);
     } catch (error: any) {
       console.error("❌ Kalams API Error:", error);
     } finally {
@@ -66,7 +80,15 @@ const KalamApproval = () => {
       console.log("✅ Approval API Response:", response.data);
 
       if (action === "approved") {
-        setShowRecordingOptions(kalamId);
+        // Check if a request exists for this kalam
+        const requestResponse = await checkRequestExists("1", kalamId.toString()); // Replace "1" with actual vocalist_id
+        setRequestExistsMap((prev) => ({
+          ...prev,
+          [kalamId]: requestResponse.data.exists,
+        }));
+        if (!requestResponse.data.exists) {
+          setShowRecordingOptions(kalamId); // Show recording options only if no request exists
+        }
       }
 
       await fetchKalams();
@@ -86,8 +108,11 @@ const KalamApproval = () => {
   const handleStudioFormSubmit = async (formData: any) => {
     if (!modalKalamId) return;
     try {
+      if (!userId) {
+        throw new Error("User ID is missing");
+      }
       const requestData = {
-        vocalist_id: 1, // Replace with actual vocalist ID from auth context or API
+        vocalist_id: Number(userId), // Ensure vocalist_id is a number
         kalam_id: modalKalamId,
         name: formData.fullName,
         email: formData.email,
@@ -96,15 +121,16 @@ const KalamApproval = () => {
         preferred_date: formData.visitDate,
         preferred_time: formData.preferredTime,
         purpose: formData.visitPurpose,
-        number_of_visitors: formData.numberOfVisitors,
+        number_of_visitors: Number(formData.numberOfVisitors),
         additional_details: formData.additionalDetails,
         special_requests: formData.specialRequests,
       };
-
+      
       const response = await createStudioVisitRequest(requestData);
       console.log("✅ Studio Request API Response:", response.data);
       setModalOpen(null);
       setCurrentView("studio-requests");
+      setRequestExistsMap((prev) => ({ ...prev, [modalKalamId]: true })); // Update request status
       await fetchStudioRequests();
     } catch (error: any) {
       console.error("❌ Studio Request API Error:", error);
@@ -115,7 +141,7 @@ const KalamApproval = () => {
     if (!modalKalamId) return;
     try {
       const requestData = {
-        vocalist_id: 1, // Replace with actual vocalist ID from auth context or API
+        vocalist_id: Number(userId), // Replace with actual vocalist ID
         kalam_id: modalKalamId,
         name: formData.fullName,
         email: formData.email,
@@ -137,6 +163,7 @@ const KalamApproval = () => {
       console.log("✅ Remote Request API Response:", response.data);
       setModalOpen(null);
       setCurrentView("remote-requests");
+      setRequestExistsMap((prev) => ({ ...prev, [modalKalamId]: true })); // Update request status
       await fetchRemoteRequests();
     } catch (error: any) {
       console.error("❌ Remote Request API Error:", error);
@@ -147,7 +174,7 @@ const KalamApproval = () => {
     try {
       const response = await getStudioVisitRequestsByVocalist();
       console.log("✅ Studio Requests API Response:", response.data);
-      setStudioRequests(response.data.requests || []);
+      setStudioRequests(response.data || []);
     } catch (error: any) {
       console.error("❌ Studio Requests API Error:", error);
     }
@@ -157,7 +184,7 @@ const KalamApproval = () => {
     try {
       const response = await getRemoteRecordingRequestsByVocalist();
       console.log("✅ Remote Requests API Response:", response.data);
-      setRemoteRequests(response.data.requests || []);
+      setRemoteRequests(response.data || []);
     } catch (error: any) {
       console.error("❌ Remote Requests API Error:", error);
     }
@@ -236,7 +263,7 @@ const KalamApproval = () => {
             </div>
           )}
 
-          {showRecordingOptions === kalam.id && (
+          {(kalam.vocalist_approval_status === "approved" && !requestExistsMap[kalam.id]) || showRecordingOptions === kalam.id ? (
             <div className="mt-4 p-4 bg-emerald-50 rounded-lg border border-emerald-200">
               <h4 className="font-medium text-emerald-800 mb-3">Choose Recording Option:</h4>
               <div className="flex space-x-4">
@@ -245,18 +272,18 @@ const KalamApproval = () => {
                   className="flex items-center space-x-2 px-6 py-3 bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition-colors"
                 >
                   <Building2 className="w-4 h-4" />
-                  <span>Studio Recording</span>
+                  <span>Studio Visit Request</span>
                 </button>
                 <button
                   onClick={() => handleRecordingRequest("remote", kalam.id)}
                   className="flex items-center space-x-2 px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
                 >
                   <Wifi className="w-4 h-4" />
-                  <span>Remote Recording</span>
+                  <span>Remote Recording Request</span>
                 </button>
               </div>
             </div>
-          )}
+          ) : null}
         </div>
       ))}
     </div>

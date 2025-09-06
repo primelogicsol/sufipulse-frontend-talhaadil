@@ -88,18 +88,18 @@ const StudioVisit: React.FC<StudioVisitProps> = ({ onSubmit }) => {
       }
       
       // Reset form
-      setFormData({
-        fullName: '',
-        email: '',
-        organization: '',
-        visitDate: '',
-        visitPurpose: '',
-        numberOfVisitors: '',
-        additionalDetails: '',
-        contactNumber: '',
-        preferredTime: '',
-        specialRequests: ''
-      });
+      // setFormData({
+      //   fullName: '',
+      //   email: '',
+      //   organization: '',
+      //   visitDate: '',
+      //   visitPurpose: '',
+      //   numberOfVisitors: '',
+      //   additionalDetails: '',
+      //   contactNumber: '',
+      //   preferredTime: '',
+      //   specialRequests: ''
+      // });
     } catch (error) {
       toast.error('Submission failed. Please try again.');
     } finally {
