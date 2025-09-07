@@ -5,7 +5,7 @@ import { PenTool, BookOpen, Menu, X, UserStar, User2 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Cookies from 'js-cookie';
-
+import { useAuth } from '@/context/AuthContext';
 
 interface WriterDashboardLayoutProps {
   children: React.ReactNode;
@@ -14,9 +14,10 @@ interface WriterDashboardLayoutProps {
 const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
-  const [name,setName]=useState('')
-
-  useEffect(()=>{
+  const [name, setName] = useState('')
+  const auth = useAuth();
+  const logout = auth?.logout ?? (() => { });
+  useEffect(() => {
     const profile = Cookies.get("name");
     setName(profile ?? '');
   })
@@ -30,9 +31,8 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
     <div className="min-h-screen bg-slate-50">
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-40 w-3/4 sm:w-64 max-w-xs bg-slate-900 transform transition-transform duration-300 ease-in-out ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:translate-x-0 lg:w-64 lg:max-w-none`}
+        className={`fixed inset-y-0 left-0 z-40 w-3/4 sm:w-64 max-w-xs bg-slate-900 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          } lg:translate-x-0 lg:w-64 lg:max-w-none`}
         aria-hidden={!sidebarOpen}
       >
         <div className="flex flex-col h-full">
@@ -56,11 +56,10 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
                   key={item.name}
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-colors text-sm sm:text-base ${
-                    item.current
+                  className={`flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-colors text-sm sm:text-base ${item.current
                       ? 'bg-emerald-600 text-white'
                       : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-                  }`}
+                    }`}
                 >
                   <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>{item.name}</span>
@@ -70,7 +69,7 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
           </nav>
 
           <div className="p-4 sm:p-6 border-t border-slate-800">
-            <button className="w-full flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition-colors text-sm sm:text-base">
+            <button onClick={logout} className="w-full flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition-colors text-sm sm:text-base">
               <X className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Logout</span>
             </button>

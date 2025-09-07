@@ -473,6 +473,7 @@ const Register = () => {
                         setLoading(false);
                       }
                     }}
+                    text="signup_with"
                   />
                 )}
 

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { checkVocalistRegistration } from '@/services/vocalist';
 import SubmitSampleClip from '../pages/SubmitSampleClip';
+import { useAuth } from '@/context/AuthContext';
 import Cookies from 'js-cookie';
 interface VocalistLayoutProps {
   children: React.ReactNode;
@@ -15,6 +16,8 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isRegistered, setIsRegistered] = useState<boolean | null>(null);
   const pathname = usePathname();
+  const auth = useAuth();
+  const logout = auth?.logout ?? (() => {});
 
   const [name,setName]=useState('')
 
@@ -100,7 +103,7 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
           </nav>
 
           <div className="p-4 sm:p-6 border-t border-slate-800">
-            <button className="w-full flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition-colors text-sm sm:text-base">
+            <button onClick={logout} className="w-full flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition-colors text-sm sm:text-base">
               <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Logout</span>
             </button>
