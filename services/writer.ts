@@ -16,3 +16,15 @@ export const getKalamDetails = (kalamId: string) => {
     },
   });
 }
+
+
+
+
+
+export const getWriterResponse = (kalamId: string, subId: string) => {
+  return api.get(`/kalams/${kalamId}/submissions/${subId}/writer-response`, {
+    headers: {
+      requiresAuth: true,
+    },
+  });
+}

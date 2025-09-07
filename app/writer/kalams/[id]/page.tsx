@@ -5,7 +5,7 @@ import type React from "react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import { BookOpen, User, PenTool, Menu, X, ArrowLeft, CheckCircle, XCircle, AlertCircle, Clock } from "lucide-react"
-import { getKalamDetails } from "@/services/writer"
+import { getKalamDetails, getWriterResponse } from "@/services/writer"
 
 interface Kalam {
   id: number
@@ -80,16 +80,8 @@ export default function KalamDetail() {
 
     setResponseLoading(true)
     try {
-      const response = await fetch(
-        `https://sufi-sigma.vercel.app/kalams/${kalamData.kalam.id}/submissions/${kalamData.submission.id}/writer-response`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(writerResponse),
-        },
-      )
-
-      if (response.ok) {
+      const response = await getWriterResponse(kalamData.kalam.id.toString(), kalamData.submission.id.toString())
+      if (response.status === 200) {
         alert("Response submitted successfully!")
         fetchKalam() // Refresh data
         setWriterResponse({ user_approval_status: "", writer_comments: "" })
