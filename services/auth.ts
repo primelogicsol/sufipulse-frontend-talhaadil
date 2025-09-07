@@ -53,3 +53,10 @@ export const resetPassword = (email: string, otp: string, new_password: string) 
 };
 
 
+
+
+export const googleAuth = () => {
+  return api.post("/auth/google-auth"
+ 
+  );
+}

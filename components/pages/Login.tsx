@@ -11,6 +11,7 @@ import FormCard from "../ui/FormCard";
 import { login, forgotPassword, resetPassword } from "@/services/auth";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -41,6 +42,7 @@ const Login = () => {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
+
 
   const handleForgotPasswordInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -210,16 +212,7 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    setLoading(true);
-    try {
-      window.location.href = "/api/auth/google";
-    } catch (error) {
-      toast.error("Google login failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+
 
   const stats = [
     { number: "89", label: "Active Writers", icon: Users },
@@ -375,41 +368,6 @@ const Login = () => {
                     </button>
                   </div>
 
-                  <div className="pt-2">
-                    <button
-                      type="button"
-                      onClick={handleGoogleLogin}
-                      disabled={loading}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 font-medium text-sm hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M22.56 12.25C22.56 11.47 22.49 10.72 22.36 9.99H12V14.26H17.92C17.66 15.63 16.91 16.83 15.77 17.66V20.56H19.32C21.66 18.39 22.56 15.59 22.56 12.25Z"
-                          fill="#4285F4"
-                        />
-                        <path
-                          d="M12 23C15.45 23 18.32 21.86 19.32 20.56L15.77 17.66C14.77 18.34 13.52 18.76 12 18.76C8.67 18.76 5.91 16.59 4.92 13.57H1.24V16.54C2.24 18.83 4.09 20.69 6.55 21.82L12 23Z"
-                          fill="#34A853"
-                        />
-                        <path
-                          d="M4.92 13.57C4.67 12.89 4.53 12.17 4.53 11.43C4.53 10.69 4.67 9.97 4.92 9.29V6.32H1.24C0.45 7.76 0 9.38 0 11.43C0 13.48 0.45 15.1 1.24 16.54L4.92 13.57Z"
-                          fill="#FBBC05"
-                        />
-                        <path
-                          d="M12 4.24C13.66 4.24 15.17 4.83 16.34 5.93L19.55 2.72C17.32 0.69 14.45 0 12 0C6.55 0 2.24 2.17 1.24 6.32L4.92 9.29C5.91 6.27 8.67 4.24 12 4.24Z"
-                          fill="#EA4335"
-                        />
-                      </svg>
-                      Sign in with Google
-                    </button>
-                  </div>
-
                   <Button
                     type="submit"
                     variant="primary"
@@ -419,6 +377,49 @@ const Login = () => {
                   >
                     Sign In to SufiPulse
                   </Button>
+
+
+                  <GoogleLogin
+                    onSuccess={async (credentialResponse) => {
+                      setLoading(true);
+                      try {
+                        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/google-auth`, {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            token: credentialResponse.credential, // Correct token
+                          }),
+                        });
+
+                        const data = await res.json();
+                        Cookies.set("access_token", data.access_token, {
+                          path: "/",
+                          sameSite: "Strict",
+                          secure: process.env.NODE_ENV === "production",
+                        });
+                        Cookies.set("refresh_token", data.refresh_token, {
+                          path: "/",
+                          sameSite: "Strict",
+                          secure: process.env.NODE_ENV === "production",
+                        });
+                        Cookies.set("user_role", data.user.role);
+                        Cookies.set("user_id", data.user.id.toString());
+                        Cookies.set("is_registered", data.user.is_registered.toString());
+                        Cookies.set("city", data.user.city);
+                        Cookies.set("country", data.user.country);
+                        Cookies.set("name", data.user.name);
+                        Cookies.set("email", data.user.email);
+
+                        router.push("/");
+                        console.log(data);
+                      } catch (error) {
+                        console.error('Login failed:', error);
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                  />
+
 
                   <div className="text-center pt-4 border-t border-slate-200">
                     <p className="text-slate-600">

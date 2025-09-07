@@ -18,9 +18,9 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
 
   const [name,setName]=useState('')
 
-  useEffect(()=>{
-    const profile=Cookies.get("name")
-    setName(profile)
+  useEffect(() => {
+    const profile = Cookies.get("name");
+    setName(profile ?? '');
   })
 
 

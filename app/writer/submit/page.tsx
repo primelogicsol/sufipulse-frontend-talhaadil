@@ -92,7 +92,7 @@ export default function SubmitKalam() {
         musical_preference: "",
         writer_comments: "",
       });
-    } catch (error: ApiError) {
+    } catch (error: any) {
       console.error("Error submitting kalam:", error.response?.data || error.message);
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);

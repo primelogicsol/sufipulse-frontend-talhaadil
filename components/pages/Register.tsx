@@ -10,8 +10,11 @@ import Button from '../ui/Button'
 import FormCard from '../ui/FormCard'
 import PasswordStrength from '../ui/PasswordStrength'
 import OTPVerification from './OtpVerify'
-import { signin,resendOtp,verifyOtp } from '@/services/auth' // Adjust the import path based on your project structure
+import { signin, resendOtp, verifyOtp } from '@/services/auth' // Adjust the import path based on your project structure
 import { count } from 'console'
+import { GoogleLogin } from '@react-oauth/google'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/navigation'
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -19,11 +22,12 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    userType: 'writer',
+    userType: '',
     acceptTerms: false,
     country: '',
     city: ''
   })
+  const router = useRouter()
 
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -100,7 +104,7 @@ const Register = () => {
         formData.city // Replace with actual city if available
       )
 
-      
+
       setUserEmail(formData.email)
       setShowOTPVerification(true)
       console.log(response.data)
@@ -158,7 +162,7 @@ const Register = () => {
       {/* Animated Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-900 via-slate-800 to-slate-900">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-20" />
-        
+
         {/* Floating Elements */}
         <motion.div
           animate={{
@@ -205,14 +209,14 @@ const Register = () => {
                 Join Our Sacred
                 <span className="block text-emerald-400">Community</span>
               </motion.h1>
-              
+
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
                 className="text-xl text-slate-300 leading-relaxed"
               >
-                Begin your spiritual journey with SufiPulse. Share your divine poetry, 
+                Begin your spiritual journey with SufiPulse. Share your divine poetry,
                 connect with global voices, and experience world-class production.
               </motion.p>
             </div>
@@ -270,7 +274,7 @@ const Register = () => {
                   <label className="block text-sm font-medium text-slate-700 mb-3">
                     I want to join as a:
                   </label>
-                  
+
                   <div className="flex flex-col md:flex-row gap-2">
                     {userTypes.map((type) => {
                       const Icon = type.icon
@@ -325,20 +329,20 @@ const Register = () => {
                   error={errors.country}
                   required
                 />
-                  
-                  <Input
-              label="City"
-              type="text"
-              name="city"
-              value={formData.city}
-              onChange={handleInputChange}
-              placeholder="Enter your city"
-              icon={<Globe className="w-5 h-5" />}
-              error={errors.city}
-              required
-            />
 
-                
+                <Input
+                  label="City"
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleInputChange}
+                  placeholder="Enter your city"
+                  icon={<Globe className="w-5 h-5" />}
+                  error={errors.city}
+                  required
+                />
+
+
 
 
 
@@ -354,7 +358,7 @@ const Register = () => {
                   required
                 />
 
-                
+
                 <div>
                   <Input
                     label="Password"
@@ -417,6 +421,7 @@ const Register = () => {
                 </div>
 
                 <Button
+                  disabled={formData.userType === ''}
                   type="submit"
                   variant="primary"
                   size="lg"
@@ -425,6 +430,51 @@ const Register = () => {
                 >
                   Create Account
                 </Button>
+                {formData.userType !== '' && (
+                  <GoogleLogin
+                    onSuccess={async (credentialResponse) => {
+                      setLoading(true);
+                      try {
+                        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/google-auth`, {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            token: credentialResponse.credential,
+                            role: formData.userType
+                          }),
+                        });
+                        const data = await res.json();
+                        console.log(data);
+                        Cookies.set("access_token", data.access_token, {
+                          path: "/",
+                          sameSite: "Strict",
+                          secure: process.env.NODE_ENV === "production",
+                        });
+                        Cookies.set("refresh_token", data.refresh_token, {
+                          path: "/",
+                          sameSite: "Strict",
+                          secure: process.env.NODE_ENV === "production",
+                        });
+                        Cookies.set("user_role", formData.userType);
+                        Cookies.set("user_id", data.user.id.toString());
+                        Cookies.set("is_registered", data.user.is_registered.toString());
+                        Cookies.set("city", data.user.city);
+                        Cookies.set("country", data.user.country);
+                        Cookies.set("name", data.user.name);
+                        Cookies.set("email", data.user.email);
+
+                        router.push("/");
+
+                        console.log(data);
+                      } catch (error) {
+                        console.log(error)
+                        console.error('Login failed:', error);
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                  />
+                )}
 
                 <div className="text-center pt-4 border-t border-slate-200">
                   <p className="text-slate-600">

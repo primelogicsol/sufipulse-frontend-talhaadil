@@ -17,8 +17,8 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
   const [name,setName]=useState('')
 
   useEffect(()=>{
-    const profile=Cookies.get("name")
-    setName(profile)
+    const profile = Cookies.get("name");
+    setName(profile ?? '');
   })
 
   const navigation = [
