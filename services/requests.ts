@@ -73,3 +73,12 @@ export const checkRequestExists = (vocalist_id: string, kalam_id: string) => {
     },
   });
 };
+
+export const getAllStudioVisitRequests = () => {
+  return api.get("/requests/studio-visit-requests");
+};
+
+export const getAllRemoteRecordingRequests = () => {
+  return api.get("/requests/remote-recording-requests");
+};
+
