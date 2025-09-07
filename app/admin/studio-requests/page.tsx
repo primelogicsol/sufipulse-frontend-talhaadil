@@ -56,8 +56,7 @@ export default function StudioRequestsPage() {
       request.status.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (request.additional_details && request.additional_details.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (request.special_requests && request.special_requests.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      request.contact_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.number_of_visitors.toLowerCase().includes(searchQuery.toLowerCase())
+      request.contact_number.toLowerCase().includes(searchQuery.toLowerCase())
     )
     setFilteredRequests(filtered)
   }, [searchQuery, requests])
@@ -82,11 +81,14 @@ export default function StudioRequestsPage() {
   }
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-slate-800 text-lg animate-pulse">Loading studio requests...</div>
+     return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-emerald-900 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading your studio requests...</p>
+        </div>
       </div>
-    )
+    );
   }
 
   return (
