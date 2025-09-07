@@ -1,55 +1,81 @@
-"use client"
-import { useState, useEffect } from "react"
-import type React from "react"
-
-import Link from "next/link"
-import { useParams, useRouter } from "next/navigation"
-import { BookOpen, User, PenTool, Menu, X, ArrowLeft } from "lucide-react"
-import { get } from "http"
-import { getKalamDetails } from "@/services/writer"
+"use client";
+import { useState, useEffect } from "react";
+import type React from "react";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import { BookOpen, User, PenTool, Menu, X, ArrowLeft } from "lucide-react";
+import { getKalamDetails, updateKalam } from "@/services/writer";
 
 interface Kalam {
-  id: number
-  title: string
-  language: string
-  theme: string
-  kalam_text: string
-  description: string
-  sufi_influence: string
-  musical_preference: string
-  youtube_link: string | null
-  writer_id: number
-  vocalist_id: number | null
-  published_at: string | null
-  created_at: string
-  updated_at: string
+  id: number;
+  title: string;
+  language: string;
+  theme: string;
+  kalam_text: string;
+  description: string;
+  sufi_influence: string;
+  musical_preference: string;
+  youtube_link: string | null;
+  writer_id: number;
+  vocalist_id: number | null;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 interface Submission {
-  id: number
-  kalam_id: number
-  status: string
-  user_approval_status: string
-  admin_comments: string
-  writer_comments: string
-  created_at: string
-  updated_at: string
-  vocalist_approval_status: string
+  id: number;
+  kalam_id: number;
+  status: string;
+  user_approval_status: string;
+  admin_comments: string;
+  writer_comments: string;
+  created_at: string;
+  updated_at: string;
+  vocalist_approval_status: string;
 }
 
 interface KalamData {
-  kalam: Kalam
-  submission: Submission
+  kalam: Kalam;
+  submission: Submission;
+}
+
+interface KalamFormData {
+  title: string;
+  language: string;
+  theme: string;
+  kalam_text: string;
+  description: string;
+  sufi_influence: string;
+  musical_preference: string;
+}
+
+interface KalamResponse {
+  data: {
+    id: string;
+    title: string;
+    // Add other fields as needed
+  };
+}
+
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+      errors?: Record<string, string>;
+    };
+  };
+  message: string;
 }
 
 export default function EditKalam() {
-  const params = useParams()
-  const router = useRouter()
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [kalamData, setKalamData] = useState<KalamData | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
-  const [formData, setFormData] = useState({
+  const params = useParams();
+  const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [kalamData, setKalamData] = useState<KalamData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [formData, setFormData] = useState<KalamFormData>({
     title: "",
     language: "",
     theme: "",
@@ -57,26 +83,24 @@ export default function EditKalam() {
     description: "",
     sufi_influence: "",
     musical_preference: "",
-  })
-  const [errors, setErrors] = useState<Record<string, string>>({})
-
- 
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (params.id) {
-      fetchKalam()
+      fetchKalam();
     }
-  }, [params.id])
+  }, [params.id]);
 
   const fetchKalam = async () => {
     try {
-      const response = await getKalamDetails(String(params.id))
+      const response = await getKalamDetails(String(params.id));
       if (response.status === 200) {
-        const data = response.data
-        setKalamData(data)
+        const data = response.data;
+        setKalamData(data);
 
         // Populate form with existing data
-        const { kalam } = data
+        const { kalam } = data;
         setFormData({
           title: kalam.title,
           language: kalam.language,
@@ -85,63 +109,64 @@ export default function EditKalam() {
           description: kalam.description || "",
           sufi_influence: kalam.sufi_influence || "",
           musical_preference: kalam.musical_preference || "",
-        })
+        });
       }
     } catch (error) {
-      console.error("Failed to fetch kalam:", error)
+      console.error("Failed to fetch kalam:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }))
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
-  }
+  };
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {}
-    if (!formData.title.trim()) newErrors.title = "Title is required"
-    if (!formData.language) newErrors.language = "Language is required"
-    if (!formData.theme) newErrors.theme = "Theme is required"
-    if (!formData.kalam_text.trim()) newErrors.kalam_text = "Kalam text is required"
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    const newErrors: Record<string, string> = {};
+    if (!formData.title.trim()) newErrors.title = "Title is required";
+    else if (formData.title.length > 100) newErrors.title = "Title must be under 100 characters";
+    if (!formData.language) newErrors.language = "Language is required";
+    if (!formData.theme) newErrors.theme = "Theme is required";
+    if (!formData.kalam_text.trim()) newErrors.kalam_text = "Kalam text is required";
+    else if (formData.kalam_text.length > 5000)
+      newErrors.kalam_text = "Kalam text must be under 5000 characters";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!validateForm() || !kalamData) return
+    e.preventDefault();
+    if (!validateForm() || !kalamData) return;
 
     // Check if editing is allowed
     if (["final_approved", "complete_approved"].includes(kalamData.submission.status)) {
-      alert("This kalam cannot be edited as it has been finalized.")
-      return
+      alert("This kalam cannot be edited as it has been finalized.");
+      return;
     }
 
-    setSaving(true)
+    setSaving(true);
     try {
-      const response = await fetch(`https://sufi-sigma.vercel.app/kalams/${params.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
-        alert("Kalam updated successfully!")
-        router.push(`/kalams/${params.id}`)
-      } else {
-        alert("Failed to update kalam. Please try again.")
+      const response: KalamResponse = await updateKalam(Number(params.id), formData);
+      console.log("✅ Kalam updated successfully:", response.data); // Log full API response
+      alert("Kalam updated successfully!");
+      router.push(`/kalams/${params.id}`);
+    } catch (error: ApiError) {
+      console.error("Error updating kalam:", error.response?.data || error.message);
+      if (error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
       }
-    } catch (error) {
-      alert("Failed to update kalam. Please try again.")
+      alert(`Failed to update kalam: ${error.response?.data?.message || "Please try again."}`);
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
   if (loading) {
     return (
@@ -151,7 +176,7 @@ export default function EditKalam() {
           <p className="text-slate-600">Loading kalam...</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (!kalamData) {
@@ -164,10 +189,9 @@ export default function EditKalam() {
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
-  // Check if editing is allowed
   if (["final_approved", "complete_approved"].includes(kalamData.submission.status)) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
@@ -179,23 +203,36 @@ export default function EditKalam() {
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="min-h-screen bg-slate-50">
+      {/* Sidebar */}
+      {sidebarOpen && (
+        <div className="lg:hidden fixed inset-0 bg-slate-900 bg-opacity-50 z-50">
+          <div className="w-64 bg-white h-full p-4">
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="text-slate-600 hover:text-slate-900"
+              aria-label="Close sidebar"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            {/* Add sidebar content */}
+          </div>
+        </div>
+      )}
 
       {/* Main content */}
-      <div >
+      <div>
         {/* Top bar */}
         <div className="bg-white border-b border-slate-200 px-4 py-4 lg:px-8">
           <div className="flex items-center justify-between">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-slate-600 hover:text-slate-900">
-              <Menu className="w-6 h-6" />
-            </button>
+            
             <div className="flex items-center space-x-4">
               <Link href={`/writer/kalams/${params.id}`} className="text-slate-600 hover:text-slate-900">
-                <ArrowLeft className="w-5 h-5" />
+                <ArrowLeft className="w-5 h-5" aria-label="Back to kalam" />
               </Link>
               <h2 className="text-xl font-semibold text-slate-900">Edit Kalam</h2>
             </div>
@@ -216,18 +253,22 @@ export default function EditKalam() {
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none"
                     placeholder="Enter kalam title"
+                    aria-required="true"
                   />
                   {errors.title && <p className="text-sm text-red-600 mt-1">{errors.title}</p>}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-900 mb-2">Language *</label>
+                    <label className="block text-sm font-medium text-slate-900 mb-2">
+                      Language *
+                    </label>
                     <select
                       name="language"
                       value={formData.language}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none"
+                      aria-required="true"
                     >
                       <option value="">Select Language</option>
                       <option value="Urdu">Urdu</option>
@@ -239,7 +280,9 @@ export default function EditKalam() {
                       <option value="Multilingual">Multilingual</option>
                       <option value="Other">Other</option>
                     </select>
-                    {errors.language && <p className="text-sm text-red-600 mt-1">{errors.language}</p>}
+                    {errors.language && (
+                      <p className="text-sm text-red-600 mt-1">{errors.language}</p>
+                    )}
                   </div>
 
                   <div>
@@ -249,6 +292,7 @@ export default function EditKalam() {
                       value={formData.theme}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none"
+                      aria-required="true"
                     >
                       <option value="">Select Theme</option>
                       <option value="Divine Love">Divine Love</option>
@@ -264,7 +308,9 @@ export default function EditKalam() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2">Kalam Text *</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-2">
+                    Kalam Text *
+                  </label>
                   <textarea
                     name="kalam_text"
                     value={formData.kalam_text}
@@ -272,12 +318,17 @@ export default function EditKalam() {
                     rows={8}
                     className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none"
                     placeholder="Enter your sacred poetry here..."
+                    aria-required="true"
                   />
-                  {errors.kalam_text && <p className="text-sm text-red-600 mt-1">{errors.kalam_text}</p>}
+                  {errors.kalam_text && (
+                    <p className="text-sm text-red-600 mt-1">{errors.kalam_text}</p>
+                  )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2">Description</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-2">
+                    Description
+                  </label>
                   <textarea
                     name="description"
                     value={formData.description}
@@ -290,7 +341,9 @@ export default function EditKalam() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-900 mb-2">Sufi Influence</label>
+                    <label className="block text-sm font-medium text-slate-900 mb-2">
+                      Sufi Influence
+                    </label>
                     <input
                       type="text"
                       name="sufi_influence"

@@ -5,7 +5,8 @@ import type React from "react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import { BookOpen, User, PenTool, Menu, X, ArrowLeft, CheckCircle, XCircle, AlertCircle, Clock } from "lucide-react"
-import { getKalamDetails, getWriterResponse } from "@/services/writer"
+import { getKalamDetails } from "@/services/writer"
+import { getWriterResponse } from "@/services/writer"
 
 interface Kalam {
   id: number
@@ -52,8 +53,6 @@ export default function KalamDetail() {
     writer_comments: "",
   })
 
-
-
   useEffect(() => {
     if (params.id) {
       fetchKalam()
@@ -64,7 +63,6 @@ export default function KalamDetail() {
     try {
       const response = await getKalamDetails(String(params.id))
       if (response.status === 200) {
-        // Axios automatically parses JSON responses
         setKalamData(response.data)
       }
     } catch (error) {
@@ -80,10 +78,17 @@ export default function KalamDetail() {
 
     setResponseLoading(true)
     try {
-      const response = await getWriterResponse(kalamData.kalam.id.toString(), kalamData.submission.id.toString())
+      const response = await getWriterResponse(
+        kalamData.kalam.id,
+        kalamData.submission.id,
+        {
+          user_approval_status: writerResponse.user_approval_status,
+          writer_comments: writerResponse.writer_comments,
+        }
+      )
       if (response.status === 200) {
         alert("Response submitted successfully!")
-        fetchKalam() // Refresh data
+        fetchKalam()
         setWriterResponse({ user_approval_status: "", writer_comments: "" })
       } else {
         alert("Failed to submit response. Please try again.")
@@ -163,16 +168,10 @@ export default function KalamDetail() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Mobile sidebar */}
-     
-      {/* Main content */}
-      <div >
-        {/* Top bar */}
+      <div>
         <div className="bg-white border-b border-slate-200 px-4 py-4 lg:px-8">
           <div className="flex items-center justify-between">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-slate-600 hover:text-slate-900">
-              <Menu className="w-6 h-6" />
-            </button>
+            
             <div className="flex items-center space-x-4">
               <Link href="/writer/kalams" className="text-slate-600 hover:text-slate-900">
                 <ArrowLeft className="w-5 h-5" />
@@ -190,10 +189,8 @@ export default function KalamDetail() {
           </div>
         </div>
 
-        {/* Kalam content */}
         <div className="p-4 lg:p-8">
           <div className="max-w-4xl mx-auto space-y-6">
-            {/* Status card */}
             <div className="bg-white rounded-lg border border-slate-200 p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-slate-900">Status</h3>
@@ -253,7 +250,6 @@ export default function KalamDetail() {
               )}
             </div>
 
-            {/* Kalam details */}
             <div className="bg-white rounded-lg border border-slate-200 p-6">
               <div className="mb-6">
                 <h1 className="text-2xl font-bold text-slate-900 mb-4">{kalam.title}</h1>

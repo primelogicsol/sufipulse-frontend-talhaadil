@@ -1,106 +1,110 @@
-"use client"
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { BookOpen, User, PenTool, Menu, X, Eye, Edit, Clock, CheckCircle, XCircle, AlertCircle } from "lucide-react"
-import { getKalamsByWriter } from "@/services/writer"
+'use client';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { BookOpen, PenTool, Eye, Edit, Clock, CheckCircle, XCircle, AlertCircle, Search } from 'lucide-react';
+import { getKalamsByWriter } from '@/services/writer';
 
 interface Kalam {
-  id: number
-  title: string
-  language: string
-  theme: string
-  kalam_text: string
-  description: string
-  sufi_influence: string
-  musical_preference: string
-  youtube_link: string | null
-  writer_id: number
-  vocalist_id: number | null
-  published_at: string | null
-  created_at: string
-  updated_at: string
+  id: number;
+  title: string;
+  language: string;
+  theme: string;
+  kalam_text: string;
+  description: string;
+  sufi_influence: string;
+  musical_preference: string;
+  youtube_link: string | null;
+  writer_id: number;
+  vocalist_id: number | null;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 interface Submission {
-  id: number
-  kalam_id: number
-  status: string
-  user_approval_status: string
-  admin_comments: string
-  writer_comments: string
-  created_at: string
-  updated_at: string
-  vocalist_approval_status: string
+  id: number;
+  kalam_id: number;
+  status: string;
+  user_approval_status: string;
+  admin_comments: string;
+  writer_comments: string;
+  created_at: string;
+  updated_at: string;
+  vocalist_approval_status: string;
 }
 
 interface KalamWithSubmission {
-  kalam: Kalam
-  submission?: Submission
+  kalam: Kalam;
+  submission?: Submission;
 }
 
 export default function MyKalams() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [kalams, setKalams] = useState<KalamWithSubmission[]>([])
-  const [loading, setLoading] = useState(true)
-
+  const [kalams, setKalams] = useState<KalamWithSubmission[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    fetchKalams()
-  }, [])
+    fetchKalams();
+  }, []);
 
   const fetchKalams = async () => {
     try {
-      const response = await getKalamsByWriter()
+      const response = await getKalamsByWriter();
       if (response.status === 200) {
-        setKalams(response.data.kalams || [])
+        setKalams(response.data.kalams || []);
       }
     } catch (error) {
-      console.error("Failed to fetch kalams:", error)
-      console.log(error)
+      console.error('Failed to fetch kalams:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "pending":
-        return "text-slate-600 bg-slate-100"
-      case "admin_approved":
-        return "text-emerald-900 bg-emerald-50"
-      case "final_approved":
-        return "text-emerald-900 bg-emerald-50"
-      case "complete_approved":
-        return "text-emerald-900 bg-emerald-50"
-      case "admin_rejected":
-        return "text-red-600 bg-red-50"
-      case "changes_requested":
-        return "text-orange-600 bg-orange-50"
+      case 'pending':
+        return 'text-slate-600 bg-slate-100';
+      case 'admin_approved':
+        return 'text-emerald-900 bg-emerald-50';
+      case 'final_approved':
+        return 'text-emerald-900 bg-emerald-50';
+      case 'complete_approved':
+        return 'text-emerald-900 bg-emerald-50';
+      case 'admin_rejected':
+        return 'text-red-600 bg-red-50';
+      case 'changes_requested':
+        return 'text-orange-600 bg-orange-50';
       default:
-        return "text-slate-600 bg-slate-100"
+        return 'text-slate-600 bg-slate-100';
     }
-  }
+  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "pending":
-        return <Clock className="w-4 h-4" />
-      case "admin_approved":
-      case "final_approved":
-      case "complete_approved":
-        return <CheckCircle className="w-4 h-4" />
-      case "admin_rejected":
-        return <XCircle className="w-4 h-4" />
-      case "changes_requested":
-        return <AlertCircle className="w-4 h-4" />
+      case 'pending':
+        return <Clock className="w-4 h-4" />;
+      case 'admin_approved':
+      case 'final_approved':
+      case 'complete_approved':
+        return <CheckCircle className="w-4 h-4" />;
+      case 'admin_rejected':
+        return <XCircle className="w-4 h-4" />;
+      case 'changes_requested':
+        return <AlertCircle className="w-4 h-4" />;
       default:
-        return <Clock className="w-4 h-4" />
+        return <Clock className="w-4 h-4" />;
     }
-  }
+  };
 
   const formatStatus = (status: string) => {
-    return status.replace("_", " ").replace(/\b\w/g, (l) => l.toUpperCase())
-  }
+    return status.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+  };
+
+  const filteredKalams = kalams.filter((item) =>
+    item.kalam.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.kalam.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.kalam.theme.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (loading) {
     return (
@@ -110,22 +114,29 @@ export default function MyKalams() {
           <p className="text-slate-600">Loading your kalams...</p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Mobile sidebar */}
-     
       {/* Main content */}
-      <div >
+      <div>
         {/* Top bar */}
         <div className="bg-white border-b border-slate-200 px-4 py-4 lg:px-8">
           <div className="flex items-center justify-between">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-slate-600 hover:text-slate-900">
-              <Menu className="w-6 h-6" />
-            </button>
-            <h2 className="text-xl font-semibold text-slate-900">My Kalams</h2>
+            <div className="flex-1">
+              <h2 className="text-xl font-semibold text-slate-900">My Kalams</h2>
+              <div className="mt-4 relative max-w-md">
+                <input
+                  type="text"
+                  placeholder="Search kalams..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full px-4 py-2 bg-slate-100 text-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 pl-10"
+                />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+              </div>
+            </div>
             <Link
               href="/writer/submit"
               className="px-4 py-2 bg-emerald-900 text-white rounded-lg hover:bg-emerald-800 transition-colors"
@@ -137,11 +148,15 @@ export default function MyKalams() {
 
         {/* Kalams list */}
         <div className="p-4 lg:p-8">
-          {kalams.length === 0 ? (
+          {filteredKalams.length === 0 ? (
             <div className="text-center py-12">
               <BookOpen className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-slate-900 mb-2">No kalams yet</h3>
-              <p className="text-slate-600 mb-6">Start by submitting your first sacred poetry</p>
+              <h3 className="text-lg font-medium text-slate-900 mb-2">No kalams found</h3>
+              <p className="text-slate-600 mb-6">
+                {searchQuery
+                  ? 'No kalams match your search'
+                  : 'Start by submitting your first sacred poetry'}
+              </p>
               <Link
                 href="/writer/submit"
                 className="inline-flex items-center space-x-2 px-6 py-3 bg-emerald-900 text-white rounded-lg hover:bg-emerald-800 transition-colors"
@@ -152,7 +167,7 @@ export default function MyKalams() {
             </div>
           ) : (
             <div className="space-y-4">
-              {kalams.map((item) => (
+              {filteredKalams.map((item) => (
                 <div key={item.kalam.id} className="bg-white rounded-lg border border-slate-200 p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
@@ -174,7 +189,7 @@ export default function MyKalams() {
                         )}
                       </div>
                       <p className="text-slate-600 text-sm line-clamp-2">
-                        {item.kalam.description || item.kalam.kalam_text.substring(0, 100) + "..."}
+                        {item.kalam.description || item.kalam.kalam_text.substring(0, 100) + '...'}
                       </p>
                     </div>
                   </div>
@@ -191,7 +206,7 @@ export default function MyKalams() {
                         <Eye className="w-4 h-4" />
                         <span>View</span>
                       </Link>
-                      {item.submission && !["final_approved", "complete_approved"].includes(item.submission.status) && (
+                      {item.submission && !['final_approved', 'complete_approved'].includes(item.submission.status) && (
                         <Link
                           href={`/writer/kalams/${item.kalam.id}/edit`}
                           className="inline-flex items-center space-x-1 px-3 py-2 text-emerald-900 hover:text-emerald-800 border border-emerald-200 rounded-lg hover:bg-emerald-50 transition-colors"
@@ -209,5 +224,5 @@ export default function MyKalams() {
         </div>
       </div>
     </div>
-  )
+  );
 }

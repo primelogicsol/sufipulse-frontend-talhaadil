@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Music, CheckCircle, XCircle, Building2, Wifi } from 'lucide-react';
+import { Music, CheckCircle, XCircle, Building2, Wifi, ChevronDown, Search } from 'lucide-react';
 import { approveOrRejectKalam, getKalamsByVocalist } from '@/services/vocalist';
 import { 
   createStudioVisitRequest,
@@ -43,6 +43,9 @@ const KalamApproval = () => {
   const [modalOpen, setModalOpen] = useState<'studio' | 'remote' | null>(null);
   const [modalKalamId, setModalKalamId] = useState<number | null>(null);
   const [requestExistsMap, setRequestExistsMap] = useState<{ [key: number]: boolean }>({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterStatus, setFilterStatus] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
+  const [expandedRequestId, setExpandedRequestId] = useState<number | null>(null);
   const userId = Cookies.get('user_id');
 
   useEffect(() => {
@@ -177,6 +180,23 @@ const KalamApproval = () => {
     }
   };
 
+  const filteredKalams = kalams.filter((kalam) => {
+    const matchesSearch = kalam.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          kalam.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus = filterStatus === 'all' || kalam.vocalist_approval_status === filterStatus;
+    return matchesSearch && matchesStatus;
+  });
+
+  const filteredStudioRequests = studioRequests.filter((request) =>
+    request.id.toString().includes(searchQuery) ||
+    new Date(request.created_at).toLocaleDateString().includes(searchQuery)
+  );
+
+  const filteredRemoteRequests = remoteRequests.filter((request) =>
+    request.id.toString().includes(searchQuery) ||
+    new Date(request.created_at).toLocaleDateString().includes(searchQuery)
+  );
+
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
@@ -190,7 +210,7 @@ const KalamApproval = () => {
 
   const renderKalams = () => (
     <div className="space-y-4 sm:space-y-6">
-      {kalams.map((kalam) => (
+      {filteredKalams.map((kalam) => (
         <div
           key={kalam.id}
           className="bg-white rounded-xl shadow-lg border border-slate-200 p-4 sm:p-6"
@@ -285,6 +305,11 @@ const KalamApproval = () => {
           ) : null}
         </div>
       ))}
+      {filteredKalams.length === 0 && (
+        <div className="text-center py-8 sm:py-12">
+          <p className="text-base sm:text-lg text-slate-500">No kalams match your search or filters</p>
+        </div>
+      )}
     </div>
   );
 
@@ -296,7 +321,10 @@ const KalamApproval = () => {
             key={index}
             className="bg-white rounded-xl shadow-lg border border-slate-200 p-4 sm:p-6"
           >
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+            <div 
+              className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 cursor-pointer"
+              onClick={() => setExpandedRequestId(expandedRequestId === request.id ? null : request.id)}
+            >
               <div className="flex items-center space-x-2 sm:space-x-3">
                 {type === 'studio' ? (
                   <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-slate-600" />
@@ -307,11 +335,14 @@ const KalamApproval = () => {
                   {type === 'studio' ? 'Studio Visit' : 'Remote Recording'} Request
                 </h3>
               </div>
-              <span className="px-2 sm:px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs sm:text-sm font-medium mt-2 sm:mt-0">
-                {request.status || 'Pending'}
-              </span>
+              <div className="flex items-center space-x-2 sm:space-x-4 mt-2 sm:mt-0">
+               
+                <ChevronDown 
+                  className={`w-5 h-5 text-slate-600 transition-transform ${expandedRequestId === request.id ? 'rotate-180' : ''}`} 
+                />
+              </div>
             </div>
-            <div className="text-sm sm:text-base text-slate-600">
+            <div className="text-sm sm:text-base text-slate-600 mb-4">
               <p>
                 <strong>Request ID:</strong> {request.id}
               </p>
@@ -324,6 +355,39 @@ const KalamApproval = () => {
                 </p>
               )}
             </div>
+            {expandedRequestId === request.id && (
+              <div className="mt-4 p-4 bg-slate-50 rounded-lg text-sm sm:text-base text-slate-600 space-y-2">
+                <p><strong>Name:</strong> {request.name}</p>
+                <p><strong>Email:</strong> {request.email}</p>
+                {type === 'studio' ? (
+                  <>
+                    <p><strong>Organization:</strong> {request.organization}</p>
+                    <p><strong>Contact Number:</strong> {request.contact_number}</p>
+                    <p><strong>Preferred Date:</strong> {request.preferred_date}</p>
+                    <p><strong>Preferred Time:</strong> {request.preferred_time}</p>
+                    <p><strong>Purpose:</strong> {request.purpose}</p>
+                    <p><strong>Number of Visitors:</strong> {request.number_of_visitors}</p>
+                    <p><strong>Additional Details:</strong> {request.additional_details}</p>
+                    <p><strong>Special Requests:</strong> {request.special_requests}</p>
+                  </>
+                ) : (
+                  <>
+                    <p><strong>City:</strong> {request.city}</p>
+                    <p><strong>Country:</strong> {request.country}</p>
+                    <p><strong>Time Zone:</strong> {request.time_zone}</p>
+                    <p><strong>Role:</strong> {request.role}</p>
+                    <p><strong>Project Type:</strong> {request.project_type}</p>
+                    <p><strong>Recording Equipment:</strong> {request.recording_equipment}</p>
+                    <p><strong>Internet Speed:</strong> {request.internet_speed}</p>
+                    <p><strong>Preferred Software:</strong> {request.preferred_software}</p>
+                    <p><strong>Availability:</strong> {request.availability}</p>
+                    <p><strong>Recording Experience:</strong> {request.recording_experience}</p>
+                    <p><strong>Technical Setup:</strong> {request.technical_setup}</p>
+                    <p><strong>Additional Details:</strong> {request.additional_details}</p>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         ))
       ) : (
@@ -344,43 +408,59 @@ const KalamApproval = () => {
       <div className="max-w-full sm:max-w-4xl lg:max-w-5xl mx-auto">
         {/* Navigation */}
         <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-4 sm:p-6 mb-4 sm:mb-6">
-          <div className="flex flex-col sm:flex-row sm:space-x-4 gap-2">
-            <button
-              onClick={() => setCurrentView('kalams')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${
-                currentView === 'kalams'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-              }`}
-            >
-              Kalams
-            </button>
-            <button
-              onClick={() => {
-                setCurrentView('studio-requests');
-                fetchStudioRequests();
-              }}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${
-                currentView === 'studio-requests'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-              }`}
-            >
-              Studio Requests
-            </button>
-            <button
-              onClick={() => {
-                setCurrentView('remote-requests');
-                fetchRemoteRequests();
-              }}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${
-                currentView === 'remote-requests'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-              }`}
-            >
-              Remote Requests
-            </button>
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:space-x-4 gap-2">
+              <button
+                onClick={() => setCurrentView('kalams')}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${
+                  currentView === 'kalams'
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                Kalams
+              </button>
+              <button
+                onClick={() => {
+                  setCurrentView('studio-requests');
+                  fetchStudioRequests();
+                }}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${
+                  currentView === 'studio-requests'
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                Studio Requests
+              </button>
+              <button
+                onClick={() => {
+                  setCurrentView('remote-requests');
+                  fetchRemoteRequests();
+                }}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${
+                  currentView === 'remote-requests'
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                Remote Requests
+              </button>
+            </div>
+            {currentView === 'kalams' && (
+              <div className="flex flex-col sm:flex-row sm:space-x-4 gap-2">
+                <select
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value as 'all' | 'pending' | 'approved' | 'rejected')}
+                  className="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg font-medium text-sm sm:text-base w-full sm:w-auto"
+                >
+                  <option value="all">All Statuses</option>
+                  <option value="pending">Pending</option>
+                  <option value="approved">Approved</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+            )}
           </div>
         </div>
 
@@ -400,10 +480,22 @@ const KalamApproval = () => {
               {currentView === 'remote-requests' && 'Remote Recording Requests'}
             </h2>
           </div>
+          <div className="mb-4 sm:mb-6">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-2 sm:py-3 bg-slate-100 text-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 pl-10 sm:pl-12"
+              />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+            </div>
+          </div>
 
           {currentView === 'kalams' && renderKalams()}
-          {currentView === 'studio-requests' && renderRequests(studioRequests, 'studio')}
-          {currentView === 'remote-requests' && renderRequests(remoteRequests, 'remote')}
+          {currentView === 'studio-requests' && renderRequests(filteredStudioRequests, 'studio')}
+          {currentView === 'remote-requests' && renderRequests(filteredRemoteRequests, 'remote')}
         </div>
 
         {/* Modal for StudioVisit and RemoteRecording */}

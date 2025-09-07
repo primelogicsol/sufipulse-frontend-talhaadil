@@ -1,12 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
 import type React from 'react';
-import { User, Music, Menu, X, LogOut } from 'lucide-react';
+import { User, Music, Menu, X, LogOut, User2 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { checkVocalistRegistration } from '@/services/vocalist';
 import SubmitSampleClip from '../pages/SubmitSampleClip';
-
+import Cookies from 'js-cookie';
 interface VocalistLayoutProps {
   children: React.ReactNode;
 }
@@ -15,6 +15,14 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isRegistered, setIsRegistered] = useState<boolean | null>(null);
   const pathname = usePathname();
+
+  const [name,setName]=useState('')
+
+  useEffect(()=>{
+    const profile=Cookies.get("name")
+    setName(profile)
+  })
+
 
   useEffect(() => {
     const fetchRegistrationStatus = async () => {
@@ -133,10 +141,17 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-600 rounded-full flex items-center justify-center">
-                <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-              </div>
-            </div>
+          {/* Avatar Circle */}
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-600 rounded-full flex items-center justify-center">
+            <User2 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+          </div>
+
+          {/* Name */}
+          <span className="text-sm sm:text-base font-medium text-gray-800">
+            {name}
+          </span>
+        </div>
+
           </div>
         </header>
 

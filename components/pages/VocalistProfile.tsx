@@ -1,7 +1,7 @@
-'use client';
-import { useState, useEffect } from 'react';
-import { User, Globe, Award, MapPin, Mic, Clock, Calendar } from 'lucide-react';
-import { getVocalistProfile } from '@/services/vocalist';
+"use client";
+import { useState, useEffect } from "react";
+import { User, Globe, Award, MapPin, Mic, Clock, Calendar } from "lucide-react";
+import { getVocalistProfile } from "@/services/vocalist";
 
 interface VocalistProfileData {
   vocalist_id: string;
@@ -34,25 +34,18 @@ const VocalistProfile = () => {
     try {
       setLoading(true);
       const response = await getVocalistProfile(2);
-      console.log('✅ Profile API Response:', response.data);
+      console.log("✅ Profile API Response:", response.data);
       setProfileData(response.data);
     } catch (error: any) {
-      console.error('❌ Profile API Error:', error);
-      setError(error.response?.data?.message || 'Failed to load profile');
+      console.error("❌ Profile API Error:", error);
+      setError(error.response?.data?.message || "Failed to load profile");
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-        <div className="text-center">
-          <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-emerald-900 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-base sm:text-lg text-slate-800 font-medium">Loading profile...</p>
-        </div>
-      </div>
-    );
+    return <div className="min-h-screen bg-slate-50"></div>;
   }
 
   if (error) {
@@ -111,7 +104,7 @@ const VocalistProfile = () => {
             <div className="flex items-center space-x-2 sm:space-x-3 bg-emerald-50 p-3 sm:p-4 rounded-lg">
               <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-900" />
               <span className="text-sm sm:text-base text-slate-800 font-medium truncate">
-                Languages: {profileData?.languages?.join(', ')}
+                Languages: {profileData?.languages?.join(", ")}
               </span>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3 bg-emerald-50 p-3 sm:p-4 rounded-lg">
@@ -142,7 +135,7 @@ const VocalistProfile = () => {
             <div className="flex items-center space-x-2 sm:space-x-3 bg-emerald-50 p-3 sm:p-4 rounded-lg">
               <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-900" />
               <span className="text-sm sm:text-base text-slate-800 font-medium">
-                Joined: {new Date(profileData?.created_at || '').toLocaleDateString()}
+                Joined: {new Date(profileData?.created_at || "").toLocaleDateString()}
               </span>
             </div>
           </div>
@@ -159,7 +152,7 @@ const VocalistProfile = () => {
               <audio
                 controls
                 className="w-full rounded-lg bg-emerald-50 p-2"
-                style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+                style={{ boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}
               >
                 <source src={profileData.audio_sample_url} type="audio/mpeg" />
                 Your browser does not support the audio element.
