@@ -6,6 +6,7 @@ import Navbar from "../Navbar";
 import Footer from "../Footer";
 import VocalistLayout from "./VocalistLayout";
 import WriterDashboardLayout from "./WriterDashboard";
+import AdminLayout from "./AdminLayout";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -15,6 +16,9 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   }
   if (pathname?.startsWith("/writer")) {
     return <WriterDashboardLayout>{children}</WriterDashboardLayout>;
+  }
+  if (pathname?.startsWith("/admin")) {
+    return <AdminLayout>{children}</AdminLayout>
   }
 
   const showNavbarFooter = !pathname?.includes("dashboard");

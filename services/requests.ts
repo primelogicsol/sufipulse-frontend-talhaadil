@@ -75,10 +75,17 @@ export const checkRequestExists = (vocalist_id: string, kalam_id: string) => {
 };
 
 export const getAllStudioVisitRequests = () => {
-  return api.get("/requests/studio-visit-requests");
+  return api.get("/requests/studio-visit-requests", {
+    headers: {
+      requiresAuth: true,
+    },
+  });
 };
 
 export const getAllRemoteRecordingRequests = () => {
-  return api.get("/requests/remote-recording-requests");
+  return api.get("/requests/remote-recording-requests", {
+    headers: {
+      requiresAuth: true,
+    },
+  });
 };
-
