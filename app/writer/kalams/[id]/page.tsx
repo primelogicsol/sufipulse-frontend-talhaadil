@@ -87,7 +87,6 @@ export default function KalamDetail() {
         }
       )
       if (response.status === 200) {
-        alert("Response submitted successfully!")
         fetchKalam()
         setWriterResponse({ user_approval_status: "", writer_comments: "" })
       } else {

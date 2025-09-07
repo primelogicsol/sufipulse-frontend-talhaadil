@@ -94,7 +94,6 @@ export default function WritersPage() {
         <table className="w-full bg-white rounded-lg shadow-sm border border-slate-200">
           <thead>
             <tr className="bg-slate-50 text-slate-800 text-sm sm:text-base">
-              <th className="py-3 px-4 sm:px-6 text-left font-semibold">Avatar</th>
               <th className="py-3 px-4 sm:px-6 text-left font-semibold">Name</th>
               <th className="py-3 px-4 sm:px-6 text-left font-semibold">Email</th>
               <th className="py-3 px-4 sm:px-6 text-left font-semibold">Location</th>
@@ -105,11 +104,7 @@ export default function WritersPage() {
           <tbody>
             {filteredWriters.map((writer) => (
               <tr key={writer.id} className="border-t border-slate-200 hover:bg-slate-50">
-                <td className="py-3 px-4 sm:px-6">
-                  <div className="w-10 h-10 bg-emerald-900 rounded-full flex items-center justify-center">
-                    <span className="text-emerald-50 font-semibold text-lg">{writer.name.charAt(0).toUpperCase()}</span>
-                  </div>
-                </td>
+               
                 <td className="py-3 px-4 sm:px-6 text-slate-800 text-sm sm:text-base">{writer.name}</td>
                 <td className="py-3 px-4 sm:px-6 text-slate-800 text-sm sm:text-base">{writer.email}</td>
                 <td className="py-3 px-4 sm:px-6 text-slate-800 text-sm sm:text-base">

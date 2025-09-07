@@ -11,7 +11,7 @@ interface AdminLayoutProps {
 }
 
 const menuItems = [
-  { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  // { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "Vocalists", href: "/admin/vocalists", icon: Mic },
   { name: "Writers", href: "/admin/writers", icon: PenTool },
   { name: "Kalams", href: "/admin/kalams", icon: BookText },
