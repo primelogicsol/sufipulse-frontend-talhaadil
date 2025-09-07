@@ -111,7 +111,7 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
 
       {/* Main Content */}
       <div >
-        <header className="bg-white shadow-sm border-b border-slate-200 px-4 sm:px-6 py-4">
+        <header className="bg-white shadow-sm border-b border-slate-200 px-4 sm:px-6 py-4  lg:ml-64">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3 sm:space-x-4">
               <button
@@ -140,7 +140,7 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
           </div>
         </header>
 
-        <main className="p-4 sm:p-6 lg:p-8">{children}</main>
+        <main className="p-4 sm:p-6 lg:p-8 lg:ml-64">{children}</main>
       </div>
     </div>
   );
