@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Music, CheckCircle, XCircle, Building2, Wifi, ChevronDown, Search } from 'lucide-react';
 import { approveOrRejectKalam, getKalamsByVocalist } from '@/services/vocalist';
-import { 
+import {
   createStudioVisitRequest,
   createRemoteRecordingRequest,
   getStudioVisitRequestsByVocalist,
@@ -29,6 +29,7 @@ interface Kalam {
   created_at: string;
   updated_at: string;
   vocalist_approval_status: string;
+  status: string;
 }
 
 const KalamApproval = () => {
@@ -182,7 +183,7 @@ const KalamApproval = () => {
 
   const filteredKalams = kalams.filter((kalam) => {
     const matchesSearch = kalam.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          kalam.description.toLowerCase().includes(searchQuery.toLowerCase());
+      kalam.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = filterStatus === 'all' || kalam.vocalist_approval_status === filterStatus;
     return matchesSearch && matchesStatus;
   });
@@ -224,19 +225,31 @@ const KalamApproval = () => {
                 <span className="px-2 sm:px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs sm:text-sm font-medium">
                   {kalam.language}
                 </span>
+
                 <span className="px-2 sm:px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs sm:text-sm font-medium">
                   {kalam.theme}
                 </span>
+
+                {kalam.status === "posted" && kalam.youtube_link && (
+                  <a
+                    href={kalam.youtube_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-2 sm:px-3 py-1 bg-red-50 text-red-700 rounded-full text-xs sm:text-sm font-medium hover:bg-red-100"
+                  >
+                    YouTube Link
+                  </a>
+                )}
               </div>
+
             </div>
             <div
-              className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium mt-2 sm:mt-0 ${
-                kalam.vocalist_approval_status === 'approved'
+              className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium mt-2 sm:mt-0 ${kalam.vocalist_approval_status === 'approved'
                   ? 'bg-emerald-100 text-emerald-800'
                   : kalam.vocalist_approval_status === 'rejected'
                     ? 'bg-red-100 text-red-800'
                     : 'bg-yellow-100 text-yellow-800'
-              }`}
+                }`}
             >
               {kalam.vocalist_approval_status}
             </div>
@@ -280,7 +293,7 @@ const KalamApproval = () => {
           )}
 
           {(kalam.vocalist_approval_status === 'approved' && !requestExistsMap[kalam.id]) ||
-          showRecordingOptions === kalam.id ? (
+            showRecordingOptions === kalam.id ? (
             <div className="mt-4 p-3 sm:p-4 bg-emerald-50 rounded-lg border border-emerald-200">
               <h4 className="font-medium text-emerald-800 mb-2 sm:mb-3 text-sm sm:text-base">
                 Choose Recording Option:
@@ -321,7 +334,7 @@ const KalamApproval = () => {
             key={index}
             className="bg-white rounded-xl shadow-lg border border-slate-200 p-4 sm:p-6"
           >
-            <div 
+            <div
               className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 cursor-pointer"
               onClick={() => setExpandedRequestId(expandedRequestId === request.id ? null : request.id)}
             >
@@ -336,9 +349,9 @@ const KalamApproval = () => {
                 </h3>
               </div>
               <div className="flex items-center space-x-2 sm:space-x-4 mt-2 sm:mt-0">
-               
-                <ChevronDown 
-                  className={`w-5 h-5 text-slate-600 transition-transform ${expandedRequestId === request.id ? 'rotate-180' : ''}`} 
+
+                <ChevronDown
+                  className={`w-5 h-5 text-slate-600 transition-transform ${expandedRequestId === request.id ? 'rotate-180' : ''}`}
                 />
               </div>
             </div>
@@ -412,11 +425,10 @@ const KalamApproval = () => {
             <div className="flex flex-col sm:flex-row sm:space-x-4 gap-2">
               <button
                 onClick={() => setCurrentView('kalams')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${
-                  currentView === 'kalams'
+                className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${currentView === 'kalams'
                     ? 'bg-emerald-600 text-white'
                     : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
+                  }`}
               >
                 Kalams
               </button>
@@ -425,11 +437,10 @@ const KalamApproval = () => {
                   setCurrentView('studio-requests');
                   fetchStudioRequests();
                 }}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${
-                  currentView === 'studio-requests'
+                className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${currentView === 'studio-requests'
                     ? 'bg-emerald-600 text-white'
                     : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
+                  }`}
               >
                 Studio Requests
               </button>
@@ -438,11 +449,10 @@ const KalamApproval = () => {
                   setCurrentView('remote-requests');
                   fetchRemoteRequests();
                 }}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${
-                  currentView === 'remote-requests'
+                className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto ${currentView === 'remote-requests'
                     ? 'bg-emerald-600 text-white'
                     : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
+                  }`}
               >
                 Remote Requests
               </button>
