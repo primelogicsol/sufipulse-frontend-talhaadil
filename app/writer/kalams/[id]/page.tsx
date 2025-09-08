@@ -109,6 +109,8 @@ export default function KalamDetail() {
         return "text-emerald-900 bg-emerald-50"
       case "complete_approved":
         return "text-emerald-900 bg-emerald-50"
+      case "posted":
+        return "text-emerald-900 bg-emerald-50"
       case "admin_rejected":
         return "text-red-600 bg-red-50"
       case "changes_requested":
@@ -130,13 +132,20 @@ export default function KalamDetail() {
         return <XCircle className="w-5 h-5" />
       case "changes_requested":
         return <AlertCircle className="w-5 h-5" />
+      case "posted":
+        return <CheckCircle className="w-5 h-5" />
       default:
         return <Clock className="w-5 h-5" />
     }
   }
 
   const formatStatus = (status: string) => {
-    return status.replace("_", " ").replace(/\b\w/g, (l) => l.toUpperCase())
+    if (status === "final_approved") return "Assigning Vocalist"
+    if (status === "complete_approved") return "Vocalist Assigned"
+    return status
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ")
   }
 
   if (loading) {
@@ -170,7 +179,7 @@ export default function KalamDetail() {
       <div>
         <div className="bg-white border-b border-slate-200 px-4 py-4 lg:px-8">
           <div className="flex items-center justify-between">
-            
+
             <div className="flex items-center space-x-4">
               <Link href="/writer/kalams" className="text-slate-600 hover:text-slate-900">
                 <ArrowLeft className="w-5 h-5" />
@@ -290,8 +299,7 @@ export default function KalamDetail() {
                     <p className="text-slate-700">{new Date(kalam.created_at).toLocaleDateString()}</p>
                   </div>
                 </div>
-
-                {kalam.youtube_link && (
+                {kalam.youtube_link && submission.status === "posted" && (
                   <div>
                     <h4 className="font-medium text-slate-900 mb-2">YouTube Link</h4>
                     <a
@@ -304,6 +312,7 @@ export default function KalamDetail() {
                     </a>
                   </div>
                 )}
+
               </div>
             </div>
           </div>
