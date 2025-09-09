@@ -6,7 +6,7 @@ import { ArrowLeft, Mail, RefreshCw } from 'lucide-react'
 import Button from '../ui/Button'
 import FormCard from '../ui/FormCard'
 import { useRouter } from 'next/navigation'
-import { verifyOtp,resendOtp } from '@/services/auth'
+import { verifyOtp, resendOtp } from '@/services/auth'
 import Cookies from 'js-cookie'
 import { useToast } from '@/context/ToastContext'
 interface OTPVerificationProps {
@@ -64,13 +64,13 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
     e.preventDefault()
     const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6)
     const newOtp = [...otp]
-    
+
     for (let i = 0; i < pastedData.length; i++) {
       newOtp[i] = pastedData[i]
     }
-    
+
     setOtp(newOtp)
-    
+
     // Focus the next empty input or the last input
     const nextEmptyIndex = newOtp.findIndex(digit => digit === '')
     const focusIndex = nextEmptyIndex === -1 ? 5 : nextEmptyIndex
@@ -84,19 +84,21 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
 
   const handleVerifyOTP = async (otpCode?: string) => {
     const code = otpCode || otp.join('')
-    
+
     if (code.length !== 6) {
       showToast('Please enter the complete 6-digit code')
       return
     }
-    
+
 
     setLoading(true)
 
     try {
       const response = await verifyOtp(email, code)
-       if (response.data) {
+      console.log(response)
+      if (response.data) {
         const data = response.data;
+        console.log(data)
         console.log("User data:", response.data);
 
         Cookies.set("access_token", data.access_token, {
@@ -119,11 +121,8 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
 
         router.push("/");
       }
-     
-      
-      
-      onVerified()
-      
+
+
     } catch (error: any) {
       showToast(error.response?.data?.detail || 'Invalid OTP. Please try again.')
       setOtp(['', '', '', '', '', '']) // Clear OTP on error
@@ -218,7 +217,7 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
                 <p className="text-sm text-slate-600">
                   Didn't receive the code?
                 </p>
-                
+
                 <Button
                   onClick={handleResendOTP}
                   variant="outline"

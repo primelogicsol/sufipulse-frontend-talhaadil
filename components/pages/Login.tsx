@@ -414,6 +414,7 @@ const Login = () => {
                         router.push("/");
                         console.log(data);
                       } catch (error) {
+                        console.log(error)
                         console.error('Login failed:', error);
                       } finally {
                         setLoading(false);
