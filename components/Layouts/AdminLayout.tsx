@@ -4,7 +4,7 @@ import { useState } from "react";
 import type React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, LayoutDashboard, Mic, PenTool, BookText, Building, Globe, User2, LogOut,Handshake,Bell } from "lucide-react";
+import { Menu, X, LayoutDashboard, Mic, PenTool, BookText, Building, Globe, User2, LogOut, Handshake, Bell } from "lucide-react";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -18,7 +18,8 @@ const menuItems = [
   { name: "Studio Requests", href: "/admin/studio-requests", icon: Building },
   { name: "Remote Requests", href: "/admin/remote-requests", icon: Globe },
   { name: "Partnership", href: "/admin/partnership", icon: Handshake },
-  { name: "Notification", href: "/admin/notifications", icon:Bell },
+  { name: "Notification", href: "/admin/notifications", icon: Bell },
+  { name: "Sub Admins", href: "/admin/other-admins", icon: User2 },
 ];
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
@@ -31,19 +32,18 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     <div className="min-h-screen bg-slate-50">
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-40 w-3/4 sm:w-64 max-w-xs bg-slate-900 transform transition-transform duration-300 ease-in-out ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:w-64 lg:max-w-none`}
+        className={`fixed inset-y-0 left-0 z-40 w-3/4 sm:w-64 max-w-xs bg-slate-900 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0 lg:w-64 lg:max-w-none`}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="flex items-center justify-center h-16 bg-slate-800 border-b border-slate-700">
-  <Link href="/admin">
-    <h1 className="text-lg sm:text-xl font-bold text-emerald-50 hover:text-emerald-400 transition-colors duration-200 cursor-pointer">
-      Admin Dashboard
-    </h1>
-  </Link>
-</div>
+            <Link href="/admin">
+              <h1 className="text-lg sm:text-xl font-bold text-emerald-50 hover:text-emerald-400 transition-colors duration-200 cursor-pointer">
+                Admin Dashboard
+              </h1>
+            </Link>
+          </div>
           {/* Nav */}
           <nav className="flex-1 p-4 sm:p-6 space-y-2">
             {menuItems.map((item) => {
@@ -54,11 +54,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                   key={item.name}
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-colors text-sm sm:text-base ${
-                    isActive
+                  className={`flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-colors text-sm sm:text-base ${isActive
                       ? "bg-emerald-600 text-white"
                       : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                  }`}
+                    }`}
                 >
                   <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>{item.name}</span>
