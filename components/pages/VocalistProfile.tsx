@@ -38,7 +38,7 @@ const VocalistProfile = () => {
       setProfileData(response.data);
     } catch (error: any) {
       console.error("❌ Profile API Error:", error);
-      setError(error.response?.data?.message || "Failed to load profile");
+      setError(error.response?.data?.detail || "Failed to load profile");
     } finally {
       setLoading(false);
     }

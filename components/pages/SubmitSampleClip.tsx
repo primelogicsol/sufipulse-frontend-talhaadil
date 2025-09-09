@@ -22,8 +22,10 @@ import {
 import { vocalistSubmitKalam } from '@/services/vocalist';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
+import { useToast } from '@/context/ToastContext';
 
 const SubmitSampleClip = () => {
+  const {showToast}  = useToast()
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -88,7 +90,7 @@ const SubmitSampleClip = () => {
     e.preventDefault();
 
     if (!validateForm()) {
-      toast.error('Please fix the errors below');
+      showToast('Please fix the errors below');
       return;
     }
 
@@ -109,7 +111,7 @@ const SubmitSampleClip = () => {
       const response = await vocalistSubmitKalam(payload);
 
       console.log('✅ API Response:', response.data);
-      toast.success('Your vocal sample has been submitted successfully! 🎶');
+      showToast('Your vocal sample has been submitted successfully! ');
 
       setFormData({
         fullName: '',
@@ -127,7 +129,7 @@ const SubmitSampleClip = () => {
       });
     } catch (error: any) {
       console.error('❌ Submission Error:', error);
-      toast.error(error.response?.data?.message || 'Submission failed. Please try again.');
+      showToast(error.response?.data?.detail || 'Submission failed. Please try again.');
     } finally {
       setLoading(false);
     }

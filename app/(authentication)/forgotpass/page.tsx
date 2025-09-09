@@ -3,14 +3,15 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import toast from "react-hot-toast";
 import { Mail, Lock, Key } from "lucide-react";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import FormCard from "@/components/ui/FormCard";
 import { forgotPassword, resetPassword } from "@/services/auth";
+import { useToast } from "@/context/ToastContext";
 
 const ForgotPassword = () => {
+  const { showToast } = useToast();
   const [formData, setFormData] = useState({
     email: "",
     otp: "",
@@ -73,7 +74,7 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     if (!validateRequestForm()) {
-      toast.error("Please fix the errors below");
+      showToast("Please fix the errors below");
       return;
     }
 
@@ -81,10 +82,10 @@ const ForgotPassword = () => {
 
     try {
       await forgotPassword(formData.email);
-      toast.success("OTP sent to your email!");
+      showToast("OTP sent to your email!");
       setStep("reset");
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to send OTP. Please try again.");
+      showToast(error.response?.data?.detail || "Failed to send OTP. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -94,7 +95,7 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     if (!validateResetForm()) {
-      toast.error("Please fix the errors below");
+      showToast("Please fix the errors below");
       return;
     }
 
@@ -102,10 +103,10 @@ const ForgotPassword = () => {
 
     try {
       await resetPassword(formData.email, formData.otp, formData.newPassword);
-      toast.success("Password reset successfully!");
+      showToast("Password reset successfully!");
       router.push("/login");
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to reset password. Please try again.");
+      showToast(error.response?.data?.detail || "Failed to reset password. Please try again.");
     } finally {
       setLoading(false);
     }

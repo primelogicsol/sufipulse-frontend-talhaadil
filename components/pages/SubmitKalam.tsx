@@ -17,8 +17,10 @@ import {
   Award,
   Star
 } from 'lucide-react';
+import { useToast } from '@/context/ToastContext';
 
 const SubmitKalam = () => {
+  const {showToast} = useToast()
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -73,7 +75,7 @@ const SubmitKalam = () => {
     e.preventDefault();
     
     if (!validateForm()) {
-      toast.error('Please fix the errors below');
+      showToast('Please fix the errors below');
       return;
     }
 
@@ -81,7 +83,7 @@ const SubmitKalam = () => {
     
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
-      toast.success('Your kalam has been submitted successfully! We will review it and get back to you soon.');
+      showToast('Your kalam has been submitted successfully!');
       
       // Reset form
       setFormData({

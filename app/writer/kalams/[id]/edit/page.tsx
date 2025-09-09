@@ -162,7 +162,7 @@ export default function EditKalam() {
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);
       }
-      alert(`Failed to update kalam: ${error.response?.data?.message || "Please try again."}`);
+      alert(`Failed to update kalam: ${error.response?.data?.detail || "Please try again."}`);
     } finally {
       setSaving(false);
     }

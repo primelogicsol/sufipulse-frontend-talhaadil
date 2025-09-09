@@ -2,13 +2,13 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import toast from 'react-hot-toast'
 import { ArrowLeft, Mail, RefreshCw } from 'lucide-react'
 import Button from '../ui/Button'
 import FormCard from '../ui/FormCard'
 import { useRouter } from 'next/navigation'
 import { verifyOtp,resendOtp } from '@/services/auth'
 import Cookies from 'js-cookie'
+import { useToast } from '@/context/ToastContext'
 interface OTPVerificationProps {
   email: string
   onVerified: () => void
@@ -22,7 +22,7 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
   const [timeLeft, setTimeLeft] = useState(60)
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
   const router = useRouter()
-
+  const { showToast } = useToast()
   useEffect(() => {
     // Focus first input on mount
     inputRefs.current[0]?.focus()
@@ -86,7 +86,7 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
     const code = otpCode || otp.join('')
     
     if (code.length !== 6) {
-      toast.error('Please enter the complete 6-digit code')
+      showToast('Please enter the complete 6-digit code')
       return
     }
     
@@ -97,7 +97,6 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
       const response = await verifyOtp(email, code)
        if (response.data) {
         const data = response.data;
-        toast.success("Welcome back to SufiPulse!");
         console.log("User data:", response.data);
 
         Cookies.set("access_token", data.access_token, {
@@ -126,7 +125,7 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
       onVerified()
       
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Invalid OTP. Please try again.')
+      showToast(error.response?.data?.detail || 'Invalid OTP. Please try again.')
       setOtp(['', '', '', '', '', '']) // Clear OTP on error
     } finally {
       setLoading(false)
@@ -140,11 +139,11 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
 
     try {
       await resendOtp(email)
-      toast.success('OTP resent successfully!')
+      showToast('OTP resent successfully!')
       setTimeLeft(60) // Reset timer
     } catch (error: any) {
       console.log(error)
-      toast.error(error.response?.data?.message || 'Failed to resend OTP. Please try again.')
+      showToast(error.response?.data?.detail || 'Failed to resend OTP. Please try again.')
     } finally {
       setResending(false)
     }

@@ -97,7 +97,7 @@ export default function SubmitKalam() {
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);
       }
-      alert(`Submission failed: ${error.response?.data?.message || "Please try again."}`);
+      alert(`Submission failed: ${error.response?.data?.detail || "Please try again."}`);
     } finally {
       setLoading(false);
     }

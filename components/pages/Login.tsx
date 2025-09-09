@@ -177,7 +177,7 @@ const Login = () => {
       setShowForgotPassword(false);
       setShowResetPassword(true);
     } catch (error: any) {
-      if (error.response?.data?.message) {
+      if (error.response?.data?.detail) {
         showToast(error.response.data.message);
       } else {
         showToast("Failed to send OTP. Please try again.");
@@ -203,7 +203,7 @@ const Login = () => {
       setShowResetPassword(false);
       setForgotPasswordData({ email: "", otp: "", newPassword: "" });
     } catch (error: any) {
-      if (error.response?.data?.message) {
+      if (error.response?.data?.detail) {
         showToast(error.response.data.message);
       } else {
         showToast("Failed to reset password. Please try again.");

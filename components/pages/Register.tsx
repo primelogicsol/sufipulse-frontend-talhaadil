@@ -4,7 +4,6 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import toast from "react-hot-toast"
 import { User, Mail, Lock, PenTool, Mic, Globe, Award } from "lucide-react"
 import Input from "../ui/Input"
 import Button from "../ui/Button"
@@ -15,8 +14,10 @@ import { signin } from "@/services/auth" // Adjust the import path based on your
 import { GoogleLogin } from "@react-oauth/google"
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
+import { useToast } from "@/context/ToastContext"
 
 const Register = () => {
+  const {showToast} = useToast();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -86,12 +87,10 @@ const Register = () => {
     e.preventDefault()
 
     if (!validateForm()) {
-      toast.error("Please fix the errors below")
+      showToast("Please fix the errors below")
       return
     }
-
     setLoading(true)
-
     try {
       // Assuming you want to pass a default country and city, or get them from additional form fields
       // If you have country and city inputs, add them to formData and pass them here
@@ -107,21 +106,21 @@ const Register = () => {
       setUserEmail(formData.email)
       setShowOTPVerification(true)
       console.log(response.data)
-      toast.success("Registration successful! Please verify your OTP.")
+      showToast("Registration successful! Please verify your OTP.")
     } catch (error: any) {
       console.log(error)
       setLoading(false)
-      toast.error(error.response?.data?.message || "Registration failed. Please try again.")
+      showToast(error.response?.data?.detail || "Registration failed. Please try again.")
     } finally {
       setLoading(false)
     }
   }
 
+  
   const handleOTPVerified = async () => {
     setShowOTPVerification(false)
-    toast.success("Email verified successfully!")
-    // Optionally redirect to login or dashboard
-    // e.g., router.push('/login')
+    showToast("Email verified successfully!")
+
   }
 
   const stats = [

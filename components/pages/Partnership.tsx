@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import toast from 'react-hot-toast';
 import { 
   Handshake, 
   User, 
@@ -18,9 +17,11 @@ import {
   Heart,
   Target
 } from 'lucide-react';
-import { createPartnershipProposal } from '@/services/requests'; // Adjust the import path based on your project structure
+import { createPartnershipProposal } from '@/services/requests';
+import { useToast } from '@/context/ToastContext';
 
 const Partnership = () => {
+  const {showToast} = useToast()
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -74,7 +75,7 @@ const Partnership = () => {
     e.preventDefault();
     
     if (!validateForm()) {
-      toast.error('Please fix the errors below');
+      showToast('Please fix the errors below');
       return;
     }
 
@@ -100,7 +101,7 @@ const Partnership = () => {
       // Call the API
       const response = await createPartnershipProposal(apiPayload);
       console.log("Partnership Proposal Response:", response);
-      toast.success('Your partnership proposal has been submitted successfully! We will review it and get back to you soon.');
+      showToast('Your partnership proposal has been submitted successfully! We will review it and get back to you soon.');
       
       // Reset form
       setFormData({
@@ -118,7 +119,7 @@ const Partnership = () => {
         sacredAlignment: true,
       });
     } catch (error) {
-      toast.error('Submission failed. Please try again.');
+      showToast('Submission failed. Please try again.');
     } finally {
       setLoading(false);
     }
