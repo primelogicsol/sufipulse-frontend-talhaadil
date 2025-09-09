@@ -153,7 +153,8 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <NotificationDropdown />
+              {!pathname.includes("/notification") && <NotificationDropdown />}
+
               {/* Avatar Circle */}
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-600 rounded-full flex items-center justify-center">
                 <User2 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />

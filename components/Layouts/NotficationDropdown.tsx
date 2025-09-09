@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getUserNotifications, markNotificationAsRead } from "@/services/notifications";
 import Cookies from "js-cookie";
 import { usePathname } from "next/navigation";
+import { useNotifications } from "@/context/NotificationContext";
 
 // Define Notification interface to resolve type errors
 export interface Notification {
@@ -16,37 +17,22 @@ export interface Notification {
 }
 
 export default function NotificationDropdown() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
-  const basePath = pathname.includes("/writer") ? "writer" : "vocalist";
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const pathname = usePathname()
+  const basePath = pathname.includes("/writer") ? "writer" : "vocalist"
+
+  const { unreadNotifications, loading, refetch } = useNotifications()
+  const [notifications, setNotifications] = useState<Notification[]>(unreadNotifications)
+
 
   useEffect(() => {
-    const fetchNotifications = async () => {
-      setLoading(true);
-      try {
-        const response = await getUserNotifications();
-        const allNotifications = response.data.notifications as Notification[];
-
-        // Filter unread notifications and sort by ID in descending order
-        const sortedNotifications = allNotifications
-          .filter((notification) => !notification.read) // Only unread notifications
-          .sort((a, b) => b.id - a.id) // Sort by ID descending
-          .slice(0, 4); // Limit to 3-4 notifications
-          console.log(sortedNotifications)
-
-        setNotifications(sortedNotifications);
-      } catch (error) {
-        console.error("Error fetching notifications:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchNotifications();
-  }, []);
+    setNotifications(unreadNotifications)
+  }, [unreadNotifications])
+  useEffect(() => {
+    // Refetch notifications when pathname changes (optional)
+    refetch()
+  }, [pathname])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -137,12 +123,7 @@ export default function NotificationDropdown() {
                             {formattedDate}
                           </p>
                         </div>
-                        <button
-                          onClick={() => handleMarkAsRead(notification.id)}
-                          className="text-xs text-emerald-900 hover:text-slate-900"
-                        >
-                          Mark as read
-                        </button>
+
                       </div>
                     </div>
                   );
