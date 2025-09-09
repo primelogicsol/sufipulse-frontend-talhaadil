@@ -55,8 +55,48 @@ export const resetPassword = (email: string, otp: string, new_password: string) 
 
 
 
+
 export const googleAuth = () => {
   return api.post("/auth/google-auth"
  
   );
 }
+
+
+
+export const registerSubadmin = (data : any) => {
+  return api.post(`/admin/register`, data, {
+    headers: {
+      requiresAuth: true,
+    },
+  });
+};
+
+export const updateSubadmin = (data : any) => {
+  return api.put(`/admin/update`, data, {
+    headers: {
+      requiresAuth: true,
+    },
+  });
+};
+
+export const deleteSubadmin = (userId : string) => {
+  return api.delete(`/admin/delete/${userId}`, {
+    headers: {
+      requiresAuth: true,
+    },
+  });
+};
+
+
+
+
+
+
+export const getAllSubadmins = () => {
+  return api.get(`/admin/all`, {
+    headers: {
+      requiresAuth: true,
+    },
+  });
+};
