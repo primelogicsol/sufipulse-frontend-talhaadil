@@ -521,7 +521,7 @@ const Login = () => {
                   <Button
                     type="submit"
                     variant="primary"
-                    size="lg"
+                    size="md"
                     loading={loading}
                     className="w-full"
                   >

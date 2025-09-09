@@ -464,7 +464,7 @@ const KalamApproval = () => {
                   onChange={(e) => setFilterStatus(e.target.value as 'all' | 'pending' | 'approved' | 'rejected')}
                   className="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg font-medium text-sm sm:text-base w-full sm:w-auto"
                 >
-                  <option value="all">All Statuses</option>
+                  <option value="all">All Status</option>
                   <option value="pending">Pending</option>
                   <option value="approved">Approved</option>
                   <option value="rejected">Rejected</option>

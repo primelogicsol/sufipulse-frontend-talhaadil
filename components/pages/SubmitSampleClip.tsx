@@ -20,6 +20,8 @@ import {
   Volume2
 } from 'lucide-react';
 import { vocalistSubmitKalam } from '@/services/vocalist';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
 
 const SubmitSampleClip = () => {
   const [formData, setFormData] = useState({
@@ -172,6 +174,7 @@ const SubmitSampleClip = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <Navbar/>
       {/* Hero Section */}
       <section className="fixed bottom-4 right-4 w-64 sm:w-72 md:w-80 bg-white border border-slate-200 shadow-lg rounded-lg p-4 text-center z-10 sm:bottom-5 sm:right-5">
         <h2 className="text-base sm:text-lg font-semibold text-slate-800 mb-2">
@@ -431,6 +434,7 @@ const SubmitSampleClip = () => {
           </div>
         </div>
       </section>
+      <Footer/>
     </div>
   );
 };

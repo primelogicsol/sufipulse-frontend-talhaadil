@@ -1,31 +1,31 @@
-'use client'
+"use client"
 
-import React, { useState } from 'react'
-import Link from 'next/link'
-import { motion } from 'framer-motion'
-import toast from 'react-hot-toast'
-import { User, Mail, Lock, PenTool, Mic, Globe, Award } from 'lucide-react'
-import Input from '../ui/Input'
-import Button from '../ui/Button'
-import FormCard from '../ui/FormCard'
-import PasswordStrength from '../ui/PasswordStrength'
-import OTPVerification from './OtpVerify'
-import { signin, resendOtp, verifyOtp } from '@/services/auth' // Adjust the import path based on your project structure
-import { count } from 'console'
-import { GoogleLogin } from '@react-oauth/google'
-import Cookies from 'js-cookie'
-import { useRouter } from 'next/navigation'
+import type React from "react"
+import { useState } from "react"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import toast from "react-hot-toast"
+import { User, Mail, Lock, PenTool, Mic, Globe, Award } from "lucide-react"
+import Input from "../ui/Input"
+import Button from "../ui/Button"
+import FormCard from "../ui/FormCard"
+import PasswordStrength from "../ui/PasswordStrength"
+import OTPVerification from "./OtpVerify"
+import { signin } from "@/services/auth" // Adjust the import path based on your project structure
+import { GoogleLogin } from "@react-oauth/google"
+import Cookies from "js-cookie"
+import { useRouter } from "next/navigation"
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    userType: '',
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    userType: "writer",
     acceptTerms: false,
-    country: '',
-    city: ''
+    country: "",
+    city: "",
   })
   const router = useRouter()
 
@@ -34,18 +34,18 @@ const Register = () => {
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [showOTPVerification, setShowOTPVerification] = useState(false)
-  const [userEmail, setUserEmail] = useState('')
+  const [userEmail, setUserEmail] = useState("")
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }))
 
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }))
+      setErrors((prev) => ({ ...prev, [name]: "" }))
     }
   }
 
@@ -53,29 +53,29 @@ const Register = () => {
     const newErrors: Record<string, string> = {}
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full name is required'
+      newErrors.fullName = "Full name is required"
     }
 
     if (!formData.email) {
-      newErrors.email = 'Email is required'
+      newErrors.email = "Email is required"
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email'
+      newErrors.email = "Please enter a valid email"
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required'
+      newErrors.password = "Password is required"
     } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters'
+      newErrors.password = "Password must be at least 8 characters"
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password'
+      newErrors.confirmPassword = "Please confirm your password"
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match'
+      newErrors.confirmPassword = "Passwords do not match"
     }
 
     if (!formData.acceptTerms) {
-      newErrors.acceptTerms = 'You must accept the terms and conditions'
+      newErrors.acceptTerms = "You must accept the terms and conditions"
     }
 
     setErrors(newErrors)
@@ -86,7 +86,7 @@ const Register = () => {
     e.preventDefault()
 
     if (!validateForm()) {
-      toast.error('Please fix the errors below')
+      toast.error("Please fix the errors below")
       return
     }
 
@@ -101,18 +101,17 @@ const Register = () => {
         formData.password,
         formData.userType,
         formData.country, // Replace with actual country if available
-        formData.city // Replace with actual city if available
+        formData.city, // Replace with actual city if available
       )
-
 
       setUserEmail(formData.email)
       setShowOTPVerification(true)
       console.log(response.data)
-      toast.success('Registration successful! Please verify your OTP.')
+      toast.success("Registration successful! Please verify your OTP.")
     } catch (error: any) {
       console.log(error)
       setLoading(false)
-      toast.error(error.response?.data?.message || 'Registration failed. Please try again.')
+      toast.error(error.response?.data?.message || "Registration failed. Please try again.")
     } finally {
       setLoading(false)
     }
@@ -120,40 +119,36 @@ const Register = () => {
 
   const handleOTPVerified = async () => {
     setShowOTPVerification(false)
-    toast.success('Email verified successfully!')
+    toast.success("Email verified successfully!")
     // Optionally redirect to login or dashboard
     // e.g., router.push('/login')
   }
 
   const stats = [
-    { number: '89', label: 'Writers Joined', icon: PenTool },
-    { number: '43', label: 'Vocalists', icon: Mic },
-    { number: '50+', label: 'Countries', icon: Globe },
-    { number: '100%', label: 'Free Service', icon: Award },
+    { number: "89", label: "Writers Joined", icon: PenTool },
+    { number: "43", label: "Vocalists", icon: Mic },
+    { number: "50+", label: "Countries", icon: Globe },
+    { number: "100%", label: "Free Service", icon: Award },
   ]
 
   const userTypes = [
     {
-      id: 'writer',
-      label: 'Writer',
+      id: "writer",
+      label: "Writer",
       icon: PenTool,
-      description: 'Share your sacred poetry',
+      description: "Share your sacred poetry",
     },
     {
-      id: 'vocalist',
-      label: 'Vocalist',
+      id: "vocalist",
+      label: "Vocalist",
       icon: Mic,
-      description: 'Lend your voice to divine words',
+      description: "Lend your voice to divine words",
     },
   ]
 
   if (showOTPVerification) {
     return (
-      <OTPVerification
-        email={userEmail}
-        onVerified={handleOTPVerified}
-        onBack={() => setShowOTPVerification(false)}
-      />
+      <OTPVerification email={userEmail} onVerified={handleOTPVerified} onBack={() => setShowOTPVerification(false)} />
     )
   }
 
@@ -171,8 +166,8 @@ const Register = () => {
           }}
           transition={{
             duration: 8,
-            repeat: Infinity,
-            ease: 'easeInOut',
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "easeInOut",
           }}
           className="absolute top-10 right-20 w-40 h-40 bg-emerald-500/10 rounded-full blur-xl"
         />
@@ -183,8 +178,8 @@ const Register = () => {
           }}
           transition={{
             duration: 10,
-            repeat: Infinity,
-            ease: 'easeInOut',
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "easeInOut",
           }}
           className="absolute bottom-10 left-20 w-56 h-56 bg-slate-500/10 rounded-full blur-xl"
         />
@@ -216,8 +211,8 @@ const Register = () => {
                 transition={{ delay: 0.4, duration: 0.6 }}
                 className="text-xl text-slate-300 leading-relaxed"
               >
-                Begin your spiritual journey with SufiPulse. Share your divine poetry,
-                connect with global voices, and experience world-class production.
+                Begin your spiritual journey with SufiPulse. Share your divine poetry, connect with global voices, and
+                experience world-class production.
               </motion.p>
             </div>
 
@@ -228,9 +223,7 @@ const Register = () => {
               className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-emerald-500/20"
             >
               <p className="text-emerald-300 font-medium mb-2">Sacred Commitment</p>
-              <blockquote className="text-lg italic">
-                "We don't sell divine lyrics. We amplify them."
-              </blockquote>
+              <blockquote className="text-lg italic">"We don't sell divine lyrics. We amplify them."</blockquote>
             </motion.div>
 
             {/* Stats */}
@@ -258,24 +251,14 @@ const Register = () => {
           </motion.div>
 
           {/* Right Side - Register Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <FormCard
-              title="Create Account"
-              subtitle="Join our global spiritual community"
-              className="max-w-lg"
-            >
+          <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+            <FormCard title="Create Account" subtitle="Join our global spiritual community" className="max-w-lg">
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* User Type Selection */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-3">
-                    I want to join as a:
-                  </label>
+                  <label className="block text-sm font-medium text-slate-700 mb-3">I want to join as a:</label>
 
-                  <div className="flex flex-col md:flex-row gap-2">
+                  <div className="flex bg-slate-100 rounded-lg p-1 gap-4">
                     {userTypes.map((type) => {
                       const Icon = type.icon
                       return (
@@ -286,19 +269,17 @@ const Register = () => {
                           whileTap={{ scale: 0.98 }}
                           onClick={() => setFormData((prev) => ({ ...prev, userType: type.id }))}
                           className={`
-                            p-3 rounded-xl border-2 text-sm font-medium transition-all duration-200
-                            ${formData.userType === type.id
-                              ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
-                              : 'border-slate-200 text-slate-600 hover:border-emerald-300 hover:bg-emerald-50/50'
+                            flex-1 p-3 rounded-md text-sm font-medium transition-all duration-200
+                            ${
+                              formData.userType === type.id
+                                ? "bg-emerald-700 text-white shadow-sm border"
+                                : "text-slate-600 hover:text-emerald-600"
                             }
                           `}
                         >
-                          <div className="flex items-center space-x-3">
-                            <Icon className="w-5 h-5" />
-                            <div className="text-left">
-                              <div className="font-semibold">{type.label}</div>
-                              <div className="text-xs opacity-75">{type.description}</div>
-                            </div>
+                          <div className="flex items-center justify-center space-x-2">
+                            <Icon className="w-4 h-4" />
+                            <span>{type.label}</span>
                           </div>
                         </motion.button>
                       )
@@ -342,10 +323,6 @@ const Register = () => {
                   required
                 />
 
-
-
-
-
                 <Input
                   label="Email Address"
                   type="email"
@@ -358,11 +335,10 @@ const Register = () => {
                   required
                 />
 
-
                 <div>
                   <Input
                     label="Password"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
@@ -379,7 +355,7 @@ const Register = () => {
 
                 <Input
                   label="Confirm Password"
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
@@ -393,10 +369,7 @@ const Register = () => {
                 />
 
                 <div className="space-y-3">
-                  <motion.label
-                    whileHover={{ scale: 1.01 }}
-                    className="flex items-start space-x-3 cursor-pointer"
-                  >
+                  <motion.label whileHover={{ scale: 1.01 }} className="flex items-start space-x-3 cursor-pointer">
                     <input
                       type="checkbox"
                       name="acceptTerms"
@@ -405,72 +378,70 @@ const Register = () => {
                       className="mt-1 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                     />
                     <span className="text-sm text-slate-600">
-                      I agree to the{' '}
+                      I agree to the{" "}
                       <Link href="/terms" className="text-emerald-600 hover:text-emerald-700 font-medium">
                         Terms of Service
-                      </Link>{' '}
-                      and{' '}
+                      </Link>{" "}
+                      and{" "}
                       <Link href="/privacy" className="text-emerald-600 hover:text-emerald-700 font-medium">
                         Privacy Policy
                       </Link>
                     </span>
                   </motion.label>
-                  {errors.acceptTerms && (
-                    <p className="text-sm text-red-600">{errors.acceptTerms}</p>
-                  )}
+                  {errors.acceptTerms && <p className="text-sm text-red-600">{errors.acceptTerms}</p>}
                 </div>
 
                 <Button
-                  disabled={formData.userType === ''}
+                  disabled={formData.userType === ""}
                   type="submit"
                   variant="primary"
-                  size="lg"
+                  size="md"
                   loading={loading}
                   className="w-full"
                 >
                   Create Account
                 </Button>
-                {formData.userType !== '' && (
+                {formData.userType !== "" && (
                   <GoogleLogin
                     onSuccess={async (credentialResponse) => {
-                      setLoading(true);
+                      setLoading(true)
                       try {
                         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/google-auth`, {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
                           body: JSON.stringify({
                             token: credentialResponse.credential,
-                            role: formData.userType
+                            role: formData.userType,
                           }),
-                        });
-                        const data = await res.json();
-                        console.log(data);
+                        })
+                        const data = await res.json()
+                        console.log(data)
                         Cookies.set("access_token", data.access_token, {
                           path: "/",
                           sameSite: "Strict",
                           secure: process.env.NODE_ENV === "production",
-                        });
+                        })
                         Cookies.set("refresh_token", data.refresh_token, {
                           path: "/",
                           sameSite: "Strict",
                           secure: process.env.NODE_ENV === "production",
-                        });
-                        Cookies.set("user_role", formData.userType);
-                        Cookies.set("user_id", data.user.id.toString());
-                        Cookies.set("is_registered", data.user.is_registered.toString());
-                        Cookies.set("city", data.user.city);
-                        Cookies.set("country", data.user.country);
-                        Cookies.set("name", data.user.name);
-                        Cookies.set("email", data.user.email);
+                        })
+                        Cookies.set("user_role", formData.userType)
+                        Cookies.set("user_id", data.user.id.toString())
+                        Cookies.set("is_registered", data.user.is_registered.toString())
+                        Cookies.set("city", data.user.city)
+                        Cookies.set("country", data.user.country)
+                        Cookies.set("name", data.user.name)
+                        Cookies.set("email", data.user.email)
 
-                        router.push("/");
+                        router.push("/")
 
-                        console.log(data);
+                        console.log(data)
                       } catch (error) {
                         console.log(error)
-                        console.error('Login failed:', error);
+                        console.error("Login failed:", error)
                       } finally {
-                        setLoading(false);
+                        setLoading(false)
                       }
                     }}
                     text="signup_with"
@@ -479,7 +450,7 @@ const Register = () => {
 
                 <div className="text-center pt-4 border-t border-slate-200">
                   <p className="text-slate-600">
-                    Already have an account?{' '}
+                    Already have an account?{" "}
                     <Link
                       href="/login"
                       className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors"

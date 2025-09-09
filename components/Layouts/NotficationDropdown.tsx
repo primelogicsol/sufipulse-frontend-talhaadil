@@ -3,13 +3,22 @@
 import { useState, useEffect, useRef } from "react";
 import { Bell, X } from "lucide-react";
 import Link from "next/link";
-import { getUserNotifications,markNotificationAsRead } from "@/services/notifications";
+import { getUserNotifications, markNotificationAsRead } from "@/services/notifications";
 import Cookies from "js-cookie";
 import { usePathname } from "next/navigation";
+
+// Define Notification interface to resolve type errors
+export interface Notification {
+  id: number;
+  title: string;
+  read: boolean;
+  created_at?: string;
+}
+
 export default function NotificationDropdown() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const basePath = pathname.includes("/writer") ? "writer" : "vocalist";
@@ -19,15 +28,15 @@ export default function NotificationDropdown() {
       setLoading(true);
       try {
         const response = await getUserNotifications();
-        console.log(response.data)
-  
         const allNotifications = response.data.notifications as Notification[];
-  
-        // Sort by ID in descending order and take only first 4
+
+        // Filter unread notifications and sort by ID in descending order
         const sortedNotifications = allNotifications
-          .sort((a, b) => b.id - a.id)
-          .slice(0, 4);
-  
+          .filter((notification) => !notification.read) // Only unread notifications
+          .sort((a, b) => b.id - a.id) // Sort by ID descending
+          .slice(0, 4); // Limit to 3-4 notifications
+          console.log(sortedNotifications)
+
         setNotifications(sortedNotifications);
       } catch (error) {
         console.error("Error fetching notifications:", error);
@@ -35,10 +44,9 @@ export default function NotificationDropdown() {
         setLoading(false);
       }
     };
-  
+
     fetchNotifications();
   }, []);
-  
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -75,7 +83,9 @@ export default function NotificationDropdown() {
         className="relative p-2 text-slate-500 hover:text-white hover:bg-slate-800 rounded-md transition-colors"
       >
         <Bell className="h-5 w-5" />
-        <span className="absolute -top-1 -right-1 h-3 w-3 bg-emerald-900 rounded-full"></span>
+        {notifications.length > 0 && (
+          <span className="absolute -top-1 -right-1 h-3 w-3 bg-emerald-900 rounded-full"></span>
+        )}
       </button>
 
       {isOpen && (
@@ -99,7 +109,7 @@ export default function NotificationDropdown() {
               </div>
             ) : notifications.length === 0 ? (
               <div className="p-4 text-center text-slate-800">
-                No notifications found
+                No unread notifications
               </div>
             ) : (
               <div className="divide-y divide-slate-50">
@@ -115,36 +125,26 @@ export default function NotificationDropdown() {
 
                   return (
                     <div
-                    key={notification.id}
-                    className="p-4 hover:bg-emerald-50 transition-colors"
+                      key={notification.id}
+                      className="p-4 hover:bg-emerald-50 transition-colors"
                     >
-                    <div className="flex items-start justify-between">
+                      <div className="flex items-start justify-between">
                         <div className="flex-1">
-                        {/* Title */}
-                        <p className="text-sm font-semibold text-emerald-900">
+                          <p className="text-sm font-semibold text-emerald-900">
                             {notification.title}
-                        </p>
-
-                        {/* Message */}
-                        <p className="text-sm text-slate-900">
-                            {notification.message}
-                        </p>
-
-                        {/* Date */}
-                        <p className="text-xs text-slate-800 mt-1">
+                          </p>
+                          <p className="text-xs text-slate-800 mt-1">
                             {formattedDate}
-                        </p>
+                          </p>
                         </div>
-
                         <button
-                        onClick={() => handleMarkAsRead(notification.id)}
-                        className="text-xs text-emerald-900 hover:text-slate-900"
+                          onClick={() => handleMarkAsRead(notification.id)}
+                          className="text-xs text-emerald-900 hover:text-slate-900"
                         >
-                        Mark as read
+                          Mark as read
                         </button>
+                      </div>
                     </div>
-                    </div>
- 
                   );
                 })}
               </div>
@@ -152,15 +152,14 @@ export default function NotificationDropdown() {
           </div>
 
           <div className="p-4 border-t border-slate-50">
-  <Link
-    href={`/${basePath}/notification`}
-    onClick={() => setIsOpen(false)}
-    className="block w-full text-center py-2 px-4 bg-emerald-900 text-white rounded-md hover:bg-slate-900 transition-colors text-sm font-medium"
-  >
-    View All Notifications
-  </Link>
-</div>
-
+            <Link
+              href={`/${basePath}/notification`}
+              onClick={() => setIsOpen(false)}
+              className="block w-full text-center py-2 px-4 bg-emerald-900 text-white rounded-md hover:bg-slate-900 transition-colors text-sm font-medium"
+            >
+              View All Notifications
+            </Link>
+          </div>
         </div>
       )}
     </div>

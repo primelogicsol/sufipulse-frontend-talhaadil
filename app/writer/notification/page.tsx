@@ -3,32 +3,32 @@
 import { useState, useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { getUserNotifications,markNotificationAsRead } from "@/services/notifications";
+import { getUserNotifications, markNotificationAsRead } from "@/services/notifications";
 import Cookies from "js-cookie";
 
 interface Notification {
   id: number;
   message: string;
   created_at: string;
+  read: boolean;
+  title?: string;
 }
 
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
+  const [markingAllAsRead, setMarkingAllAsRead] = useState(false); // New state for marking all as read
 
   useEffect(() => {
     const fetchNotifications = async () => {
       setLoading(true);
       try {
         const response = await getUserNotifications();
-  
         const allNotifications = response.data.notifications as Notification[];
-  
-        // Sort by ID in descending order and take only first 4
-        const sortedNotifications = allNotifications
-          .sort((a, b) => b.id - a.id)
-          .slice(0, 4);
-  
+        
+        // Sort by ID in descending order
+        const sortedNotifications = allNotifications.sort((a, b) => b.id - a.id);
+        
         setNotifications(sortedNotifications);
       } catch (error) {
         console.error("Error fetching notifications:", error);
@@ -36,10 +36,9 @@ export default function NotificationsPage() {
         setLoading(false);
       }
     };
-  
+
     fetchNotifications();
   }, []);
-  
 
   const handleMarkAllAsRead = async () => {
     const userId = Cookies.get("user_id");
@@ -49,15 +48,25 @@ export default function NotificationsPage() {
     }
 
     try {
-      const markPromises = notifications.map((notification) =>
+      setMarkingAllAsRead(true); // Set loading state
+      // Only mark unread notifications
+      const unreadNotifications = notifications.filter(notification => !notification.read);
+      const markPromises = unreadNotifications.map((notification) =>
         markNotificationAsRead(notification.id, parseInt(userId))
       );
-      const responses = await Promise.all(markPromises);
-      console.log("All notifications marked as read:", responses);
-      // Update notifications to reflect read status (assuming API doesn't return updated data)
-      setNotifications([]);
+      await Promise.all(markPromises);
+      
+      // Update local state to mark notifications as read
+      setNotifications(prevNotifications =>
+        prevNotifications.map(notification => ({
+          ...notification,
+          read: true
+        }))
+      );
     } catch (error) {
       console.error("Error marking notifications as read:", error);
+    } finally {
+      setMarkingAllAsRead(false); // Reset loading state
     }
   };
 
@@ -84,10 +93,17 @@ export default function NotificationsPage() {
       <div className="flex justify-end mb-4">
         <button
           onClick={handleMarkAllAsRead}
-          className="bg-emerald-900 text-white px-4 py-2 rounded-md hover:bg-slate-800 transition-colors disabled:opacity-50"
-          disabled={notifications.length === 0}
+          className="relative bg-emerald-900 text-white px-4 py-2 rounded-md hover:bg-slate-800 transition-colors disabled:opacity-50"
+          disabled={notifications.every(notification => notification.read) || markingAllAsRead}
         >
-          Mark All as Read
+          {markingAllAsRead ? (
+            <div className="flex items-center gap-2">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+              <span>Marking...</span>
+            </div>
+          ) : (
+            "Mark All as Read"
+          )}
         </button>
       </div>
 
@@ -105,38 +121,46 @@ export default function NotificationsPage() {
       ) : (
         <div className="space-y-4">
           {notifications.map((notification) => {
-  const formattedDate = new Date(notification.created_at ?? "");
-  return (
-    <div
-      key={notification.id}
-      className="bg-white border border-slate-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
-    >
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          {/* Title */}
-          <p className="text-lg font-semibold text-emerald-900 mb-1">
-            {notification.title}
-          </p>
+            const formattedDate = new Date(notification.created_at ?? "");
+            return (
+              <div
+                key={notification.id}
+                className={`bg-white border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow ${
+                  !notification.read ? 'border-emerald-400 border-2' : 'border-slate-50'
+                }`}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    {/* Title */}
+                    <p className="text-lg font-semibold text-emerald-900 mb-1">
+                      {notification.title || "Notification"}
+                    </p>
 
-          {/* Message */}
-          <p className="text-slate-900 font-medium mb-2">
-            {notification.message}
-          </p>
+                    {/* Message */}
+                    <p className="text-slate-900 font-medium mb-2">
+                      {notification.message}
+                    </p>
 
-          {/* Date */}
-          <span className="text-xs text-slate-800">
-            {formattedDate.toLocaleDateString()}{" "}
-            {formattedDate.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-})}
-
+                    {/* Date and read status */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-slate-800">
+                        {formattedDate.toLocaleDateString()}{" "}
+                        {formattedDate.toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                      {!notification.read && (
+                        <span className="text-xs text-emerald-600 font-medium">
+                          Unread
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
