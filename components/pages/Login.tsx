@@ -14,7 +14,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useToast } from "@/context/ToastContext";
 
 const Login = () => {
-  const {showToast} = useToast()
+  const { showToast } = useToast()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -127,7 +127,7 @@ const Login = () => {
 
       if (response.data) {
         const data = response.data;
-        
+
         console.log("User data:", response.data);
 
         Cookies.set("access_token", data.access_token, {
@@ -380,52 +380,53 @@ const Login = () => {
                   </Button>
 
 
-                  <GoogleLogin
-                    onSuccess={async (credentialResponse) => {
-                      setLoading(true);
-                      try {
-                        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/google-auth`, {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                            token: credentialResponse.credential, // Correct token
-                          }),
-                        });
+                  <div className="w-full">
+                    <GoogleLogin
+                      onSuccess={async (credentialResponse) => {
+                        setLoading(true);
+                        try {
+                          const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/google-auth`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              token: credentialResponse.credential,
+                            }),
+                          });
 
-                        const data = await res.json();
-                        Cookies.set("access_token", data.access_token, {
-                          path: "/",
-                          sameSite: "Strict",
-                          secure: process.env.NODE_ENV === "production",
-                        });
-                        Cookies.set("refresh_token", data.refresh_token, {
-                          path: "/",
-                          sameSite: "Strict",
-                          secure: process.env.NODE_ENV === "production",
-                        });
-                        Cookies.set("user_role", data.user.role);
-                        Cookies.set("user_id", data.user.id.toString());
-                        Cookies.set("is_registered", data.user.is_registered.toString());
-                        Cookies.set("city", data.user.city);
-                        Cookies.set("country", data.user.country);
-                        Cookies.set("name", data.user.name);
-                        Cookies.set("email", data.user.email);
+                          const data = await res.json();
+                          Cookies.set("access_token", data.access_token, {
+                            path: "/",
+                            sameSite: "Strict",
+                            secure: process.env.NODE_ENV === "production",
+                          });
+                          Cookies.set("refresh_token", data.refresh_token, {
+                            path: "/",
+                            sameSite: "Strict",
+                            secure: process.env.NODE_ENV === "production",
+                          });
+                          Cookies.set("user_role", data.user.role);
+                          Cookies.set("user_id", data.user.id.toString());
+                          Cookies.set("is_registered", data.user.is_registered.toString());
+                          Cookies.set("city", data.user.city);
+                          Cookies.set("country", data.user.country);
+                          Cookies.set("name", data.user.name);
+                          Cookies.set("email", data.user.email);
 
-                        router.push("/");
-                        console.log(data);
-                      } catch (error : any) {
-                        console.log(error.message)
-                        if (error.message === "Cannot read properties of undefined (reading 'role')") {
-                          showToast("Please Signup with google first then try to login.");
-                        } else {
-                          showToast("Google login failed. Please try again.");
+                          router.push("/");
+                          console.log(data);
+                        } catch (error: any) {
+                          console.log(error.message)
+                          if (error.message === "Cannot read properties of undefined (reading 'role')") {
+                            showToast("Please Signup with google first then try to login.");
+                          } else {
+                            showToast("Google login failed. Please try again.");
+                          }
+                        } finally {
+                          setLoading(false);
                         }
-                      } finally {
-                        setLoading(false);
-                      }
-                    }}
-                  />
-
+                      }}
+                    />
+                  </div>
 
                   <div className="text-center pt-4 border-t border-slate-200">
                     <p className="text-slate-600">

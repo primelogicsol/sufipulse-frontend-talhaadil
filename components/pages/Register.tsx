@@ -438,6 +438,7 @@ const Register = () => {
                         console.log(data)
                       } catch (error) {
                         console.log(error)
+                        showToast("Google login failed. Please try again.")
                         console.error("Login failed:", error)
                       } finally {
                         setLoading(false)
