@@ -23,9 +23,11 @@ import { vocalistSubmitKalam } from '@/services/vocalist';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import { useToast } from '@/context/ToastContext';
+import { useRouter } from 'next/navigation';  
 
 const SubmitSampleClip = () => {
   const {showToast}  = useToast()
+  const router = useRouter();   // ✅ initialize router
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -101,7 +103,7 @@ const SubmitSampleClip = () => {
         vocal_range: formData.vocalRange,
         languages: formData.languages.split(',').map(lang => lang.trim()),
         sample_title: formData.sampleTitle,
-        audio_sample_url: formData.audioFile ? URL.createObjectURL(formData.audioFile) : '',
+        audio_sample_url: 'https://www.netflix.com/search?q=love',
         sample_description: formData.sampleDescription,
         experience_background: formData.experience,
         portfolio: formData.portfolio,
@@ -112,6 +114,7 @@ const SubmitSampleClip = () => {
 
       console.log('✅ API Response:', response.data);
       showToast('Your vocal sample has been submitted successfully! ');
+      window.location.reload();
 
       setFormData({
         fullName: '',
