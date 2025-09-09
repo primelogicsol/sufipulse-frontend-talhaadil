@@ -157,7 +157,6 @@ const Navbar = () => {
       path: "/writers",
       dropdown: [
         { name: "How It Works", path: "/how-it-works" },
-        { name: "Top Writers", path: "/top-writers" },
         { name: "Kalam Library", path: "/kalam-library" },
         { name: "Writer FAQs", path: "/writer-faqs" },
       ],
@@ -424,7 +423,7 @@ const Navbar = () => {
                   </>
                 ) : (
                   <>
-                    {hasEverRegistered && (
+                    (
                       <Link
                         href="/login"
                         className="block w-full text-left px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
@@ -432,13 +431,13 @@ const Navbar = () => {
                       >
                         Login
                       </Link>
-                    )}
+                    )
                     <Link
                       href="/register"
-                      className="block w-full text-left px-3 py-2 bg-emerald-600 text-white rounded-lg font-medium transition-colors mx-3"
+                      className="block w-full text-left px-3 py-2 bg-emerald-600 text-white rounded-lg font-medium transition-colors"
                       onClick={() => setIsOpen(false)}
                     >
-                      Join Community
+                      Join 
                     </Link>
                   </>
                 )}
