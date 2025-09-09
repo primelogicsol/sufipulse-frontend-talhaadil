@@ -87,9 +87,7 @@ const Navbar = () => {
     checkAuthStatus();
 
     // Poll for cookie changes every 500ms
-    const interval = setInterval(checkAuthStatus, 500);
-
-    return () => clearInterval(interval);
+    
   }, []);
 
   const getDashboardPath = (role: string) => {

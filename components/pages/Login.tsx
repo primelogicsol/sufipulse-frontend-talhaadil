@@ -413,9 +413,13 @@ const Login = () => {
 
                         router.push("/");
                         console.log(data);
-                      } catch (error) {
-                        console.log(error)
-                        console.error('Login failed:', error);
+                      } catch (error : any) {
+                        console.log(error.message)
+                        if (error.message === "Cannot read properties of undefined (reading 'role')") {
+                          showToast("Please Signup with google first then try to login.");
+                        } else {
+                          showToast("Google login failed. Please try again.");
+                        }
                       } finally {
                         setLoading(false);
                       }
