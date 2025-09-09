@@ -20,6 +20,11 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   if (pathname?.startsWith("/admin")) {
     return <AdminLayout>{children}</AdminLayout>
   }
+  if (pathname?.startsWith("/aLogin")) {
+    return (<>
+    {children}</>
+      )
+  }
 
   const showNavbarFooter = !pathname?.includes("dashboard");
 
