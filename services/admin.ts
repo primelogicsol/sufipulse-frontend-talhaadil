@@ -76,3 +76,10 @@ export const assignVocalist = (
     },
   });
 };
+
+
+export const getAllPartnershipProposals = async () => {
+    return api.get("/admin/parnterships", {
+      headers: { requiresAuth: true },
+    });
+  };

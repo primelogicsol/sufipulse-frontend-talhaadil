@@ -18,6 +18,7 @@ import {
   Heart,
   Target
 } from 'lucide-react';
+import { createPartnershipProposal } from '@/services/requests'; // Adjust the import path based on your project structure
 
 const Partnership = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +32,8 @@ const Partnership = () => {
     website: '',
     timeline: '',
     resources: '',
-    goals: ''
+    goals: '',
+    sacredAlignment: true, // Added to match API requirement
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -79,7 +81,25 @@ const Partnership = () => {
     setLoading(true);
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Map formData to API payload
+      const apiPayload = {
+        full_name: formData.fullName,
+        email: formData.email,
+        organization_name: formData.organizationName,
+        role_title: formData.role,
+        organization_type: formData.organizationType,
+        partnership_type: formData.partnershipType,
+        website: formData.website,
+        proposal_text: formData.proposal,
+        proposed_timeline: formData.timeline,
+        resources: formData.resources,
+        goals: formData.goals,
+        sacred_alignment: formData.sacredAlignment,
+      };
+
+      // Call the API
+      const response = await createPartnershipProposal(apiPayload);
+      console.log("Partnership Proposal Response:", response);
       toast.success('Your partnership proposal has been submitted successfully! We will review it and get back to you soon.');
       
       // Reset form
@@ -94,7 +114,8 @@ const Partnership = () => {
         website: '',
         timeline: '',
         resources: '',
-        goals: ''
+        goals: '',
+        sacredAlignment: true,
       });
     } catch (error) {
       toast.error('Submission failed. Please try again.');

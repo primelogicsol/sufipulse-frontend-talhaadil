@@ -17,7 +17,6 @@ interface StudioRequest {
   number_of_visitors: string
   additional_details: string
   special_requests: string
-  status: string
   created_at: string
   updated_at: string
 }
@@ -53,7 +52,6 @@ export default function StudioRequestsPage() {
       request.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       request.organization.toLowerCase().includes(searchQuery.toLowerCase()) ||
       request.purpose.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.status.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (request.additional_details && request.additional_details.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (request.special_requests && request.special_requests.toLowerCase().includes(searchQuery.toLowerCase())) ||
       request.contact_number.toLowerCase().includes(searchQuery.toLowerCase())
@@ -124,12 +122,7 @@ export default function StudioRequestsPage() {
                   <p className="text-xs text-slate-600">Name</p>
                   <p className="text-sm sm:text-base text-slate-800 font-medium">{request.name}</p>
                 </div>
-                <div>
-                  <p className="text-xs text-slate-600">Status</p>
-                  <span className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(request.status)}`}>
-                    {request.status}
-                  </span>
-                </div>
+               
                 <div>
                   <p className="text-xs text-slate-600">Preferred Date</p>
                   <p className="text-sm sm:text-base text-slate-800">{new Date(request.preferred_date).toLocaleDateString()}</p>
@@ -223,14 +216,7 @@ export default function StudioRequestsPage() {
                     </div>
                   </div>
                 </div>
-                <div className="mt-4">
-                  <a
-                    href={`/admin/requests/${request.id}`}
-                    className="inline-block bg-emerald-900 text-emerald-50 py-2 px-4 rounded-md text-sm font-medium hover:bg-slate-800 transition-colors duration-200"
-                  >
-                    View Full Request
-                  </a>
-                </div>
+                
               </div>
             )}
           </div>

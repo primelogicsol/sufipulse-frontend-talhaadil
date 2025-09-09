@@ -89,3 +89,25 @@ export const getAllRemoteRecordingRequests = () => {
     },
   });
 };
+
+
+export const createPartnershipProposal = (data: {
+  full_name: string;
+  email: string;
+  organization_name: string;
+  role_title: string;
+  organization_type: string;
+  partnership_type: string;
+  website: string;
+  proposal_text: string;
+  proposed_timeline: string;
+  resources: string;
+  goals: string;
+  sacred_alignment: boolean;
+}) => {
+  return api.post("/public/", data, {
+    headers: {
+      requiresAuth: false, // since it's public
+    },
+  });
+};
