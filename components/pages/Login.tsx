@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import toast from "react-hot-toast";
 import { Mail, Lock, Users, Heart, Globe, Award, Key } from "lucide-react";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
@@ -12,8 +11,10 @@ import { login, forgotPassword, resetPassword } from "@/services/auth";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { GoogleLogin } from "@react-oauth/google";
+import { useToast } from "@/context/ToastContext";
 
 const Login = () => {
+  const {showToast} = useToast()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -115,7 +116,7 @@ const Login = () => {
     e.preventDefault();
 
     if (!validateLoginForm()) {
-      toast.error("Please fix the errors below");
+      showToast("Please fix the errors below");
       return;
     }
 
@@ -126,7 +127,7 @@ const Login = () => {
 
       if (response.data) {
         const data = response.data;
-        toast.success("Welcome back to SufiPulse!");
+        
         console.log("User data:", response.data);
 
         Cookies.set("access_token", data.access_token, {
@@ -150,10 +151,11 @@ const Login = () => {
         router.push("/");
       }
     } catch (error: any) {
-      if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
+      if (error.response.data.detail) {
+        console.log(error)
+        showToast(error.response.data.detail);
       } else {
-        toast.error("Login failed. Please try again.");
+        showToast("Login failed. Please try again.");
       }
     } finally {
       setLoading(false);
@@ -164,7 +166,6 @@ const Login = () => {
     e.preventDefault();
 
     if (!validateForgotPasswordForm()) {
-      toast.error("Please fix the errors below");
       return;
     }
 
@@ -172,14 +173,14 @@ const Login = () => {
 
     try {
       await forgotPassword(forgotPasswordData.email);
-      toast.success("OTP sent to your email!");
+      showToast("OTP sent to your email!");
       setShowForgotPassword(false);
       setShowResetPassword(true);
     } catch (error: any) {
       if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
+        showToast(error.response.data.message);
       } else {
-        toast.error("Failed to send OTP. Please try again.");
+        showToast("Failed to send OTP. Please try again.");
       }
     } finally {
       setLoading(false);
@@ -190,7 +191,7 @@ const Login = () => {
     e.preventDefault();
 
     if (!validateResetPasswordForm()) {
-      toast.error("Please fix the errors below");
+      showToast("Please fix the errors below");
       return;
     }
 
@@ -198,14 +199,14 @@ const Login = () => {
 
     try {
       await resetPassword(forgotPasswordData.email, forgotPasswordData.otp, forgotPasswordData.newPassword);
-      toast.success("Password reset successfully! Please log in.");
+      showToast("Password reset successfully! Please log in.");
       setShowResetPassword(false);
       setForgotPasswordData({ email: "", otp: "", newPassword: "" });
     } catch (error: any) {
       if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
+        showToast(error.response.data.message);
       } else {
-        toast.error("Failed to reset password. Please try again.");
+        showToast("Failed to reset password. Please try again.");
       }
     } finally {
       setLoading(false);

@@ -16,16 +16,12 @@ export function UserProfileDisplay({
   role: string
 }) {
   const [open, setOpen] = useState(false)
-  const [isRegistered, setIsRegistered] = useState<boolean | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const auth = useAuth()
-  const logout = auth?.logout ?? (() => {})
+  const logout = auth?.logout ?? (() => { })
 
-  useEffect(() => {
-    const registeredStatus = Cookies.get("is_registered")
-    setIsRegistered(registeredStatus === "true")
-  }, [])
+
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -68,24 +64,22 @@ export function UserProfileDisplay({
             transition={{ duration: 0.2 }}
           >
             <button
-  disabled={isRegistered === false}
-  onClick={() => {
-    if (isRegistered) {
-      if (role?.toLowerCase() === "vocalist") {
-        router.push("/vocalist/profile")
-      } else if (role?.toLowerCase() === "writer") {
-        router.push("/writer/kalams")
-      } else {
-        router.push("/admin")
-      }
-    }
-    setOpen(false)
-  }}
-  className="w-full text-left px-4 py-2 text-sm text-slate-900 hover:bg-slate-50 flex items-center gap-2 disabled:opacity-50"
->
-  Dashboard
-  {isRegistered === false && <Lock size={16} />}
-</button>
+              onClick={() => {
+
+                if (role?.toLowerCase() === "vocalist") {
+                  router.push("/vocalist/profile")
+                } else if (role?.toLowerCase() === "writer") {
+                  router.push("/writer/kalams")
+                } else {
+                  router.push("/admin")
+                }
+
+                setOpen(false)
+              }}
+              className="w-full text-left px-4 py-2 text-sm text-slate-900 hover:bg-slate-50 flex items-center gap-2 disabled:opacity-50"
+            >
+              Dashboard
+            </button>
 
             <button
               onClick={() => {

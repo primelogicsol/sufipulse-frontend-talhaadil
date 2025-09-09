@@ -3,6 +3,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getUserNotifications } from "../services/notifications"; // adjust path
 import { Notification } from "@/components/Layouts/NotficationDropdown";
+import Cookies from "js-cookie";
+
 type NotificationContextType = {
     allNotifications: Notification[];
     unreadNotifications: Notification[];
@@ -21,7 +23,6 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
         try {
             const response = await getUserNotifications();
             const data = response.data.notifications as Notification[];
-
             const sorted = data.sort((a, b) => b.id - a.id);
             setAllNotifications(sorted);
         } catch (error) {
@@ -32,13 +33,16 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
     };
 
     useEffect(() => {
-        fetchNotifications();
+        const userId = Cookies.get("user_id");
+        if (userId) {
+            fetchNotifications();
+        }
     }, []);
 
     const unreadNotifications = allNotifications
         .filter(n => !n.read)
         .slice(0, 4);
-    console.log("Unread Notifications:", unreadNotifications);
+
     return (
         <NotificationContext.Provider
             value={{ allNotifications, unreadNotifications, loading, refetch: fetchNotifications }}

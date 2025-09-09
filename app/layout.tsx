@@ -8,6 +8,7 @@ import LayoutWrapper from "@/components/Layouts/LayoutWrapper";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { AuthProvider } from "@/context/AuthContext";
 import { NotificationProvider } from "@/context/NotificationContext";
+import { ToastProvider } from "@/context/ToastContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,15 +34,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <NotificationProvider>
-          <AuthProvider>
-            <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""} >
-              <LayoutWrapper>
-                {children}
-              </LayoutWrapper>
-            </GoogleOAuthProvider>
-          </AuthProvider>
-        </NotificationProvider>
+        <ToastProvider>
+          <NotificationProvider>
+            <AuthProvider>
+              <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""} >
+                <LayoutWrapper>
+                  {children}
+                </LayoutWrapper>
+              </GoogleOAuthProvider>
+            </AuthProvider>
+          </NotificationProvider>
+        </ToastProvider>
       </body>
     </html>
   );
