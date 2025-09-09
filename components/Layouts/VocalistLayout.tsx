@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type React from "react";
-import { User, Music, Menu, X, LogOut, User2 } from "lucide-react";
+import { User, Music, Menu, X, LogOut, User2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { checkVocalistRegistration } from "@/services/vocalist";
@@ -43,8 +43,18 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
   }, []);
 
   const navigation = [
-    { name: "Profile", href: "/vocalist/profile", icon: User, current: pathname === "/vocalist/profile" },
-    { name: "Kalam", href: "/vocalist/kalam", icon: Music, current: pathname === "/vocalist/kalam" },
+    {
+      name: "Profile",
+      href: "/vocalist/profile",
+      icon: User,
+      current: pathname === "/vocalist/profile",
+    },
+    {
+      name: "Kalam",
+      href: "/vocalist/kalam",
+      icon: Music,
+      current: pathname === "/vocalist/kalam",
+    },
   ];
 
   // Loader component
@@ -53,7 +63,9 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
       <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
         <div className="flex flex-col items-center">
           <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-sm sm:text-base text-slate-600 font-medium">Loading...</p>
+          <p className="mt-4 text-sm sm:text-base text-slate-600 font-medium">
+            Loading...
+          </p>
         </div>
       </div>
     );
@@ -77,7 +89,9 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
                 <Music className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-white font-bold text-base sm:text-lg">Vocalist</h1>
+                <h1 className="text-white font-bold text-base sm:text-lg">
+                  Vocalist
+                </h1>
                 <p className="text-slate-400 text-xs sm:text-sm">Dashboard</p>
               </div>
             </div>
@@ -129,6 +143,7 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
       <div>
         <header className="bg-white shadow-sm border-b border-slate-200 px-4 sm:px-6 py-4 lg:ml-64">
           <div className="flex items-center justify-between">
+            {/* Left section: Sidebar toggle + Back button + Heading */}
             <div className="flex items-center space-x-3 sm:space-x-4">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -141,6 +156,19 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
                   <Menu className="w-5 h-5 sm:w-6 sm:h-6 text-slate-600" />
                 )}
               </button>
+
+              {/* Back button + heading */}
+              <div className="flex items-center space-x-3">
+              {/* Back Button */}
+              <Link
+                href="/"
+                className="flex items-center px-3 py-1.5 rounded-full bg-emerald-50 text-slate-600 hover:bg-emerald-600 hover:text-white shadow-sm transition-all duration-200"
+              >
+                <ArrowLeft className="w-4 h-4 mr-1" />
+                <span className="text-sm font-medium">Back</span>
+              </Link>
+
+              {/* Heading + Subtext */}
               <div>
                 <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900">
                   {pathname === "/vocalist/profile" ? "Profile" : "Kalam Management"}
@@ -152,15 +180,19 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
                 </p>
               </div>
             </div>
+
+            </div>
+
+            {/* Right section: Notifications + User info */}
             <div className="flex items-center space-x-3">
               {!pathname.includes("/notification") && <NotificationDropdown />}
 
-              {/* Avatar Circle */}
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-600 rounded-full flex items-center justify-center">
                 <User2 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              {/* Name */}
-              <span className="text-sm sm:text-base font-medium text-gray-800">{name}</span>
+              <span className="text-sm sm:text-base font-medium text-gray-800">
+                {name}
+              </span>
             </div>
           </div>
         </header>
