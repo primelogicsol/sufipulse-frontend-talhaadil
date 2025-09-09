@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Menu,
@@ -10,77 +11,97 @@ import {
   Settings,
   UserCircle,
 } from "lucide-react";
+import { UserProfileDisplay } from "./UserProfile";
+import Cookies from "js-cookie";
+import { useAuth } from "@/context/AuthContext"; // Assuming this is where useAuth is imported from
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
-  // Check authentication status from localStorage
+  // Authentication state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // Check if user has ever registered (even if not currently logged in)
   const [hasEverRegistered, setHasEverRegistered] = useState(false);
-
-  const [userRole, setUserRole] = useState("hello");
-
+  const [userRole, setUserRole] = useState<
+    "writer" | "vocalist" | "super_admin" | "moderator" | "collaborator" | "hello"
+  >("hello");
   const [userName, setUserName] = useState("User");
+
+  // Use the auth context for logout
+  const auth = useAuth();
+  const logout = auth?.logout ?? (() => {});
 
   const toggleDropdown = (dropdown: string) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   };
 
   const handleLogout = () => {
+    // Call the logout function from useAuth
+    logout();
+    // Clear authentication cookies
+    Cookies.remove("user_id");
+    Cookies.remove("name");
+    Cookies.remove("user_role");
+    // Clear localStorage for hasEverRegistered
     localStorage.removeItem("isRegistered");
-
+    localStorage.removeItem("hasEverRegistered");
+    // Update state immediately
     setIsLoggedIn(false);
+    setUserRole("hello");
+    setUserName("User");
+    setHasEverRegistered(false);
     setActiveDropdown(null);
   };
 
-  // Listen for storage changes (when user logs in from another tab)
-  React.useEffect(() => {
-    const handleStorageChange = () => {
-      setIsLoggedIn(localStorage.getItem("isRegistered") === "true");
-      setHasEverRegistered(
-        localStorage.getItem("hasEverRegistered") === "true"
-      );
-      setUserRole(
-        (localStorage.getItem("userRole") as
-          | "writer"
-          | "vocalist"
-          | "super_admin"
-          | "moderator"
-          | "collaborator") || "writer"
-      );
-      setUserName(localStorage.getItem("userName") || "User");
-    };
+  // Function to check cookies and update state
+  const checkAuthStatus = () => {
+    const userId = Cookies.get("user_id");
+    const username = Cookies.get("name");
+    const role = Cookies.get("user_role") as
+      | "writer"
+      | "vocalist"
+      | "super_admin"
+      | "moderator"
+      | "collaborator"
+      | "hello"
+      | undefined;
+    const hasRegistered = localStorage.getItem("hasEverRegistered") === "true";
 
-    // Also check on component mount
-    handleStorageChange();
+    if (userId) {
+      setIsLoggedIn(true);
+      setUserName(username || "User");
+      setUserRole(role || "hello");
+      setHasEverRegistered(true);
+      // Update localStorage to reflect registration
+      localStorage.setItem("hasEverRegistered", "true");
+    } else {
+      setIsLoggedIn(false);
+      setUserName("User");
+      setUserRole("hello");
+      setHasEverRegistered(hasRegistered);
+    }
+  };
 
-    window.addEventListener("storage", handleStorageChange);
+  useEffect(() => {
+    // Check auth status on mount
+    checkAuthStatus();
 
-    // Listen for manual localStorage changes in same tab
-    const interval = setInterval(handleStorageChange, 1000);
+    // Poll for cookie changes every 500ms
+    const interval = setInterval(checkAuthStatus, 500);
 
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, []);
 
   const getDashboardPath = (role: string) => {
     switch (role) {
       case "writer":
-        return "/writer-dashboard";
+        return "/writer/kalams";
       case "vocalist":
-        return "/vocalist-dashboard";
+        return "/vocalist/profile";
       case "super_admin":
       case "moderator":
       case "collaborator":
-        return "/admin-dashboard";
-      case "super_admin":
-      case "moderator":
-      case "collaborator":
-        return "/admin-dashboard";
+        return "/admin";
       default:
         return "/dashboard";
     }
@@ -96,10 +117,6 @@ const Navbar = () => {
       case "moderator":
       case "collaborator":
         return "/admin-dashboard";
-      case "super_admin":
-      case "moderator":
-      case "collaborator":
-        return "/admin-dashboard";
       default:
         return "/contact?type=writer";
     }
@@ -111,10 +128,6 @@ const Navbar = () => {
         return "Submit New Kalam";
       case "vocalist":
         return "Join New Project";
-      case "super_admin":
-      case "moderator":
-      case "collaborator":
-        return "Admin Panel";
       case "super_admin":
       case "moderator":
       case "collaborator":
@@ -262,8 +275,6 @@ const Navbar = () => {
                 )}
               </div>
             ))}
-
-            {/* Conditional Dashboard */}
           </div>
 
           {/* Right Side Actions */}
@@ -289,33 +300,20 @@ const Navbar = () => {
 
                 {activeDropdown === "user" && (
                   <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50">
-                    <div className="px-4 py-3 border-b border-slate-100">
-                      <div className="font-medium text-slate-800">
-                        {userName}
-                      </div>
-                      <div className="text-sm text-slate-500 capitalize">
-                        {userRole} Account
-                      </div>
-                    </div>
                     <Link
                       href={getDashboardPath(userRole)}
                       className="flex items-center px-4 py-3 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors"
                       onClick={() => setActiveDropdown(null)}
                     >
                       <Settings className="h-4 w-4 mr-2" />
-                      My Dashboard
-                    </Link>
-                    <Link
-                      href={getSubmissionPath(userRole)}
-                      className="flex items-center px-4 py-3 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 transition-colors"
-                      onClick={() => setActiveDropdown(null)}
-                    >
-                      <User className="h-4 w-4 mr-3" />
-                      {getSubmissionLabel(userRole)}
+                      Dashboard
                     </Link>
                     <button
-                      onClick={handleLogout}
-                      className="flex items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors border-t border-slate-100 mt-1 pt-3"
+                      onClick={() => {
+                        handleLogout();
+                        setActiveDropdown(null);
+                      }}
+                      className="flex items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors"
                     >
                       <LogOut className="h-4 w-4 mr-2" />
                       Logout
@@ -326,14 +324,12 @@ const Navbar = () => {
             ) : (
               /* Non-authenticated User Menu */
               <div className="flex items-center space-x-4">
-               
-                  <Link
-                    href="/login"
-                    className="px-4 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
-                  >
-                    Login
-                  </Link>
-                
+                <Link
+                  href="/login"
+                  className="px-4 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
+                >
+                  Login
+                </Link>
                 <Link
                   href="/register"
                   className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition-all duration-200"
@@ -413,15 +409,7 @@ const Navbar = () => {
                       onClick={() => setIsOpen(false)}
                     >
                       <Settings className="h-4 w-4 mr-2" />
-                      My Dashboard
-                    </Link>
-                    <Link
-                      href={getSubmissionPath(userRole)}
-                      className="flex items-center px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      <User className="h-4 w-4 mr-2" />
-                      {getSubmissionLabel(userRole)}
+                      Dashboard
                     </Link>
                     <button
                       onClick={() => {
@@ -446,7 +434,7 @@ const Navbar = () => {
                       </Link>
                     )}
                     <Link
-                      href="/join"
+                      href="/register"
                       className="block w-full text-left px-3 py-2 bg-emerald-600 text-white rounded-lg font-medium transition-colors mx-3"
                       onClick={() => setIsOpen(false)}
                     >

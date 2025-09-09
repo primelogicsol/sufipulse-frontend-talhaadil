@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { Users, Plus, Edit, Trash2, X } from "lucide-react"
-import {registerSubadmin,deleteSubadmin,updateSubadmin,getAllSubadmins} from "@/services/auth"
+import { registerSubadmin, deleteSubadmin, updateSubadmin, getAllSubadmins } from "@/services/auth"
 
 interface Admin {
   id: number
@@ -70,7 +70,18 @@ export default function OtherAdminsPage() {
       setGetLoading(true)
       try {
         const response = await getAllSubadmins()
-        setAdmins(response.data.subadmins)
+        const subadmins: Admin[] = response.data.subadmins.map((a: any) => ({
+          ...a,
+          permissions: a.permissions || {
+            kalams: [],
+            requests: [],
+            partnership_proposal: [],
+            vocalist: [],
+            writer: [],
+            notification: [],
+          },
+        }))
+        setAdmins(subadmins)
       } catch (error) {
         console.error("Failed to fetch admins:", error)
       } finally {
@@ -108,7 +119,14 @@ export default function OtherAdminsPage() {
       name: admin.name,
       email: admin.email,
       password: "",
-      permissions: admin.permissions,
+      permissions: admin.permissions || {
+        kalams: [],
+        requests: [],
+        partnership_proposal: [],
+        vocalist: [],
+        writer: [],
+        notification: [],
+      },
     })
     setEditingAdmin(admin)
     setShowAddForm(true)
@@ -137,26 +155,39 @@ export default function OtherAdminsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    console.log("Form submission payload:", formData)
     setLoading(true)
     if (editingAdmin) {
       try {
         const response = await updateSubadmin({ id: editingAdmin.id, ...formData })
         console.log(response)
+        setAdmins(admins.map((admin) => (admin.id === editingAdmin.id ? { ...admin, ...formData } : admin)))
       } catch (err: any) {
-        console.log(err.response.data.detail)
-      } finally {  
+        console.log(err.response?.data?.detail || err.message)
+      } finally {
         setLoading(false)
       }
-
-      setAdmins(admins.map((admin) => (admin.id === editingAdmin.id ? { ...admin, ...formData } : admin)))
     } else {
       try {
         const response = await registerSubadmin(formData)
-        console.log(response)
-        setAdmins([...admins, { ...response.data, role: "sub-admin", created_at: new Date().toISOString() }])
+        console.log(response.data)
+        const newAdmin: Admin = {
+          ...response.data.user,
+          role: "sub-admin",
+          created_at: new Date().toISOString(),
+          permissions:
+            response.data.user.permissions ||
+            {
+              kalams: [],
+              requests: [],
+              partnership_proposal: [],
+              vocalist: [],
+              writer: [],
+              notification: [],
+            },
+        }
+        setAdmins([...admins, newAdmin])
       } catch (err: any) {
-        console.log(err.response.data.detail)
+        console.log(err.response?.data?.detail || err.message)
       } finally {
         setLoading(false)
       }
@@ -180,6 +211,7 @@ export default function OtherAdminsPage() {
   }
 
   const getPermissionsSummary = (permissions: Admin["permissions"]) => {
+    if (!permissions) return "0 permissions"
     const totalPermissions = Object.values(permissions).flat().length
     return `${totalPermissions} permissions`
   }

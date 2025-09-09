@@ -1,10 +1,10 @@
-import SubmitSampleClip from '@/components/pages/SubmitSampleClip'
+import { UserProfileDisplay } from '@/components/UserProfile'
 import React from 'react'
 
 function page() {
   return (
     <div>
-        <SubmitSampleClip/>
+      <UserProfileDisplay userName='manahil' userAvatarSrc='dsf' role='ewfasx' />
     </div>
   )
 }
