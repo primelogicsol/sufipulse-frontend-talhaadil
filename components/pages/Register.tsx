@@ -425,7 +425,7 @@ const Register = () => {
                           sameSite: "Strict",
                           secure: process.env.NODE_ENV === "production",
                         })
-                        Cookies.set("user_role", formData.userType)
+                        Cookies.set("user_role", data.user.role)
                         Cookies.set("user_id", data.user.id.toString())
                         Cookies.set("is_registered", data.user.is_registered.toString())
                         Cookies.set("city", data.user.city)
