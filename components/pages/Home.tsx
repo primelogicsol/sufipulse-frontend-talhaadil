@@ -430,6 +430,40 @@ const Home = () => {
           </div>
         </div>
       </section>
+      <section className="py-20 bg-slate-800 text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+            Ready to Collaborate or Adapt Sufi Kalam?
+          </h2>
+          <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+            Join our global community of Sufi writers and vocalists. Whether you have sacred poetry to share 
+            or a voice to lend to the divine, you have a place in our spiritual family.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/contact?type=writer"
+              className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
+            >
+              <PenTool className="w-5 h-5" />
+              <span>Submit Your Kalam</span>
+            </Link>
+            <Link
+              href="/contact?type=vocalist"
+              className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
+            >
+              <Mic className="w-5 h-5" />
+              <span>Join as Vocalist</span>
+            </Link>
+            <Link
+              href="/about"
+              className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
+            >
+              <BookOpen className="w-5 h-5" />
+              <span>Learn More</span>
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
