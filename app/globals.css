@@ -31,3 +31,20 @@ select
    {
   color: #000000; /* Change this to your desired color */
 }
+
+
+.googleLoginWrapper {
+  width: 100%;
+}
+
+.googleLoginWrapper > div[role="button"],
+.googleLoginWrapper > .g_id_signin {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.googleLoginWrapper > div[role="button"] > div,
+.googleLoginWrapper > div[role="button"] iframe {
+  width: 100% !important;
+  max-width: none !important;
+}
