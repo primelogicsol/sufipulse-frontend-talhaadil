@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation"
 import { useToast } from "@/context/ToastContext"
 
 const Register = () => {
-  const {showToast} = useToast();
+  const { showToast } = useToast();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -116,7 +116,7 @@ const Register = () => {
     }
   }
 
-  
+
   const handleOTPVerified = async () => {
     setShowOTPVerification(false)
     showToast("Email verified successfully!")
@@ -269,10 +269,9 @@ const Register = () => {
                           onClick={() => setFormData((prev) => ({ ...prev, userType: type.id }))}
                           className={`
                             flex-1 p-3 rounded-md text-sm font-medium transition-all duration-200
-                            ${
-                              formData.userType === type.id
-                                ? "bg-emerald-700 text-white shadow-sm border"
-                                : "text-slate-600 hover:text-emerald-600"
+                            ${formData.userType === type.id
+                              ? "bg-emerald-700 text-white shadow-sm border"
+                              : "text-slate-600 hover:text-emerald-600"
                             }
                           `}
                         >
@@ -402,6 +401,7 @@ const Register = () => {
                 </Button>
                 {formData.userType !== "" && (
                   <GoogleLogin
+                    width="100%"
                     onSuccess={async (credentialResponse) => {
                       setLoading(true)
                       try {

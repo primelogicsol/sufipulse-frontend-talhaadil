@@ -382,6 +382,7 @@ const Login = () => {
 
                   <div className="w-full">
                     <GoogleLogin
+                      width="100%"
                       onSuccess={async (credentialResponse) => {
                         setLoading(true);
                         try {
