@@ -1,91 +1,244 @@
 "use client"
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { 
-  Play, 
-  Filter, 
-  Search, 
-  Globe, 
-  Clock, 
-  User, 
-  Heart, 
-  Eye, 
-  Download, 
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import {
+  Play,
+  Filter,
+  Search,
+  Globe,
+  Clock,
+  Heart,
+  Eye,
+  Download,
   Share2,
-  ArrowRight,
-  Award,
   Star,
   Music,
   Headphones,
-  Users
-} from 'lucide-react';
+  Users,
+} from "lucide-react"
+
+const YOUTUBE_API_KEY = "AIzaSyBEyJxqQdF7rdWSI4YrKtU4ZxFO3QvL2ak"
+const CHANNEL_ID = "UCraDr3i5A3k0j7typ6tOOsQ"
+
+interface YouTubeVideo {
+  id: {
+    videoId: string
+  }
+  snippet: {
+    title: string
+    description: string
+    thumbnails: {
+      medium: {
+        url: string
+      }
+    }
+    publishedAt: string
+    channelTitle: string
+  }
+}
+
+interface ProcessedVideo {
+  id: string
+  title: string
+  writer: string
+  vocalist: string
+  thumbnail: string
+  duration: string
+  views: string
+  category: string
+  language: string
+  uploadDate: string
+  videoId: string
+}
 
 const Gallery = () => {
-  const [activeFilter, setActiveFilter] = useState('all');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [activeFilter, setActiveFilter] = useState("all")
+  const [searchTerm, setSearchTerm] = useState("")
+  const [videos, setVideos] = useState<ProcessedVideo[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   const filters = [
-    { id: 'all', label: 'All Videos', count: 156 },
-    { id: 'qawwali', label: 'Qawwali', count: 45 },
-    { id: 'chant', label: 'Sacred Chants', count: 38 },
-    { id: 'anthem', label: 'Spiritual Anthems', count: 32 },
-    { id: 'whisper', label: 'Whisper Kalam', count: 25 },
-    { id: 'instrumental', label: 'Instrumentals', count: 16 }
-  ];
+    { id: "all", label: "All Videos", count: 0 },
+    { id: "qawwali", label: "Qawwali", count: 0 },
+    { id: "chant", label: "Sacred Chants", count: 0 },
+    { id: "anthem", label: "Spiritual Anthems", count: 0 },
+    { id: "whisper", label: "Whisper Kalam", count: 0 },
+    { id: "instrumental", label: "Instrumentals", count: 0 },
+  ]
 
-  const videos = [
-    {
-      id: 1,
-      title: "Ishq-e-Haqiqi",
-      writer: "Amina Rahman",
-      vocalist: "Muhammad Ali",
-      thumbnail: "https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=400",
-      duration: "4:32",
-      views: "12.5K",
-      category: "qawwali",
-      language: "Urdu",
-      uploadDate: "2024-01-15"
-    },
-    {
-      id: 2,
-      title: "Wahdat Symphony",
-      writer: "Dr. Sarah Ahmed",
-      vocalist: "Fatima Zahra",
-      thumbnail: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400",
-      duration: "6:18",
-      views: "8.7K",
-      category: "anthem",
-      language: "English",
-      uploadDate: "2024-01-10"
-    },
-    {
-      id: 3,
-      title: "Path of Fanaa",
-      writer: "Ahmad Hassan",
-      vocalist: "Ensemble Voice",
-      thumbnail: "https://images.pexels.com/photos/1616403/pexels-photo-1616403.jpeg?auto=compress&cs=tinysrgb&w=400",
-      duration: "5:45",
-      views: "15.2K",
-      category: "chant",
-      language: "Multilingual",
-      uploadDate: "2024-01-08"
+  const categorizeVideo = (title: string): string => {
+    const titleLower = title.toLowerCase()
+    if (titleLower.includes("qawwali") || titleLower.includes("qawwal")) return "qawwali"
+    if (titleLower.includes("chant") || titleLower.includes("dhikr")) return "chant"
+    if (titleLower.includes("anthem") || titleLower.includes("nasheed")) return "anthem"
+    if (titleLower.includes("whisper") || titleLower.includes("kalam")) return "whisper"
+    if (titleLower.includes("instrumental") || titleLower.includes("music")) return "instrumental"
+    return "qawwali" // default category
+  }
+
+  const fetchVideoDuration = async (videoId: string): Promise<string> => {
+    try {
+      const response = await fetch(
+        `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`,
+      )
+      const data = await response.json()
+
+      if (data.items && data.items[0]) {
+        const duration = data.items[0].contentDetails.duration
+        // Convert ISO 8601 duration to MM:SS format
+        const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/)
+        const hours = (match[1] || "").replace("H", "")
+        const minutes = (match[2] || "").replace("M", "")
+        const seconds = (match[3] || "").replace("S", "")
+
+        if (hours) {
+          return `${hours}:${minutes.padStart(2, "0")}:${seconds.padStart(2, "0")}`
+        } else {
+          return `${minutes || "0"}:${seconds.padStart(2, "0")}`
+        }
+      }
+      return "0:00"
+    } catch (error) {
+      console.error("Error fetching video duration:", error)
+      return "0:00"
     }
-  ];
+  }
+
+  const fetchVideoStats = async (videoId: string): Promise<string> => {
+    try {
+      const response = await fetch(
+        `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`,
+      )
+      const data = await response.json()
+
+      if (data.items && data.items[0]) {
+        const viewCount = Number.parseInt(data.items[0].statistics.viewCount)
+        if (viewCount >= 1000000) {
+          return `${(viewCount / 1000000).toFixed(1)}M`
+        } else if (viewCount >= 1000) {
+          return `${(viewCount / 1000).toFixed(1)}K`
+        } else {
+          return viewCount.toString()
+        }
+      }
+      return "0"
+    } catch (error) {
+      console.error("Error fetching video stats:", error)
+      return "0"
+    }
+  }
+
+  const fetchYouTubeVideos = async () => {
+    try {
+      setLoading(true)
+      const response = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=50&order=date&type=video&key=${YOUTUBE_API_KEY}`,
+      )
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch videos from YouTube")
+      }
+
+      const data = await response.json()
+
+      if (data.items) {
+        const processedVideos: ProcessedVideo[] = await Promise.all(
+          data.items.map(async (video: YouTubeVideo) => {
+            const videoId = video.id.videoId
+            const duration = await fetchVideoDuration(videoId)
+            const views = await fetchVideoStats(videoId)
+            const category = categorizeVideo(video.snippet.title)
+
+            return {
+              id: videoId,
+              title: video.snippet.title,
+              writer: video.snippet.channelTitle,
+              vocalist: video.snippet.channelTitle,
+              thumbnail: video.snippet.thumbnails.medium.url,
+              duration,
+              views,
+              category,
+              language: "Multilingual",
+              uploadDate: new Date(video.snippet.publishedAt).toLocaleDateString(),
+              videoId,
+            }
+          }),
+        )
+
+        setVideos(processedVideos)
+
+        // Update filter counts
+        filters.forEach((filter) => {
+          if (filter.id === "all") {
+            filter.count = processedVideos.length
+          } else {
+            filter.count = processedVideos.filter((v) => v.category === filter.id).length
+          }
+        })
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred")
+      console.error("Error fetching YouTube videos:", err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchYouTubeVideos()
+  }, [])
 
   const stats = [
-    { number: "156", label: "Sacred Videos", icon: Play },
+    { number: videos.length.toString(), label: "Sacred Videos", icon: Play },
     { number: "25+", label: "Languages", icon: Globe },
-    { number: "127K+", label: "Total Views", icon: Eye },
-    { number: "50+", label: "Countries Reached", icon: Heart }
-  ];
+    {
+      number: videos.reduce((total, video) => total + Number.parseInt(video.views.replace(/[KM]/g, "")), 0) + "K+",
+      label: "Total Views",
+      icon: Eye,
+    },
+    { number: "50+", label: "Countries Reached", icon: Heart },
+  ]
 
-  const filteredVideos = videos.filter(video => {
-    const matchesFilter = activeFilter === 'all' || video.category === activeFilter;
-    const matchesSearch = video.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         video.writer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         video.vocalist.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesFilter && matchesSearch;
-  });
+  const filteredVideos = videos.filter((video) => {
+    const matchesFilter = activeFilter === "all" || video.category === activeFilter
+    const matchesSearch =
+      video.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      video.writer.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      video.vocalist.toLowerCase().includes(searchTerm.toLowerCase())
+    return matchesFilter && matchesSearch
+  })
+
+  const handleVideoClick = (videoId: string) => {
+    window.open(`https://www.youtube.com/watch?v=${videoId}`, "_blank")
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading sacred videos...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">Error loading videos: {error}</p>
+          <button
+            onClick={fetchYouTubeVideos}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -101,11 +254,11 @@ const Gallery = () => {
                   <span className="block text-emerald-400">Gallery</span>
                 </h1>
                 <p className="text-xl lg:text-2xl text-slate-300 leading-relaxed">
-                  Experience divine kalam brought to life through global spiritual voices. 
-                  From traditional Qawwali to contemporary spiritual anthems.
+                  Experience divine kalam brought to life through global spiritual voices. From traditional Qawwali to
+                  contemporary spiritual anthems.
                 </p>
               </div>
-              
+
               <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-emerald-500/20">
                 <p className="text-emerald-300 font-medium mb-2">Sacred Collection</p>
                 <blockquote className="text-lg italic">
@@ -146,7 +299,7 @@ const Gallery = () => {
                 </div>
                 <div className="absolute bottom-6 left-6 right-6">
                   <h3 className="text-white text-xl font-bold mb-2">Divine Collaborations</h3>
-                  <p className="text-slate-200 text-sm">156 sacred videos from our global community</p>
+                  <p className="text-slate-200 text-sm">{videos.length} sacred videos from our global community</p>
                 </div>
               </div>
             </div>
@@ -159,7 +312,7 @@ const Gallery = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => {
-              const Icon = stat.icon;
+              const Icon = stat.icon
               return (
                 <div key={index} className="text-center">
                   <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -168,7 +321,7 @@ const Gallery = () => {
                   <div className="text-3xl font-bold text-slate-800 mb-2">{stat.number}</div>
                   <div className="text-slate-600 font-medium">{stat.label}</div>
                 </div>
-              );
+              )
             })}
           </div>
         </div>
@@ -198,17 +351,17 @@ const Gallery = () => {
                     onClick={() => setActiveFilter(filter.id)}
                     className={`flex items-center space-x-2 px-4 py-2 rounded-lg whitespace-nowrap font-medium transition-all duration-200 ${
                       activeFilter === filter.id
-                        ? 'bg-emerald-600 text-white'
-                        : 'bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600'
+                        ? "bg-emerald-600 text-white"
+                        : "bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600"
                     }`}
                   >
                     <span>{filter.label}</span>
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      activeFilter === filter.id
-                        ? 'bg-white/20'
-                        : 'bg-slate-300'
-                    }`}>
-                      {filter.count}
+                    <span
+                      className={`text-xs px-2 py-1 rounded-full ${
+                        activeFilter === filter.id ? "bg-white/20" : "bg-slate-300"
+                      }`}
+                    >
+                      {filter.id === "all" ? videos.length : videos.filter((v) => v.category === filter.id).length}
                     </span>
                   </button>
                 ))}
@@ -223,16 +376,20 @@ const Gallery = () => {
           {/* Videos Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredVideos.map((video) => (
-              <div key={video.id} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100">
+              <div
+                key={video.id}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100 cursor-pointer"
+                onClick={() => handleVideoClick(video.videoId)}
+              >
                 <div className="relative">
                   <img
-                    src={video.thumbnail}
+                    src={video.thumbnail || "/placeholder.svg"}
                     alt={video.title}
                     className="w-full h-48 object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
-                    <span className="text-xs font-medium text-white bg-emerald-600 px-2 py-1 rounded-lg">
+                    <span className="text-xs font-medium text-white bg-emerald-600 px-2 py-1 rounded-lg capitalize">
                       {video.category}
                     </span>
                     <div className="flex items-center space-x-1 text-white text-xs bg-black/40 backdrop-blur-sm px-2 py-1 rounded-lg">
@@ -246,7 +403,7 @@ const Gallery = () => {
                     </div>
                   </div>
                   <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-white font-bold text-lg mb-1">{video.title}</h3>
+                    <h3 className="text-white font-bold text-lg mb-1 line-clamp-2">{video.title}</h3>
                     <div className="flex items-center justify-between text-white text-xs">
                       <span>by {video.writer}</span>
                       <div className="flex items-center space-x-2">
@@ -256,23 +413,44 @@ const Gallery = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="p-6">
                   <div className="space-y-2 text-sm text-slate-600 mb-4">
-                    <div><span className="font-medium">Vocalist:</span> {video.vocalist}</div>
-                    <div><span className="font-medium">Language:</span> {video.language}</div>
-                    <div><span className="font-medium">Uploaded:</span> {video.uploadDate}</div>
+                    <div>
+                      <span className="font-medium">Vocalist:</span> {video.vocalist}
+                    </div>
+                    <div>
+                      <span className="font-medium">Language:</span> {video.language}
+                    </div>
+                    <div>
+                      <span className="font-medium">Uploaded:</span> {video.uploadDate}
+                    </div>
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                    <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full capitalize">
                       {video.category}
                     </span>
                     <div className="flex space-x-2">
-                      <button className="p-2 text-slate-400 hover:text-emerald-600 transition-colors">
+                      <button
+                        className="p-2 text-slate-400 hover:text-emerald-600 transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          navigator.share?.({
+                            title: video.title,
+                            url: `https://www.youtube.com/watch?v=${video.videoId}`,
+                          })
+                        }}
+                      >
                         <Share2 className="w-4 h-4" />
                       </button>
-                      <button className="p-2 text-slate-400 hover:text-emerald-600 transition-colors">
+                      <button
+                        className="p-2 text-slate-400 hover:text-emerald-600 transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          window.open(`https://www.youtube.com/watch?v=${video.videoId}`, "_blank")
+                        }}
+                      >
                         <Download className="w-4 h-4" />
                       </button>
                     </div>
@@ -283,8 +461,11 @@ const Gallery = () => {
           </div>
 
           <div className="text-center mt-12">
-            <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200">
-              Load More Videos
+            <button
+              onClick={fetchYouTubeVideos}
+              className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200"
+            >
+              Refresh Videos
             </button>
           </div>
         </div>
@@ -293,12 +474,10 @@ const Gallery = () => {
       {/* Call to Action */}
       <section className="py-20 bg-slate-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-            Share Your Sacred Voice
-          </h2>
+          <h2 className="text-3xl lg:text-4xl font-bold mb-6">Share Your Sacred Voice</h2>
           <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-            Join our global community and experience the complete journey from sacred words 
-            to worldwide spiritual impact through professional video production.
+            Join our global community and experience the complete journey from sacred words to worldwide spiritual
+            impact through professional video production.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -326,7 +505,7 @@ const Gallery = () => {
         </div>
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default Gallery;
+export default Gallery

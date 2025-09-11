@@ -111,3 +111,18 @@ export const createPartnershipProposal = (data: {
     },
   });
 };
+
+
+
+export const getPostedKalams = (skipValue:number, limit:number) => {
+  console.log("Fetching posted kalams with skip:", skipValue, "and limit:", limit);
+  return api.get("/public/postedkalams", {
+    params: {
+      skip: skipValue,   // default
+      limit: limit,  // default
+    },
+    headers: {
+      requiresAuth: false, // since it's public
+    },
+  });
+};

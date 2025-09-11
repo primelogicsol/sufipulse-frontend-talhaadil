@@ -1,29 +1,75 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import type React from "react";
-import { PenTool, BookOpen, Menu, X, User2, ArrowLeft } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import Cookies from "js-cookie";
-import { useAuth } from "@/context/AuthContext";
-import NotificationDropdown from "./NotficationDropdown";
+import { useEffect, useState } from "react"
+import type React from "react"
+import { PenTool, BookOpen, Menu, X, User2, ArrowLeft } from "lucide-react"
+import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
+import Cookies from "js-cookie"
+import { useAuth } from "@/context/AuthContext"
+import NotificationDropdown from "./NotficationDropdown"
+import { checkWriterRegistration } from "@/services/writer"
+import WriterRegistrationForm from "../pages/WriterRegistrationForm"
+import { i } from "framer-motion/m"
 
 interface WriterDashboardLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const pathname = usePathname();
-  const [name, setName] = useState("");
-  const auth = useAuth();
-  const logout = auth?.logout ?? (() => {});
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const pathname = usePathname()
+  const router = useRouter()
+  const [name, setName] = useState("")
+  const auth = useAuth()
+  const logout = auth?.logout ?? (() => {})
+
+  const [isRegistered, setIsRegistered] = useState<boolean | null>(null)
+  const [checkingRegistration, setCheckingRegistration] = useState(true)
 
   useEffect(() => {
-    const profile = Cookies.get("name");
-    setName(profile ?? "");
-  }, []);
+    const profile = Cookies.get("name")
+    setName(profile ?? "")
+  }, [])
+
+  useEffect(() => {
+    const checkRegistration = async () => {
+      try {
+        console.log("[v0] Checking writer registration status...")
+        const response = await checkWriterRegistration()
+        console.log("[v0] Registration check response:", response.data)
+        setIsRegistered(response.data.is_registered)
+      } catch (error) {
+        console.error("[v0] Registration check failed:", error)
+        setIsRegistered(false)
+      } finally {
+        setCheckingRegistration(false)
+      }
+    }
+
+    checkRegistration()
+  }, [])
+
+  const handleRegistrationComplete = () => {
+    console.log("[v0] Registration completed, redirecting to writer profile...")
+    setIsRegistered(true)
+    router.push("/writer/profile")
+  }
+
+  if (checkingRegistration) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-600">Checking registration status...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (isRegistered === false) {
+    return <WriterRegistrationForm onRegistrationComplete={handleRegistrationComplete} />
+  }
 
   const navigation = [
     {
@@ -38,7 +84,13 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
       icon: BookOpen,
       current: pathname === "/writer/kalams",
     },
-  ];
+    {
+      name:"Profile",
+      href:"/writer/profile",
+      icon: User2,
+      current:pathname === "/writer/profile",
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -56,9 +108,7 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
                 <PenTool className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-white font-bold text-base sm:text-lg">
-                  SufiPulse Writer
-                </h1>
+                <h1 className="text-white font-bold text-base sm:text-lg">SufiPulse Writer</h1>
                 <p className="text-slate-400 text-xs sm:text-sm">Dashboard</p>
               </div>
             </div>
@@ -66,22 +116,20 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
 
           <nav className="flex-1 p-4 sm:p-6 space-y-2">
             {navigation.map((item) => {
-              const Icon = item.icon;
+              const Icon = item.icon
               return (
                 <Link
                   key={item.name}
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-colors text-sm sm:text-base ${
-                    item.current
-                      ? "bg-emerald-600 text-white"
-                      : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                    item.current ? "bg-emerald-600 text-white" : "text-slate-300 hover:bg-slate-800 hover:text-white"
                   }`}
                 >
                   <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>{item.name}</span>
                 </Link>
-              );
+              )
             })}
           </nav>
 
@@ -140,9 +188,7 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
                     {pathname === "/writer/submit" ? "Submit Kalam" : "My Kalams"}
                   </h2>
                   <p className="text-xs sm:text-sm text-slate-600">
-                    {pathname === "/writer/submit"
-                      ? "Submit a new kalam for review"
-                      : "Manage your submitted kalams"}
+                    {pathname === "/writer/submit" ? "Submit a new kalam for review" : "Manage your submitted kalams"}
                   </p>
                 </div>
               </div>
@@ -155,9 +201,7 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-600 rounded-full flex items-center justify-center">
                 <User2 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <span className="text-sm sm:text-base font-medium text-gray-800">
-                {name}
-              </span>
+              <span className="text-sm sm:text-base font-medium text-gray-800">{name}</span>
             </div>
           </div>
         </header>
@@ -165,7 +209,7 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
         <main className="p-4 sm:p-6 lg:p-8 lg:ml-64">{children}</main>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default WriterDashboardLayout;
+export default WriterDashboardLayout

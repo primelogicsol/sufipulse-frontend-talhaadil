@@ -75,3 +75,37 @@ export const updateKalam = (
     },
   });
 };
+
+
+export const submitWriterProfile = (data: {
+  writing_styles: string[];
+  languages: string[];
+  sample_title: string;
+  experience_background: string;
+  portfolio: string;
+  availability: string;
+}) => {
+  return api.post(`/writers/submit`, data, {
+    headers: {
+      requiresAuth: true,
+    },
+  });
+};
+ 
+
+export const checkWriterRegistration = () => {
+  return api.get(`/writers/is-registered`, {
+    headers: {
+      requiresAuth: true,
+    },
+  });
+};
+
+
+export const getWriterProfile = (writer_id: number) => {
+  return api.get(`/writers/get/${writer_id}`, {
+    headers: {
+      requiresAuth: true,
+    },
+  });
+};

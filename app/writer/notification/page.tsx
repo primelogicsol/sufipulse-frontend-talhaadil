@@ -51,7 +51,7 @@ export default function NotificationsPage() {
     <div className="max-w-4xl mx-auto p-4">
       <div className="flex items-center gap-4 mb-6">
         <Link
-          href="/user/dashboard"
+          href="/writer/kalams"
           className="p-2 hover:bg-emerald-50 rounded-md transition-colors"
         >
           <ArrowLeft className="h-5 w-5 text-emerald-900" />

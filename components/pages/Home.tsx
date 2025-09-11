@@ -15,6 +15,7 @@ import {
   Award,
   CheckCircle
 } from 'lucide-react';
+import PromoteProtectSufiKalam from '../PromoteProtectSufiKalam';
 
 const Home = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
@@ -430,6 +431,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+      <main className="min-h-screen">
+      <PromoteProtectSufiKalam />
+    </main>
       <section className="py-20 bg-slate-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
@@ -441,19 +445,13 @@ const Home = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/contact?type=writer"
+              href="/partnership"
               className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
             >
               <PenTool className="w-5 h-5" />
-              <span>Submit Your Kalam</span>
+              <span>Explore Partnerships</span>
             </Link>
-            <Link
-              href="/contact?type=vocalist"
-              className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
-            >
-              <Mic className="w-5 h-5" />
-              <span>Join as Vocalist</span>
-            </Link>
+           
             <Link
               href="/about"
               className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"

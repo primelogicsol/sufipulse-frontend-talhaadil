@@ -1,49 +1,60 @@
-"use client";
-import { useState, useEffect } from "react";
-import { User, Globe, Award, MapPin, Mic, Clock, Calendar, Edit } from "lucide-react";
-import Link from "next/link";
-import { getVocalistProfile } from "@/services/vocalist";
+"use client"
+import type React from "react"
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import Link from "next/link"
+import {
+  User,
+  Globe,
+  BookOpen,
+  Calendar,
+  MapPin,
+  ExternalLink,
+  Edit,
+  PenTool,
+  Award,
+  Clock,
+} from "lucide-react"
+import { getWriterProfile } from "@/services/writer"
 
-interface VocalistProfileData {
-  vocalist_id: string;
-  user_id: number;
-  vocal_range: string;
-  languages: string[];
-  sample_title: string;
-  audio_sample_url: string;
-  sample_description: string;
-  experience_background: string;
-  portfolio: string;
-  availability: string;
-  status: string;
-  created_at: string;
-  updated_at: string;
-  country: string;
-  city: string;
+interface WriterProfileData {
+  user_id: number
+  writing_styles: string[]
+  languages: string[]
+  sample_title: string
+  experience_background: string
+  portfolio: string
+  availability: string
+  created_at: string
+  updated_at: string
+  country: string
+  city: string
 }
 
-const VocalistProfile = () => {
-  const [profileData, setProfileData] = useState<VocalistProfileData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface WriterProfileProps {
+  writerId: number
+}
+
+const WriterProfile: React.FC<WriterProfileProps> = ({ writerId }) => {
+  const [profile, setProfile] = useState<WriterProfileData | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    fetchProfile();
-  }, []);
-
-  const fetchProfile = async () => {
-    try {
-      setLoading(true);
-      const response = await getVocalistProfile(2);
-      console.log("✅ Profile API Response:", response.data);
-      setProfileData(response.data);
-    } catch (error: any) {
-      console.error("❌ Profile API Error:", error);
-      setError(error.response?.data?.detail || "Failed to load profile");
-    } finally {
-      setLoading(false);
+    const fetchProfile = async () => {
+      try {
+        setLoading(true)
+        const response = await getWriterProfile(1)
+        setProfile(response.data)
+      } catch (err: any) {
+        console.error("Error fetching writer profile:", err)
+        setError("Failed to load profile data")
+      } finally {
+        setLoading(false)
+      }
     }
-  };
+    fetchProfile()
+  }, [writerId])
 
   if (loading) {
     return (
@@ -53,10 +64,10 @@ const VocalistProfile = () => {
           <p className="text-slate-800 font-medium">Loading profile...</p>
         </div>
       </div>
-    );
+    )
   }
 
-  if (error) {
+  if (error || !profile) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
         <div className="bg-white shadow-xl rounded-2xl p-8 text-center max-w-lg">
@@ -64,24 +75,25 @@ const VocalistProfile = () => {
             <User className="w-8 h-8 text-emerald-900" />
           </div>
           <h2 className="text-2xl font-semibold text-slate-900 mb-2">Profile Not Found</h2>
-          <p className="text-slate-800">{error}</p>
-          <button
-            onClick={fetchProfile}
-            className="mt-4 px-6 py-3 bg-emerald-900 text-white rounded-lg hover:bg-emerald-900/80 transition-all duration-300 ease-in-out transform hover:scale-105"
-          >
-            Try Again
-          </button>
+          <p className="text-slate-800">{error || "Unable to load profile data"}</p>
         </div>
       </div>
-    );
+    )
   }
+
+  const formatDate = (dateString: string) =>
+    new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
 
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Hero Header */}
       <div className="relative h-48 sm:h-64 bg-gradient-to-r from-emerald-900 to-emerald-500">
         <Link
-          href={`/vocalist/${profileData?.vocalist_id}/EditVocalistProfile`}
+          href={`/writer/${profile.user_id}/EditWriterProfile`}
           className="absolute top-4 right-4 flex items-center gap-2 px-4 py-2 rounded-lg bg-white/20 hover:bg-white/30 text-white transition"
         >
           <Edit className="w-4 h-4" />
@@ -90,25 +102,30 @@ const VocalistProfile = () => {
       </div>
 
       {/* Profile Card */}
-      <div className="max-w-6xl mx-auto px-4 -mt-20">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-6xl mx-auto px-4 -mt-20"
+      >
         <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-10 relative">
           {/* Avatar + Header */}
           <div className="flex flex-col items-center text-center -mt-16">
             <div className="w-32 h-32 rounded-full bg-gradient-to-br from-emerald-900 to-emerald-500 flex items-center justify-center text-4xl font-bold text-white shadow-lg border-4 border-white">
               <User />
             </div>
-            <h1 className="mt-4 text-3xl font-bold text-slate-900">Vocalist Profile</h1>
-           
+            <h1 className="mt-4 text-3xl font-bold text-slate-900">Writer Profile</h1>
+
             {/* Badges */}
             <div className="flex flex-wrap justify-center gap-3 mt-4">
               <span className="px-3 py-1 rounded-full text-sm font-medium bg-emerald-50 text-emerald-900 flex items-center gap-2">
-                <MapPin className="w-4 h-4" /> {profileData?.city}, {profileData?.country}
+                <MapPin className="w-4 h-4" /> {profile.city}, {profile.country}
               </span>
               <span className="px-3 py-1 rounded-full text-sm font-medium bg-emerald-50 text-emerald-900 flex items-center gap-2">
-                <Calendar className="w-4 h-4" /> Joined {new Date(profileData?.created_at || "").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+                <Calendar className="w-4 h-4" /> Joined {formatDate(profile.created_at)}
               </span>
               <span className="px-3 py-1 rounded-full text-sm font-medium bg-emerald-50 text-emerald-900 flex items-center gap-2">
-                <Clock className="w-4 h-4" /> Updated {new Date(profileData?.updated_at || "").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+                <Clock className="w-4 h-4" /> Updated {formatDate(profile.updated_at)}
               </span>
             </div>
           </div>
@@ -117,33 +134,25 @@ const VocalistProfile = () => {
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-10">
             {/* LEFT COLUMN */}
             <div className="space-y-10">
-              {/* Audio Sample */}
-              {profileData?.audio_sample_url && (
-                <section>
-                  <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2 mb-3">
-                    <Mic className="w-5 h-5 text-emerald-900" /> Featured Sample
-                  </h2>
-                  <div className="bg-slate-50 rounded-xl p-5 hover:bg-emerald-50 transition">
-                    <h3 className="text-lg  font-bold text-slate-800">{profileData.sample_title}</h3>
-                    <p className="text-slate-800 text-sm leading-relaxed line-clamp-3">{profileData.sample_description}</p>
-                    <audio
-                      controls
-                      className="w-full rounded-lg bg-emerald-50 p-2 mt-3"
-                      style={{ boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}
-                    >
-                      <source src={profileData.audio_sample_url} type="audio/mpeg" />
-                      Your browser does not support the audio element.
-                    </audio>
-                  </div>
-                </section>
-              )}
+              {/* Featured Work */}
+              <section>
+                <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2 mb-3">
+                  <BookOpen className="w-5 h-5 text-emerald-900" /> Featured Work
+                </h2>
+                <div className="bg-slate-50 rounded-xl p-5 hover:bg-emerald-50 transition">
+                  <h3 className="text-lg font-medium text-slate-800">{profile.sample_title}</h3>
+                  <p className="text-slate-800 text-sm">Sample work showcasing writing expertise</p>
+                </div>
+              </section>
 
               {/* Experience */}
               <section>
                 <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2 mb-3">
                   <Award className="w-5 h-5 text-emerald-900" /> Experience & Background
                 </h2>
-                <p className="text-slate-800 leading-relaxed whitespace-pre-wrap">{profileData?.experience_background}</p>
+                <p className="text-slate-800 leading-relaxed whitespace-pre-wrap">
+                  {profile.experience_background}
+                </p>
               </section>
 
               {/* Availability */}
@@ -151,38 +160,45 @@ const VocalistProfile = () => {
                 <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2 mb-3">
                   <Clock className="w-5 h-5 text-emerald-900" /> Availability
                 </h2>
-                <p className="text-slate-800">{profileData?.availability}</p>
+                <p className="text-slate-800">{profile.availability}</p>
               </section>
             </div>
 
             {/* RIGHT COLUMN */}
             <div className="space-y-10">
               {/* Portfolio */}
-              {profileData?.portfolio && (
+              {profile.portfolio && (
                 <section>
                   <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2 mb-3">
-                    <Globe className="w-5 h-5 text-emerald-900" /> Portfolio
+                    <ExternalLink className="w-5 h-5 text-emerald-900" /> Portfolio
                   </h2>
                   <a
-                    href={profileData.portfolio}
+                    href={profile.portfolio}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-900 font-medium transition"
                   >
                     <span>View Portfolio</span>
-                    <Globe className="w-4 h-4" />
+                    <ExternalLink className="w-4 h-4" />
                   </a>
                 </section>
               )}
 
-              {/* Vocal Range */}
+              {/* Writing Styles */}
               <section>
                 <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2 mb-3">
-                  <Mic className="w-5 h-5 text-emerald-900" /> Vocal Range
+                  <PenTool className="w-5 h-5 text-emerald-900" /> Writing Styles
                 </h2>
-                <span className="px-3 py-1 rounded-full text-sm font-medium bg-emerald-50 text-emerald-900 hover:bg-emerald-100 transition">
-                  {profileData?.vocal_range}
-                </span>
+                <div className="flex flex-wrap gap-2">
+                  {profile.writing_styles.map((style, idx) => (
+                    <span
+                      key={idx}
+                      className="px-3 py-1 rounded-full text-sm font-medium bg-emerald-50 text-emerald-900 hover:bg-emerald-100 transition"
+                    >
+                      {style}
+                    </span>
+                  ))}
+                </div>
               </section>
 
               {/* Languages */}
@@ -191,7 +207,7 @@ const VocalistProfile = () => {
                   <Globe className="w-5 h-5 text-emerald-900" /> Languages
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                  {profileData?.languages.map((lang, idx) => (
+                  {profile.languages.map((lang, idx) => (
                     <span
                       key={idx}
                       className="px-3 py-1 rounded-full text-sm font-medium bg-slate-50 text-slate-800 hover:bg-emerald-50 transition"
@@ -204,9 +220,9 @@ const VocalistProfile = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
-  );
-};
+  )
+}
 
-export default VocalistProfile;
+export default WriterProfile

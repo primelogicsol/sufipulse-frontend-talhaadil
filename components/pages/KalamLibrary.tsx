@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   Search, 
@@ -19,12 +19,17 @@ import {
   Users,
   Award
 } from 'lucide-react';
+import { getPostedKalams } from '@/services/requests';
 
 const KalamLibrary = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
   const [sortBy, setSortBy] = useState('recent');
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [kalams, setKalams] = useState([]);
+  const [skip, setSkip] = useState(0);
+  const [limit,setLimit] = useState(4);
+  const [hasMore, setHasMore] = useState(true);
 
   const filters = [
     { id: 'all', label: 'All Kalam', count: 300 },
@@ -36,51 +41,6 @@ const KalamLibrary = () => {
 
   const themes = [
     'Ishq-e-Haqiqi', 'Wahdat', 'Fanaa', 'Tawbah', 'Dhikr', 'Unity', 'Divine Love', 'Spiritual Journey'
-  ];
-
-  const kalamCollection = [
-    {
-      id: 1,
-      title: "Ishq-e-Haqiqi",
-      writer: "Amina Rahman",
-      language: "Urdu",
-      theme: "Divine Love",
-      dateAdded: "2024-01-15",
-      views: "12.5K",
-      downloads: "892",
-      description: "A profound exploration of divine love through classical Urdu poetry, weaving traditional Sufi themes with contemporary spiritual devotion.",
-      excerpt: "محبت کی آگ میں جل کر، دل کو پاک کر لیا...",
-      status: "published",
-      format: "qawwali"
-    },
-    {
-      id: 2,
-      title: "Wahdat Symphony",
-      writer: "Dr. Sarah Ahmed",
-      language: "English",
-      theme: "Unity",
-      dateAdded: "2024-01-10",
-      views: "8.7K",
-      downloads: "654",
-      description: "Contemporary spiritual poetry celebrating the unity of all creation through modern verses that bridge ancient wisdom.",
-      excerpt: "In the silence between heartbeats, unity whispers its eternal song...",
-      status: "published",
-      format: "anthem"
-    },
-    {
-      id: 3,
-      title: "Path of Fanaa",
-      writer: "Ahmad Hassan",
-      language: "Multilingual",
-      theme: "Spiritual Dissolution",
-      dateAdded: "2024-01-08",
-      views: "15.2K",
-      downloads: "1.1K",
-      description: "A transformative journey through spiritual dissolution expressed in multiple languages, creating bridges between diverse cultural traditions.",
-      excerpt: "في الفناء نجد البقاء، In dissolution we find permanence...",
-      status: "published",
-      format: "chant"
-    }
   ];
 
   const testimonials = [
@@ -114,23 +74,51 @@ const KalamLibrary = () => {
     { number: "127K+", label: "Total Downloads", icon: Download }
   ];
 
-  const filteredKalam = kalamCollection.filter(kalam => {
-    const matchesFilter = activeFilter === 'all' || 
-                         kalam.language.toLowerCase().includes(activeFilter) ||
-                         (activeFilter === 'multilingual' && kalam.language.includes('-'));
-    const matchesSearch = kalam.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         kalam.writer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         kalam.theme.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         kalam.description.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesFilter && matchesSearch;
-  });
-
   const sortOptions = [
     { value: 'recent', label: 'Most Recent' },
     { value: 'popular', label: 'Most Popular' },
     { value: 'title', label: 'Title A-Z' },
     { value: 'writer', label: 'Writer A-Z' }
   ];
+
+  const fetchKalams = async (skipValue: number) => {
+    try {
+      const response = await getPostedKalams(skipValue, limit); // ✅ using API function
+      const newKalams = response.data;
+  
+      console.log("response is hereeeee", newKalams);
+  
+      setKalams((prev) =>
+        skipValue === 0 ? newKalams : [...prev, ...newKalams]
+      );
+  
+      setHasMore(newKalams.length === limit);
+    } catch (error) {
+      console.error("Error fetching kalams:", error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchKalams(0); // initial fetch
+  }, []);
+  
+
+  const handleLoadMore = () => {
+    const newSkip = skip + limit;
+    setSkip(newSkip);
+    fetchKalams(newSkip);
+  };
+
+  const filteredKalam = kalams.filter(kalam => {
+    const matchesFilter = activeFilter === 'all' || 
+                         kalam.language.toLowerCase().includes(activeFilter) ||
+                         (activeFilter === 'multilingual' && kalam.language.includes('-'));
+    const matchesSearch = kalam.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         kalam.writer_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         kalam.theme.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         kalam.description.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
 
   return (
     <div className="min-h-screen bg-white">
@@ -239,7 +227,7 @@ const KalamLibrary = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {kalamCollection.map((kalam) => (
+            {filteredKalam.map((kalam) => (
               <div key={kalam.id} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100">
                 <div className="p-6">
                   {/* Header */}
@@ -249,7 +237,7 @@ const KalamLibrary = () => {
                       <div className="flex items-center space-x-4 text-sm text-slate-600 mb-3">
                         <div className="flex items-center space-x-1">
                           <User className="w-4 h-4" />
-                          <span>{kalam.writer}</span>
+                          <span>{kalam.writer_name}</span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <Globe className="w-4 h-4" />
@@ -257,7 +245,7 @@ const KalamLibrary = () => {
                         </div>
                         <div className="flex items-center space-x-1">
                           <Calendar className="w-4 h-4" />
-                          <span>{new Date(kalam.dateAdded).toLocaleDateString()}</span>
+                          <span>{new Date(kalam.published_at).toLocaleDateString()}</span>
                         </div>
                       </div>
                     </div>
@@ -266,7 +254,7 @@ const KalamLibrary = () => {
                         {kalam.theme}
                       </span>
                       <span className="text-xs font-medium text-slate-600 bg-slate-100 px-2 py-1 rounded-full">
-                        {kalam.format}
+                        {kalam.musical_preference}
                       </span>
                     </div>
                   </div>
@@ -277,7 +265,7 @@ const KalamLibrary = () => {
                       <BookOpen className="w-4 h-4 text-slate-500" />
                       <span className="text-sm font-medium text-slate-700">Excerpt</span>
                     </div>
-                    <p className="text-slate-600 italic leading-relaxed">{kalam.excerpt}</p>
+                    <p className="text-slate-600 italic leading-relaxed">{kalam.kalam_text}</p>
                   </div>
 
                   {/* Description */}
@@ -286,28 +274,30 @@ const KalamLibrary = () => {
                   {/* Stats */}
                   <div className="flex items-center justify-between text-sm text-slate-500 mb-4">
                     <div className="flex items-center space-x-4">
-                      <span>{kalam.views} views</span>
-                      <span>{kalam.downloads} downloads</span>
+      
                     </div>
                     <div className="flex items-center space-x-1">
                       <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                      <span className="capitalize">{kalam.status}</span>
+                      <span className="capitalize">Published</span>
                     </div>
                   </div>
 
                   {/* Actions */}
                   <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                    <button className="flex items-center space-x-2 text-emerald-600 hover:text-emerald-700 font-medium transition-colors duration-200">
+                    <a
+                      href={kalam.youtube_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-2 text-emerald-600 hover:text-emerald-700 font-medium transition-colors duration-200"
+                    >
                       <Play className="w-4 h-4" />
                       <span>Listen</span>
-                    </button>
+                    </a>
                     <div className="flex space-x-2">
                       <button className="p-2 text-slate-400 hover:text-emerald-600 transition-colors duration-200">
                         <Download className="w-4 h-4" />
                       </button>
-                      <button className="p-2 text-slate-400 hover:text-emerald-600 transition-colors duration-200">
-                        <Share2 className="w-4 h-4" />
-                      </button>
+                      
                     </div>
                   </div>
                 </div>
@@ -315,11 +305,16 @@ const KalamLibrary = () => {
             ))}
           </div>
 
-          <div className="text-center mt-12">
-            <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200">
-              Load More Kalam
-            </button>
-          </div>
+          {hasMore && (
+            <div className="text-center mt-12">
+              <button
+                onClick={handleLoadMore}
+                className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200"
+              >
+                Load More Kalam
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
