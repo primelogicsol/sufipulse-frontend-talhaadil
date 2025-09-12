@@ -123,28 +123,36 @@ export default function MyKalams() {
       <div>
         {/* Top bar */}
         <div className="bg-white border-b border-slate-200 px-4 py-4 lg:px-8">
-          <div className="flex items-center justify-between">
-            <div className="flex-1">
-              <h2 className="text-xl font-semibold text-slate-900">My Kalams</h2>
-              <div className="mt-4 relative max-w-md">
-                <input
-                  type="text"
-                  placeholder="Search kalams..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 py-2 bg-slate-100 text-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 pl-10"
-                />
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
-              </div>
-            </div>
-            <Link
-              href="/writer/submit"
-              className="px-4 py-2 bg-emerald-900 text-white rounded-lg hover:bg-emerald-800 transition-colors"
-            >
-              Submit New
-            </Link>
-          </div>
-        </div>
+  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+    {/* Left Section */}
+    <div className="flex-1">
+      <h2 className="text-xl font-semibold text-slate-900">My Kalams</h2>
+
+      {/* Search Box */}
+      <div className="mt-3 lg:mt-4 relative max-w-md w-full">
+        <input
+          type="text"
+          placeholder="Search kalams..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full px-4 py-2 bg-slate-100 text-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 pl-10"
+        />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+      </div>
+    </div>
+
+    {/* Right Section (Button) */}
+    <div className="flex lg:justify-end">
+      <Link
+        href="/writer/submit"
+        className="px-4 py-2 bg-emerald-900 text-white rounded-lg hover:bg-emerald-800 transition-colors w-full lg:w-auto text-center"
+      >
+        Submit New
+      </Link>
+    </div>
+  </div>
+</div>
+
 
         {/* Kalams list */}
         <div className="p-4 lg:p-8">

@@ -479,18 +479,12 @@ const Studio = () => {
                 <div className="bg-slate-700 rounded-xl p-6">
                   <h3 className="font-bold mb-2">In-Person Recording</h3>
                   <p className="text-sm text-slate-300 mb-4">Experience SufiPulse Studio with our full team and equipment</p>
-                  <button className="text-emerald-300 hover:text-white font-medium text-sm">
-                    Schedule Visit →
-                  </button>
+                  
                 </div>
                 <div className="bg-slate-700 rounded-xl p-6">
                   <h3 className="font-bold mb-2">Remote Collaboration</h3>
                   <p className="text-sm text-slate-300 mb-4">High-quality remote recording with SufiPulse team support</p>
-                  <button className="text-emerald-300 hover:text-white font-medium text-sm">
-                    <Link href="/contact?type=vocalist" className="text-emerald-300 hover:text-white font-medium text-sm">
-                      Learn More →
-                    </Link>
-                  </button>
+                  
                 </div>
               </div>
             </div>

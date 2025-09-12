@@ -156,7 +156,7 @@ export default function EditKalam() {
       const response: KalamResponse = await updateKalam(Number(params.id), formData);
       console.log("✅ Kalam updated successfully:", response.data); // Log full API response
       alert("Kalam updated successfully!");
-      router.push(`/kalams/${params.id}`);
+      router.push(`/writer/kalams/${params.id}`);
     } catch (error: any) {
       console.error("Error updating kalam:", error.response?.data || error.message);
       if (error.response?.data?.errors) {

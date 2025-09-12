@@ -482,19 +482,19 @@ const KalamLibrary = () => {
               <span>Browse Library</span>
             </Link>
             <Link
-              href="/contact?type=writer"
+              href="/writer/submit"
               className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
               <Users className="w-5 h-5" />
               <span>Submit Kalam</span>
             </Link>
-            <Link
+            {/* <Link
               href="/writers"
               className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
               <Award className="w-5 h-5" />
               <span>Meet Writers</span>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </section>

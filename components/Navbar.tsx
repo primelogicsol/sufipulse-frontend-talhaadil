@@ -163,9 +163,8 @@ const Navbar = () => {
       name: "Vocalists",
       path: "/vocalists",
       dropdown: [
-        { name: "Vocalist Directory", path: "/vocalists" },
         { name: "How It Works", path: "/vocalist-how-it-works" },
-        { name: "Vocal Style Gallery", path: "/gallery?filter=vocals" },
+        { name: "Vocal Style Gallery", path: "/gallery" },
       ],
     },
     {
@@ -179,21 +178,11 @@ const Navbar = () => {
         { name: "Behind-the-Scenes Videos", path: "/studio-diaries" },
       ],
     },
-    {
-      name: "Collaborate",
-      path: "/contact",
-      dropdown: [
-        { name: "Studio Visit Request", path: "/studio-visit" },
-        { name: "Remote Recording Request", path: "/remote-recording" },
-        { name: "Partnership Proposal", path: "/partnership" },
-        { name: "Media & Press", path: "/media-press" },
-      ],
-    },
+   
     {
       name: "Reflections",
       path: "/studio-diaries",
       dropdown: [
-        { name: "Studio Diaries", path: "/studio-diaries" },
         { name: "Guest Blogs", path: "/guest-blogs" },
         { name: "Sufi Music Theory", path: "/sufi-music-theory" },
         { name: "Spiritual Commentary", path: "/spiritual-commentary" },
@@ -251,6 +240,12 @@ const Navbar = () => {
             >
               Watch
             </Link>
+            <Link
+              href="/partnership"
+              className="px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
+            >
+              Collaborate
+            </Link>
 
             {menuItems.map((item) => (
               <div key={item.name} className="relative">
@@ -261,6 +256,7 @@ const Navbar = () => {
                   {item.name}
                   <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
+                
 
                 {activeDropdown === item.name && (
                   <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-xl border border-slate-200 py-2 z-50">
@@ -276,9 +272,12 @@ const Navbar = () => {
                     ))}
                   </div>
                 )}
+                
               </div>
+              
             ))}
           </div>
+          
 
           {/* Right Side Actions */}
           <div className="hidden lg:flex items-center space-x-4">
@@ -369,6 +368,13 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
               >
               Watch
+              </Link>
+              <Link
+                href="/partnership"
+                className="block px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+              Collaborate
               </Link>
 
               {menuItems.map((item) => (

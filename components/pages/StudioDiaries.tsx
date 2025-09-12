@@ -261,9 +261,9 @@ const StudioDiaries = () => {
                       <span>{featuredEntry.views} views</span>
                       <span>{featuredEntry.comments} comments</span>
                     </div>
-                    <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200">
+                    {/* <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200">
                       Read Full Story
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>
@@ -402,14 +402,14 @@ const StudioDiaries = () => {
               <span>Visit Studio</span>
             </Link>
             <Link
-              href="/contact?type=writer"
+              href="/writer/submit"
               className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
               <Music className="w-5 h-5" />
               <span>Submit Kalam</span>
             </Link>
             <Link
-              href="/join"
+              href="/register"
               className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
               <Heart className="w-5 h-5" />

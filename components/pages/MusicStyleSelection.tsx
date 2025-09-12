@@ -400,7 +400,7 @@ const MusicStyleSelection = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/contact?type=writer"
+              href="/writer/submit"
               className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
             >
               <Music className="w-5 h-5" />

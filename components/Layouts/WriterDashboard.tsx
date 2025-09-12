@@ -179,7 +179,7 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
                   className="flex items-center px-3 py-1.5 rounded-full bg-emerald-50 text-slate-600 hover:bg-emerald-600 hover:text-white shadow-sm transition-all duration-200"
                 >
                   <ArrowLeft className="w-4 h-4 mr-1" />
-                  <span className="text-sm font-medium">Back</span>
+                  <span className="hidden lg:flex text-sm font-medium">Back</span>
                 </Link>
 
                 {/* Heading + Subtext */}
@@ -187,7 +187,7 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
                   <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900">
                     {pathname === "/writer/submit" ? "Submit Kalam" : "My Kalams"}
                   </h2>
-                  <p className="text-xs sm:text-sm text-slate-600">
+                  <p className="hidden lg:flex text-xs sm:text-sm text-slate-600">
                     {pathname === "/writer/submit" ? "Submit a new kalam for review" : "Manage your submitted kalams"}
                   </p>
                 </div>
@@ -201,7 +201,7 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-600 rounded-full flex items-center justify-center">
                 <User2 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <span className="text-sm sm:text-base font-medium text-gray-800">{name}</span>
+              <span className="hidden lg:flex text-sm sm:text-base font-medium text-gray-800">{name}</span>
             </div>
           </div>
         </header>
