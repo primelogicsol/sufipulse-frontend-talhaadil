@@ -127,19 +127,13 @@ const HowItWorks = () => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
-                  href="/contact?type=writer"
+                  href="/register"
                   className="inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
                 >
                   <PenTool className="w-5 h-5" />
                   <span>Start Your Journey</span>
                 </Link>
-                <Link
-                  href="/writers"
-                  className="inline-flex items-center justify-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
-                >
-                  <Users className="w-5 h-5" />
-                  <span>View Writers</span>
-                </Link>
+            
                 <Link
                   href="/gallery"
                   className="inline-flex items-center justify-center space-x-2 border-2 border-white/30 hover:border-emerald-400 text-white hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
@@ -285,13 +279,7 @@ const HowItWorks = () => {
           </div>
 
           <div className="text-center mt-12">
-            <Link
-              href="/writers"
-              className="inline-flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
-            >
-              <span>Meet Our Writers</span>
-              <ArrowRight className="w-5 h-5" />
-            </Link>
+            
           </div>
         </div>
       </section>
@@ -399,7 +387,7 @@ const HowItWorks = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/contact?type=writer"
+              href="/writer/submit"
               className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
             >
               <PenTool className="w-5 h-5" />
@@ -412,13 +400,7 @@ const HowItWorks = () => {
               <CheckCircle className="w-5 h-5" />
               <span>View Full Process</span>
             </Link>
-            <Link
-              href="/writers"
-              className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
-            >
-              <Users className="w-5 h-5" />
-              <span>Meet Writers</span>
-            </Link>
+            
           </div>
         </div>
       </section>

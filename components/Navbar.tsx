@@ -136,20 +136,20 @@ const Navbar = () => {
   };
 
   const menuItems = [
-    {
-      name: "Watch",
-      path: "/watch",
-      dropdown: [
-        { name: "All Videos", path: "/gallery" },
-        { name: "Qawwali", path: "/gallery?category=qawwali" },
-        { name: "Chant", path: "/gallery?category=chant" },
-        { name: "Anthem", path: "/gallery?category=anthem" },
-        { name: "Whisper Kalam", path: "/gallery?category=whisper" },
-        { name: "Instrumentals", path: "/gallery?category=instrumental" },
-        { name: "Featured Playlist", path: "/gallery?featured=true" },
-        { name: "By Theme", path: "/gallery?by=theme" },
-      ],
-    },
+    // {
+    //   name: "Watch",
+    //   path: "/watch",
+    //   dropdown: [
+    //     { name: "All Videos", path: "/gallery" },
+    //     { name: "Qawwali", path: "/gallery?category=qawwali" },
+    //     { name: "Chant", path: "/gallery?category=chant" },
+    //     { name: "Anthem", path: "/gallery?category=anthem" },
+    //     { name: "Whisper Kalam", path: "/gallery?category=whisper" },
+    //     { name: "Instrumentals", path: "/gallery?category=instrumental" },
+    //     { name: "Featured Playlist", path: "/gallery?featured=true" },
+    //     { name: "By Theme", path: "/gallery?by=theme" },
+    //   ],
+    // },
     {
       name: "Writers",
       path: "/writers",
@@ -244,6 +244,12 @@ const Navbar = () => {
               className="px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
             >
               Home
+            </Link>
+            <Link
+              href="/gallery"
+              className="px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
+            >
+              Watch
             </Link>
 
             {menuItems.map((item) => (
@@ -356,6 +362,13 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
               >
                 Home
+              </Link>
+              <Link
+                href="/gallery"
+                className="block px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+              Watch
               </Link>
 
               {menuItems.map((item) => (

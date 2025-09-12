@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   Play, 
@@ -17,38 +17,140 @@ import {
 } from 'lucide-react';
 import PromoteProtectSufiKalam from '../PromoteProtectSufiKalam';
 
+const YOUTUBE_API_KEY = "AIzaSyBEyJxqQdF7rdWSI4YrKtU4ZxFO3QvL2ak";
+const CHANNEL_ID = "UCraDr3i5A3k0j7typ6tOOsQ";
+
+interface YouTubeVideo {
+  id: {
+    videoId: string
+  }
+  snippet: {
+    title: string
+    description: string
+    thumbnails: {
+      medium: {
+        url: string
+      }
+    }
+    publishedAt: string
+    channelTitle: string
+  }
+}
+
+interface ProcessedVideo {
+  id: string
+  title: string
+  writer: string
+  vocalist: string
+  thumbnail: string
+  views: string
+  duration: string
+}
+
 const Home = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [featuredKalam, setFeaturedKalam] = useState<ProcessedVideo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const featuredKalam = [
-    {
-      id: 1,
-      title: "Ishq-e-Haqiqi",
-      writer: "Amina Rahman",
-      vocalist: "Muhammad Ali",
-      thumbnail: "https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=400",
-      views: "12.5K",
-      duration: "4:32"
-    },
-    {
-      id: 2,
-      title: "Wahdat Symphony",
-      writer: "Dr. Sarah Ahmed",
-      vocalist: "Fatima Zahra",
-      thumbnail: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400",
-      views: "8.7K",
-      duration: "6:18"
-    },
-    {
-      id: 3,
-      title: "Path of Fanaa",
-      writer: "Ahmad Hassan",
-      vocalist: "Ensemble Voice",
-      thumbnail: "https://images.pexels.com/photos/1616403/pexels-photo-1616403.jpeg?auto=compress&cs=tinysrgb&w=400",
-      views: "15.2K",
-      duration: "5:45"
+  const fetchVideoDuration = async (videoId: string): Promise<string> => {
+    try {
+      const response = await fetch(
+        `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`,
+      );
+      const data = await response.json();
+      
+      if (data.items && data.items[0]) {
+        const duration = data.items[0].contentDetails.duration;
+        const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+        const hours = (match[1] || "").replace("H", "");
+        const minutes = (match[2] || "").replace("M", "");
+        const seconds = (match[3] || "").replace("S", "");
+
+        if (hours) {
+          return `${hours}:${minutes.padStart(2, "0")}:${seconds.padStart(2, "0")}`;
+        } else {
+          return `${minutes || "0"}:${seconds.padStart(2, "0")}`;
+        }
+      }
+      return "0:00";
+    } catch (error) {
+      console.error("Error fetching video duration:", error);
+      console.log(error)
+      return "0:00";
     }
-  ];
+  };
+
+  const fetchVideoStats = async (videoId: string): Promise<string> => {
+    try {
+      const response = await fetch(
+        `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`,
+      );
+      const data = await response.json();
+
+      if (data.items && data.items[0]) {
+        const viewCount = Number.parseInt(data.items[0].statistics.viewCount);
+        if (viewCount >= 1000000) {
+          return `${(viewCount / 1000000).toFixed(1)}M`;
+        } else if (viewCount >= 1000) {
+          return `${(viewCount / 1000).toFixed(1)}K`;
+        } else {
+          return viewCount.toString();
+        }
+      }
+      return "0";
+    } catch (error) {
+      console.error("Error fetching video stats:", error);
+      console.log(error)
+      return "0";
+    }
+  };
+
+  const fetchYouTubeVideos = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=3&order=date&type=video&key=${YOUTUBE_API_KEY}`,
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch videos from YouTube");
+      }
+
+      const data = await response.json();
+
+      if (data.items) {
+        const processedVideos: ProcessedVideo[] = await Promise.all(
+          data.items.map(async (video: YouTubeVideo) => {
+            const videoId = video.id.videoId;
+            const duration = await fetchVideoDuration(videoId);
+            const views = await fetchVideoStats(videoId);
+
+            return {
+              id: videoId,
+              title: video.snippet.title,
+              writer: video.snippet.channelTitle,
+              vocalist: video.snippet.channelTitle,
+              thumbnail: video.snippet.thumbnails.medium.url,
+              views,
+              duration,
+            };
+          }),
+        );
+        setFeaturedKalam(processedVideos);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+      console.error("Error fetching YouTube videos:", err);
+      console.log(err)
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchYouTubeVideos();
+  }, []);
 
   const testimonials = [
     {
@@ -80,6 +182,37 @@ const Home = () => {
     { number: "150+", label: "Divine Kalam Created", icon: Music },
     { number: "100%", label: "Free for Writers", icon: Award }
   ];
+
+  const handleVideoClick = (videoId: string) => {
+    window.open(`https://www.youtube.com/watch?v=${videoId}`, "_blank");
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading featured videos...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">Error loading videos: {error}</p>
+          <button
+            onClick={fetchYouTubeVideos}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -120,14 +253,14 @@ const Home = () => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
-                  href="/contact?type=writer"
+                  href="/writer/profile"
                   className="inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
                 >
                   <PenTool className="w-5 h-5" />
                   <span>Submit Your Kalam</span>
                 </Link>
                 <Link
-                  href="/contact?type=vocalist"
+                  href="/vocalist/profile"
                   className="inline-flex items-center justify-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
                 >
                   <Mic className="w-5 h-5" />
@@ -146,13 +279,16 @@ const Home = () => {
             <div className="relative">
               <div className="aspect-video bg-slate-800 rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  src={featuredKalam[0]?.thumbnail || "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=800"}
                   alt="SufiPulse Studio"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <button className="w-20 h-20 bg-emerald-600/90 hover:bg-emerald-600 rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110">
+                  <button 
+                    className="w-20 h-20 bg-emerald-600/90 hover:bg-emerald-600 rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110"
+                    onClick={() => featuredKalam[0] && handleVideoClick(featuredKalam[0].id)}
+                  >
                     <Play className="w-8 h-8 text-white ml-1" />
                   </button>
                 </div>
@@ -200,7 +336,7 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {featuredKalam.map((kalam) => (
-              <div key={kalam.id} className="group cursor-pointer">
+              <div key={kalam.id} className="group cursor-pointer" onClick={() => handleVideoClick(kalam.id)}>
                 <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100">
                   <div className="relative">
                     <img
@@ -286,7 +422,7 @@ const Home = () => {
               <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Globe className="w-10 h-10 text-emerald-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-800 mb-4">3. Global Sharing</h3>
+  <h3 className="text-xl font-bold text-slate-800 mb-4">3. Global Sharing</h3>
               <p className="text-slate-600 leading-relaxed">
                 Your kalam reaches the world through our platform and networks, with your authorship always prominently credited.
               </p>
@@ -432,8 +568,8 @@ const Home = () => {
         </div>
       </section>
       <main className="min-h-screen">
-      <PromoteProtectSufiKalam />
-    </main>
+        <PromoteProtectSufiKalam />
+      </main>
       <section className="py-20 bg-slate-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">

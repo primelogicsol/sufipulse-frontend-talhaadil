@@ -154,15 +154,15 @@ const KalamLibrary = () => {
                   <Play className="w-5 h-5" />
                   <span>Listen to Kalam</span>
                 </Link>
-                <Link
+                {/* <Link
                   href="/writers"
                   className="inline-flex items-center justify-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
                 >
                   <Users className="w-5 h-5" />
                   <span>Meet Writers</span>
-                </Link>
+                </Link> */}
                 <Link
-                  href="/contact?type=writer"
+                  href="/writer/submit"
                   className="inline-flex items-center justify-center space-x-2 border-2 border-white/30 hover:border-emerald-400 text-white hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
                 >
                   <BookOpen className="w-5 h-5" />
@@ -294,9 +294,9 @@ const KalamLibrary = () => {
                       <span>Listen</span>
                     </a>
                     <div className="flex space-x-2">
-                      <button className="p-2 text-slate-400 hover:text-emerald-600 transition-colors duration-200">
+                      {/* <button className="p-2 text-slate-400 hover:text-emerald-600 transition-colors duration-200">
                         <Download className="w-4 h-4" />
-                      </button>
+                      </button> */}
                       
                     </div>
                   </div>

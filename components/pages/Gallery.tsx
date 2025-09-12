@@ -49,6 +49,7 @@ interface ProcessedVideo {
   language: string
   uploadDate: string
   videoId: string
+  description: string // Added to store description for categorization
 }
 
 const Gallery = () => {
@@ -67,13 +68,13 @@ const Gallery = () => {
     { id: "instrumental", label: "Instrumentals", count: 0 },
   ]
 
-  const categorizeVideo = (title: string): string => {
-    const titleLower = title.toLowerCase()
-    if (titleLower.includes("qawwali") || titleLower.includes("qawwal")) return "qawwali"
-    if (titleLower.includes("chant") || titleLower.includes("dhikr")) return "chant"
-    if (titleLower.includes("anthem") || titleLower.includes("nasheed")) return "anthem"
-    if (titleLower.includes("whisper") || titleLower.includes("kalam")) return "whisper"
-    if (titleLower.includes("instrumental") || titleLower.includes("music")) return "instrumental"
+  const categorizeVideo = (description: string): string => {
+    const descLower = description.toLowerCase()
+    if (descLower.includes("qawwali") || descLower.includes("qawwal")) return "qawwali"
+    if (descLower.includes("chant") || descLower.includes("dhikr") || descLower.includes("zikr")) return "chant"
+    if (descLower.includes("anthem") || descLower.includes("nasheed")) return "anthem"
+    if (descLower.includes("whisper") || descLower.includes("kalam")) return "whisper"
+    if (descLower.includes("instrumental") || descLower.includes("music") || descLower.includes("soundscape")) return "instrumental"
     return "qawwali" // default category
   }
 
@@ -83,10 +84,9 @@ const Gallery = () => {
         `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`,
       )
       const data = await response.json()
-
+      
       if (data.items && data.items[0]) {
         const duration = data.items[0].contentDetails.duration
-        // Convert ISO 8601 duration to MM:SS format
         const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/)
         const hours = (match[1] || "").replace("H", "")
         const minutes = (match[2] || "").replace("M", "")
@@ -148,7 +148,7 @@ const Gallery = () => {
             const videoId = video.id.videoId
             const duration = await fetchVideoDuration(videoId)
             const views = await fetchVideoStats(videoId)
-            const category = categorizeVideo(video.snippet.title)
+            const category = categorizeVideo(video.snippet.description) // Use description for categorization
 
             return {
               id: videoId,
@@ -162,9 +162,11 @@ const Gallery = () => {
               language: "Multilingual",
               uploadDate: new Date(video.snippet.publishedAt).toLocaleDateString(),
               videoId,
+              description: video.snippet.description, // Store description for internal use
             }
           }),
         )
+        console.log("Fetched and processed videos:", processedVideos)
 
         setVideos(processedVideos)
 
