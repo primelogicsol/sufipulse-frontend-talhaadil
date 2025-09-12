@@ -1,14 +1,14 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { 
-  Play, 
-  Users, 
-  Globe, 
-  Heart, 
-  PenTool, 
-  Mic, 
-  ArrowRight, 
+import {
+  Play,
+  Users,
+  Globe,
+  Heart,
+  PenTool,
+  Mic,
+  ArrowRight,
   Star,
   Music,
   BookOpen,
@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import PromoteProtectSufiKalam from '../PromoteProtectSufiKalam';
 
-const YOUTUBE_API_KEY = "AIzaSyBEyJxqQdF7rdWSI4YrKtU4ZxFO3QvL2ak";
+const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
 const CHANNEL_ID = "UCraDr3i5A3k0j7typ6tOOsQ";
 
 interface YouTubeVideo {
@@ -47,6 +47,24 @@ interface ProcessedVideo {
   duration: string
 }
 
+async function fetchFromYouTube(url: string, cacheTime?: number) {
+  const options: RequestInit = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+    },
+    next: {
+      revalidate: cacheTime || 60 * 60 * 24, // Revalidate every 24 hours by default
+    }
+  };
+
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(`YouTube API error: ${response.statusText}`);
+  }
+  return await response.json();
+}
+
 const Home = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [featuredKalam, setFeaturedKalam] = useState<ProcessedVideo[]>([]);
@@ -55,11 +73,9 @@ const Home = () => {
 
   const fetchVideoDuration = async (videoId: string): Promise<string> => {
     try {
-      const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`,
-      );
-      const data = await response.json();
-      
+      const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`;
+      const data = await fetchFromYouTube(url, 60 * 60 * 24 * 7); // Cache for 7 days
+
       if (data.items && data.items[0]) {
         const duration = data.items[0].contentDetails.duration;
         const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
@@ -74,19 +90,16 @@ const Home = () => {
         }
       }
       return "0:00";
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching video duration:", error);
-      console.log(error)
       return "0:00";
     }
   };
 
   const fetchVideoStats = async (videoId: string): Promise<string> => {
     try {
-      const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`,
-      );
-      const data = await response.json();
+      const url = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`;
+      const data = await fetchFromYouTube(url, 60 * 60); // Cache for 1 hour since views update frequently
 
       if (data.items && data.items[0]) {
         const viewCount = Number.parseInt(data.items[0].statistics.viewCount);
@@ -99,9 +112,8 @@ const Home = () => {
         }
       }
       return "0";
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching video stats:", error);
-      console.log(error)
       return "0";
     }
   };
@@ -109,15 +121,8 @@ const Home = () => {
   const fetchYouTubeVideos = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=3&order=date&type=video&key=${YOUTUBE_API_KEY}`,
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch videos from YouTube");
-      }
-
-      const data = await response.json();
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=3&order=date&type=video&key=${YOUTUBE_API_KEY}`;
+      const data = await fetchFromYouTube(url, 60 * 60 * 24); // Cache for 24 hours
 
       if (data.items) {
         const processedVideos: ProcessedVideo[] = await Promise.all(
@@ -139,10 +144,9 @@ const Home = () => {
         );
         setFeaturedKalam(processedVideos);
       }
-    } catch (err) {
+    } catch (err: any) {
       setError(err instanceof Error ? err.message : "An error occurred");
       console.error("Error fetching YouTube videos:", err);
-      console.log(err)
     } finally {
       setLoading(false);
     }
@@ -223,9 +227,9 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="flex items-center space-x-4 mb-6">
-                <img 
-                  src="/Untitled (250 x 250 px) (1).png" 
-                  alt="SufiPulse Logo" 
+                <img
+                  src="/Untitled (250 x 250 px) (1).png"
+                  alt="SufiPulse Logo"
                   className="w-16 h-16 rounded-2xl shadow-2xl object-contain bg-white p-2"
                 />
                 <div>
@@ -239,11 +243,11 @@ const Home = () => {
                   <span className="block text-emerald-400">Collaboration Studio</span>
                 </h2>
                 <p className="text-xl lg:text-2xl text-slate-300 leading-relaxed">
-                  From Kashmir's sacred valleys to the global ummah — submit your Sufi kalam. 
+                  From Kashmir's sacred valleys to the global ummah — submit your Sufi kalam.
                   Let the world hear its pulse.
                 </p>
               </div>
-              
+
               <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-emerald-500/20">
                 <p className="text-emerald-300 font-medium mb-2">Our Sacred Promise</p>
                 <blockquote className="text-lg italic">
@@ -260,7 +264,7 @@ const Home = () => {
                   <span>Submit Your Kalam</span>
                 </Link>
                 <Link
-                  href="/vocalist/profile"
+                  href="/register"
                   className="inline-flex items-center justify-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
                 >
                   <Mic className="w-5 h-5" />
@@ -285,7 +289,7 @@ const Home = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <button 
+                  <button
                     className="w-20 h-20 bg-emerald-600/90 hover:bg-emerald-600 rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110"
                     onClick={() => featuredKalam[0] && handleVideoClick(featuredKalam[0].id)}
                   >
@@ -422,7 +426,7 @@ const Home = () => {
               <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Globe className="w-10 h-10 text-emerald-600" />
               </div>
-  <h3 className="text-xl font-bold text-slate-800 mb-4">3. Global Sharing</h3>
+              <h3 className="text-xl font-bold text-slate-800 mb-4">3. Global Sharing</h3>
               <p className="text-slate-600 leading-relaxed">
                 Your kalam reaches the world through our platform and networks, with your authorship always prominently credited.
               </p>
@@ -477,15 +481,14 @@ const Home = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="flex justify-center space-x-2 mt-8">
                 {testimonials.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setActiveTestimonial(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                      index === activeTestimonial ? 'bg-emerald-400' : 'bg-slate-600 hover:bg-slate-500'
-                    }`}
+                    className={`w-3 h-3 rounded-full transition-all duration-200 ${index === activeTestimonial ? 'bg-emerald-400' : 'bg-slate-600 hover:bg-slate-500'
+                      }`}
                   />
                 ))}
               </div>
@@ -506,8 +509,8 @@ const Home = () => {
                 "We do not monetize the sacred. We serve it."
               </blockquote>
               <p className="text-lg text-slate-600 leading-relaxed mb-8">
-                SufiPulse exists as a spiritual service to the global ummah, providing a platform where sacred Sufi words 
-                meet divine voices. Our mission transcends commercial interests — we are dedicated to amplifying the 
+                SufiPulse exists as a spiritual service to the global ummah, providing a platform where sacred Sufi words
+                meet divine voices. Our mission transcends commercial interests — we are dedicated to amplifying the
                 timeless wisdom of Sufi poetry, with particular reverence for the mystical tradition of Kashmiri Sufism.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -539,19 +542,19 @@ const Home = () => {
             Ready to Share Your Divine Words?
           </h2>
           <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-            Join our global community of Sufi writers and vocalists. Whether you have sacred poetry to share 
+            Join our global community of Sufi writers and vocalists. Whether you have sacred poetry to share
             or a voice to lend to the divine, you have a place in our spiritual family.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/contact?type=writer"
+              href="/writer/profile"
               className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
             >
               <PenTool className="w-5 h-5" />
               <span>Submit Your Kalam</span>
             </Link>
             <Link
-              href="/contact?type=vocalist"
+              href="/register"
               className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
               <Mic className="w-5 h-5" />
@@ -576,7 +579,7 @@ const Home = () => {
             Ready to Collaborate or Adapt Sufi Kalam?
           </h2>
           <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-            Join our global community of Sufi writers and vocalists. Whether you have sacred poetry to share 
+            Join our global community of Sufi writers and vocalists. Whether you have sacred poetry to share
             or a voice to lend to the divine, you have a place in our spiritual family.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -587,7 +590,7 @@ const Home = () => {
               <PenTool className="w-5 h-5" />
               <span>Explore Partnerships</span>
             </Link>
-           
+
             <Link
               href="/about"
               className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"

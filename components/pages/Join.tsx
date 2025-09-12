@@ -89,7 +89,7 @@ const Join = () => {
 
   const handleRoleSelection = (role: 'writer' | 'vocalist') => {
     setSelectedRole(role);
-    setStep(2);
+    setStep(1);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -105,14 +105,10 @@ const Join = () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Store user role for future logins
-      localStorage.setItem('userRole', selectedRole || 'writer');
-      localStorage.setItem('isRegistered', 'true');
-      localStorage.setItem('hasEverRegistered', 'true');
-      localStorage.setItem('userName', formData.fullName);
+   
       
       toast.success('Registration successful! You can now login to access your dashboard.');
-      setStep(3);
+      setStep(1);
     } catch (error) {
       toast.error('Registration failed. Please try again.');
     } finally {
@@ -230,7 +226,11 @@ const Join = () => {
                       <div className="text-sm text-emerald-700">{role.stats.label}</div>
                     </div>
 
-                    <button className="w-full mt-6 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-semibold transition-all duration-200 transform group-hover:scale-105">
+                    <button onClick={
+                      () => {
+                        window.location.href = '/register'
+                      }
+                    } className="w-full mt-6 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-semibold transition-all duration-200 transform group-hover:scale-105">
                       Join as {role.title}
                     </button>
                   </div>

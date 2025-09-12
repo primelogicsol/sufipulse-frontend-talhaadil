@@ -17,7 +17,7 @@ import {
   Users,
 } from "lucide-react"
 
-const YOUTUBE_API_KEY = "AIzaSyBEyJxqQdF7rdWSI4YrKtU4ZxFO3QvL2ak"
+const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
 const CHANNEL_ID = "UCraDr3i5A3k0j7typ6tOOsQ"
 
 interface YouTubeVideo {
@@ -49,7 +49,25 @@ interface ProcessedVideo {
   language: string
   uploadDate: string
   videoId: string
-  description: string // Added to store description for categorization
+  description: string
+}
+
+async function fetchFromYouTube(url: string, cacheTime?: number) {
+  const options: RequestInit = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+    },
+    next: {
+      revalidate: cacheTime || 60 * 60 * 24, // Revalidate every 24 hours by default
+    }
+  };
+
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(`YouTube API error: ${response.statusText}`);
+  }
+  return await response.json();
 }
 
 const Gallery = () => {
@@ -75,16 +93,14 @@ const Gallery = () => {
     if (descLower.includes("anthem") || descLower.includes("nasheed")) return "anthem"
     if (descLower.includes("whisper") || descLower.includes("kalam")) return "whisper"
     if (descLower.includes("instrumental") || descLower.includes("music") || descLower.includes("soundscape")) return "instrumental"
-    return "qawwali" // default category
+    return "qawwali"
   }
 
   const fetchVideoDuration = async (videoId: string): Promise<string> => {
     try {
-      const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`,
-      )
-      const data = await response.json()
-      
+      const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`;
+      const data = await fetchFromYouTube(url, 60 * 60 * 24 * 7); // Cache for 7 days
+
       if (data.items && data.items[0]) {
         const duration = data.items[0].contentDetails.duration
         const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/)
@@ -107,10 +123,8 @@ const Gallery = () => {
 
   const fetchVideoStats = async (videoId: string): Promise<string> => {
     try {
-      const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`,
-      )
-      const data = await response.json()
+      const url = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`;
+      const data = await fetchFromYouTube(url, 60 * 60); // Cache for 1 hour
 
       if (data.items && data.items[0]) {
         const viewCount = Number.parseInt(data.items[0].statistics.viewCount)
@@ -132,15 +146,8 @@ const Gallery = () => {
   const fetchYouTubeVideos = async () => {
     try {
       setLoading(true)
-      const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=50&order=date&type=video&key=${YOUTUBE_API_KEY}`,
-      )
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch videos from YouTube")
-      }
-
-      const data = await response.json()
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=50&order=date&type=video&key=${YOUTUBE_API_KEY}`;
+      const data = await fetchFromYouTube(url, 60 * 60 * 24); // Cache for 24 hours
 
       if (data.items) {
         const processedVideos: ProcessedVideo[] = await Promise.all(
@@ -148,7 +155,7 @@ const Gallery = () => {
             const videoId = video.id.videoId
             const duration = await fetchVideoDuration(videoId)
             const views = await fetchVideoStats(videoId)
-            const category = categorizeVideo(video.snippet.description) // Use description for categorization
+            const category = categorizeVideo(video.snippet.description)
 
             return {
               id: videoId,
@@ -162,7 +169,7 @@ const Gallery = () => {
               language: "Multilingual",
               uploadDate: new Date(video.snippet.publishedAt).toLocaleDateString(),
               videoId,
-              description: video.snippet.description, // Store description for internal use
+              description: video.snippet.description,
             }
           }),
         )
@@ -170,7 +177,6 @@ const Gallery = () => {
 
         setVideos(processedVideos)
 
-        // Update filter counts
         filters.forEach((filter) => {
           if (filter.id === "all") {
             filter.count = processedVideos.length
@@ -406,7 +412,7 @@ const Gallery = () => {
                   </div>
                   <div className="absolute bottom-4 left-4 right-4">
                     <h3 className="text-white font-bold text-lg mb-1 line-clamp-2">{video.title}</h3>
-                    <div className="flex items-center justify-between text-white text-xs">
+                    <div className="flex bits-center justify-between text-white text-xs">
                       <span>by {video.writer}</span>
                       <div className="flex items-center space-x-2">
                         <Eye className="w-3 h-3" />

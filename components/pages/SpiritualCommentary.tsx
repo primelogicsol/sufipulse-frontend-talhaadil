@@ -506,13 +506,7 @@ const SpiritualCommentary = () => {
               <Play className="w-5 h-5" />
               <span>Experience the Music</span>
             </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
-            >
-              <BookOpen className="w-5 h-5" />
-              <span>Submit Commentary</span>
-            </Link>
+           
           </div>
         </div>
       </section>
