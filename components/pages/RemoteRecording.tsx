@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useToast } from '@/context/ToastContext';
 import toast from 'react-hot-toast';
 import { 
   Wifi, 
@@ -25,6 +26,7 @@ interface RemoteRecordingProps {
 }
 
 const RemoteRecording: React.FC<RemoteRecordingProps> = ({ onSubmit }) => {
+  const { showToast } = useToast();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -108,8 +110,8 @@ const RemoteRecording: React.FC<RemoteRecordingProps> = ({ onSubmit }) => {
         technicalSetup: '',
         additionalDetails: ''
       });
-    } catch (error) {
-      toast.error('Submission failed. Please try again.');
+    } catch (error :any) {
+      showToast(error.response.data.detail);
     } finally {
       setLoading(false);
     }

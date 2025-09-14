@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
+import { useToast } from '@/context/ToastContext';
 import { 
   Building2, 
   User, 
@@ -26,6 +27,7 @@ interface StudioVisitProps {
 }
 
 const StudioVisit: React.FC<StudioVisitProps> = ({ onSubmit }) => {
+  const { showToast } = useToast();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -100,8 +102,8 @@ const StudioVisit: React.FC<StudioVisitProps> = ({ onSubmit }) => {
       //   preferredTime: '',
       //   specialRequests: ''
       // });
-    } catch (error) {
-      toast.error('Submission failed. Please try again.');
+    } catch (error:any) {
+      showToast(error.response.data.detail)
     } finally {
       setLoading(false);
     }
