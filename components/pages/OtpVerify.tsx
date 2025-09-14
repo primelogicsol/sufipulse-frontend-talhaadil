@@ -118,7 +118,8 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
         Cookies.set("country", data.user.country);
         Cookies.set("name", data.user.name);
         Cookies.set("email", data.user.email);
-        Cookies.set("info_submitted",data.info_submitted)
+        Cookies.set("info_submitted", data.info_submitted)
+        Cookies.set("permissions", JSON.stringify(data.user.permissions))
 
         router.push("/");
       }

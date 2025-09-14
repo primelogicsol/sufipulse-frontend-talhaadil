@@ -6,36 +6,48 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, LayoutDashboard, Mic, PenTool, BookText, Building, Globe, User2, LogOut, Handshake, Bell } from "lucide-react";
 import { BiLogIn } from "react-icons/bi";
+import Cookies from "js-cookie";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
 }
 
 const menuItems = [
-  // { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { name: "Vocalists", href: "/admin/vocalists", icon: Mic },
-  { name: "Writers", href: "/admin/writers", icon: PenTool },
-  { name: "Kalams", href: "/admin/kalams", icon: BookText },
-  { name: "Studio Requests", href: "/admin/studio-requests", icon: Building },
-  { name: "Remote Requests", href: "/admin/remote-requests", icon: Globe },
-  { name: "Partnership", href: "/admin/partnership", icon: Handshake },
-  { name: "Notification", href: "/admin/notifications", icon: Bell },
-  { name: "Sub Admins", href: "/admin/other-admins", icon: User2 },
-  { name: "Blogs", href: "/admin/blog", icon: BiLogIn },
+  // { name: "Dashboard", href: "/admin", icon: LayoutDashboard, permissionKey: "dashboard" },
+  { name: "Vocalists", href: "/admin/vocalists", icon: Mic, permissionKey: "vocalist" },
+  { name: "Writers", href: "/admin/writers", icon: PenTool, permissionKey: "writer" },
+  { name: "Kalams", href: "/admin/kalams", icon: BookText, permissionKey: "kalams" },
+  { name: "Studio Requests", href: "/admin/studio-requests", icon: Building, permissionKey: "requests" },
+  { name: "Remote Requests", href: "/admin/remote-requests", icon: Globe, permissionKey: "requests" },
+  { name: "Partnership", href: "/admin/partnership", icon: Handshake, permissionKey: "partnership_proposal" },
+  { name: "Notification", href: "/admin/notifications", icon: Bell, permissionKey: "notification" },
+  { name: "Sub Admins", href: "/admin/other-admins", icon: User2, permissionKey: "sub_admins" },
+  { name: "Blogs", href: "/admin/blog", icon: BiLogIn, permissionKey: "blog" },
 ];
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
+  const permissions = JSON.parse(Cookies.get("permissions") || "{}") as Record<string, string[]>;
+  const user_role = Cookies.get("user_role");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
 
   const currentPage = menuItems.find((item) => pathname === item.href);
 
+  // Filter menu items based on user_role and permissions
+  const filteredMenuItems = user_role === "admin"
+    ? menuItems
+    : menuItems.filter((item) => {
+        const permission = permissions[item.permissionKey];
+        return permission && permission.includes("view");
+      });
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-40 w-3/4 sm:w-64 max-w-xs bg-slate-900 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 lg:w-64 lg:max-w-none`}
+        className={`fixed inset-y-0 left-0 z-40 w-3/4 sm:w-64 max-w-xs bg-slate-900 transform transition-transform duration-300 ease-in-out ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 lg:w-64 lg:max-w-none`}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
@@ -48,7 +60,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           </div>
           {/* Nav */}
           <nav className="flex-1 p-4 sm:p-6 space-y-2">
-            {menuItems.map((item) => {
+            {filteredMenuItems.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
               return (
@@ -56,10 +68,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                   key={item.name}
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-colors text-sm sm:text-base ${isActive
-                      ? "bg-emerald-600 text-white"
-                      : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                    }`}
+                  className={`flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-colors text-sm sm:text-base ${
+                    isActive ? "bg-emerald-600 text-white" : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                  }`}
                 >
                   <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>{item.name}</span>

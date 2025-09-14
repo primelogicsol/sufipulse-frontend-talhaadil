@@ -17,6 +17,7 @@ interface Admin {
     vocalist: string[]
     writer: string[]
     notification: string[]
+    blog: string[]
   }
   created_at: string
 }
@@ -32,16 +33,28 @@ interface AdminFormData {
     vocalist: string[]
     writer: string[]
     notification: string[]
+    blog: string[]
   }
 }
 
 const permissionOptions = {
-  kalams: ["view", "edit"],
-  requests: ["view", "edit"],
-  partnership_proposal: ["view", "edit"],
-  vocalist: ["view", "edit"],
-  writer: ["view", "edit"],
-  notification: ["view", "edit"],
+  kalams: ["view"],
+  requests: ["view"],
+  partnership_proposal: ["view"],
+  vocalist: ["view"],
+  writer: ["view"],
+  notification: ["view"],
+  blog: ["view"],
+}
+
+const defaultPermissions: AdminFormData["permissions"] = {
+  kalams: [],
+  requests: [],
+  partnership_proposal: [],
+  vocalist: [],
+  writer: [],
+  notification: [],
+  blog: [],
 }
 
 export default function OtherAdminsPage() {
@@ -55,14 +68,7 @@ export default function OtherAdminsPage() {
     name: "",
     email: "",
     password: "",
-    permissions: {
-      kalams: [],
-      requests: [],
-      partnership_proposal: [],
-      vocalist: [],
-      writer: [],
-      notification: [],
-    },
+    permissions: { ...defaultPermissions },
   })
 
   useEffect(() => {
@@ -72,13 +78,9 @@ export default function OtherAdminsPage() {
         const response = await getAllSubadmins()
         const subadmins: Admin[] = response.data.subadmins.map((a: any) => ({
           ...a,
-          permissions: a.permissions || {
-            kalams: [],
-            requests: [],
-            partnership_proposal: [],
-            vocalist: [],
-            writer: [],
-            notification: [],
+          permissions: {
+            ...defaultPermissions, // Ensure all permission keys exist
+            ...a.permissions, // Override with actual permissions from backend
           },
         }))
         setAdmins(subadmins)
@@ -97,14 +99,7 @@ export default function OtherAdminsPage() {
       name: "",
       email: "",
       password: "",
-      permissions: {
-        kalams: [],
-        requests: [],
-        partnership_proposal: [],
-        vocalist: [],
-        writer: [],
-        notification: [],
-      },
+      permissions: { ...defaultPermissions },
     })
   }
 
@@ -119,13 +114,9 @@ export default function OtherAdminsPage() {
       name: admin.name,
       email: admin.email,
       password: "",
-      permissions: admin.permissions || {
-        kalams: [],
-        requests: [],
-        partnership_proposal: [],
-        vocalist: [],
-        writer: [],
-        notification: [],
+      permissions: {
+        ...defaultPermissions, // Ensure all permission keys exist
+        ...admin.permissions, // Override with admin's permissions
       },
     })
     setEditingAdmin(admin)
@@ -174,16 +165,10 @@ export default function OtherAdminsPage() {
           ...response.data.user,
           role: "sub-admin",
           created_at: new Date().toISOString(),
-          permissions:
-            response.data.user.permissions ||
-            {
-              kalams: [],
-              requests: [],
-              partnership_proposal: [],
-              vocalist: [],
-              writer: [],
-              notification: [],
-            },
+          permissions: {
+            ...defaultPermissions, // Ensure all permission keys exist
+            ...response.data.user.permissions, // Override with actual permissions
+          },
         }
         setAdmins([...admins, newAdmin])
       } catch (err: any) {
@@ -204,8 +189,8 @@ export default function OtherAdminsPage() {
       permissions: {
         ...prev.permissions,
         [category]: checked
-          ? [...prev.permissions[category], permission]
-          : prev.permissions[category].filter((p) => p !== permission),
+          ? [...(prev.permissions[category] || []), permission]
+          : (prev.permissions[category] || []).filter((p) => p !== permission),
       },
     }))
   }
@@ -226,16 +211,16 @@ export default function OtherAdminsPage() {
 
   return (
     <div className="min-h-screen bg-slate-900">
-         <style>
-    {`
-      input {
-        color: white;
-      }
-      input::placeholder {
-        color: white;
-      }
-    `}
-  </style>
+      <style>
+        {`
+          input {
+            color: white;
+          }
+          input::placeholder {
+            color: white;
+          }
+        `}
+      </style>
       <div className="bg-slate-800 shadow-sm border-b border-slate-700 px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center space-x-3">
@@ -326,9 +311,9 @@ export default function OtherAdminsPage() {
                           <label key={permission} className="flex items-center space-x-3 cursor-pointer group">
                             <input
                               type="checkbox"
-                              checked={formData.permissions[category as keyof typeof permissionOptions].includes(
-                                permission,
-                              )}
+                              checked={formData.permissions[category as keyof typeof permissionOptions]?.includes(
+                                permission
+                              ) || false}
                               onChange={(e) =>
                                 handlePermissionChange(
                                   category as keyof typeof permissionOptions,

@@ -50,6 +50,7 @@ export default function AdminLoginPage() {
         Cookies.set("country", data.user.country);
         Cookies.set("name", data.user.name);
         Cookies.set("email", data.user.email);
+        Cookies.set("permissions", JSON.stringify(data.user.permissions));
 
         router.push("/admin");
       }

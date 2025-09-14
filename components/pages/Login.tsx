@@ -149,6 +149,7 @@ const Login = () => {
         Cookies.set("name", data.user.name);
         Cookies.set("email", data.user.email);
         Cookies.set("info_submitted",data.info_submitted)
+        Cookies.set("permissions",JSON.stringify(data.user.permissions))
 
         router.push("/");
       }

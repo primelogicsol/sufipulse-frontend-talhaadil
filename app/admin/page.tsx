@@ -129,30 +129,9 @@ export default function AdminDashboard() {
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
         <Chart data={chartData} title="Platform Overview" />
-        <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Recent Activity</h3>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between py-2 border-b border-slate-200">
-              <span className="text-slate-800">New vocalist registered</span>
-              <span className="text-sm text-slate-800">2 hours ago</span>
-            </div>
-            <div className="flex items-center justify-between py-2 border-b border-slate-200">
-              <span className="text-slate-800">Kalam submitted for review</span>
-              <span className="text-sm text-slate-800">4 hours ago</span>
-            </div>
-            <div className="flex items-center justify-between py-2 border-b border-slate-200">
-              <span className="text-slate-800">Studio request approved</span>
-              <span className="text-sm text-slate-800">1 day ago</span>
-            </div>
-            <div className="flex items-center justify-between py-2">
-              <span className="text-slate-800">Writer profile updated</span>
-              <span className="text-sm text-slate-800">2 days ago</span>
-            </div>
-          </div>
-        </div>
-      </div>
+        
     </div>
   )
 } 
