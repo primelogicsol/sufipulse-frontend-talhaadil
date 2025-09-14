@@ -50,7 +50,6 @@ export default function GuestBlogsPage() {
     const filtered = blogs.filter(blog =>
       blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       blog.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      blog.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       blog.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
       blog.status.toLowerCase().includes(searchQuery.toLowerCase()) ||
       blog.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
@@ -182,9 +181,7 @@ export default function GuestBlogsPage() {
                       <p className="text-slate-800">
                         <strong>Author:</strong> {blog.author}
                       </p>
-                      <p className="text-slate-800">
-                        <strong>Email:</strong> {blog.email}
-                      </p>
+                      
                     </div>
                     <div>
                       <p className="text-xs text-slate-600 font-medium">Blog Details</p>
@@ -214,11 +211,9 @@ export default function GuestBlogsPage() {
                     <div>
                       <p className="text-xs text-slate-600 font-medium">Timestamps</p>
                       <p className="text-slate-800">
-                        <strong>Created:</strong> {new Date(blog.created_at).toLocaleString()}
+                        <strong>Created:</strong> {blog.date}
                       </p>
-                      <p className="text-slate-800">
-                        <strong>Updated:</strong> {new Date(blog.updated_at).toLocaleString()}
-                      </p>
+                     
                     </div>
                   </div>
                 </div>

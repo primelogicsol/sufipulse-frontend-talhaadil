@@ -9,7 +9,6 @@ interface BlogData {
   role: string
   city: string
   country: string
-  date: string
   category: string
   excerpt: string
   content: string
@@ -40,7 +39,6 @@ export default function CreateBlogPage() {
     role: "",
     city: "",
     country: "",
-    date: "",
     category: "",
     excerpt: "",
     content: "",
@@ -71,15 +69,22 @@ export default function CreateBlogPage() {
     setLoading(true)
 
     try {
-      const response = await createBlog(formData)
+        const currentDate = new Date().toISOString(); // e.g. "2025-09-14T11:45:30.123Z"
+
+        const dataWithDate = {
+          ...formData,
+          date: currentDate, // 👈 add current date here
+        };
+    
+        const response = await createBlog(dataWithDate);
       if (response.status === 200) {
         setSuccess("Blog created successfully!")
+        window.location.href='/vocalist/blog'
         setFormData({
           title: "",
           role: "",
           city: "",
           country: "",
-          date: "",
           category: "",
           excerpt: "",
           content: "",
@@ -99,7 +104,7 @@ export default function CreateBlogPage() {
       <Sidebar />
 
       {/* Main Content */}
-      <div className="flex-1 lg:ml-64 p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto">
+      <div className="flex-1 lg:ml-22 p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto">
         <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-6">Create a New Blog</h1>
         <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 sm:p-8">
           {error && (
@@ -194,50 +199,38 @@ export default function CreateBlogPage() {
                 />
               </div>
             </div>
+            
+            
             <div>
-              <label htmlFor="date" className="block text-sm font-medium text-slate-600 mb-1">
-                Date
-              </label>
-              <input
-                type="date"
-                id="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-md border border-slate-300 bg-slate-50 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-900 transition duration-200"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="excerpt" className="block text-sm font-medium text-slate-600 mb-1">
-                Excerpt
-              </label>
-              <textarea
-                id="excerpt"
-                name="excerpt"
-                value={formData.excerpt}
-                onChange={handleChange}
-                placeholder="Enter a short excerpt"
-                className="w-full px-4 py-2 rounded-md border border-slate-300 bg-slate-50 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-900 placeholder-slate-400 transition duration-200"
-                rows={4}
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="content" className="block text-sm font-medium text-slate-600 mb-1">
-                Content
-              </label>
-              <textarea
-                id="content"
-                name="content"
-                value={formData.content}
-                onChange={handleChange}
-                placeholder="Enter blog content"
-                className="w-full px-4 py-2 rounded-md border border-slate-300 bg-slate-50 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-900 placeholder-slate-400 transition duration-200"
-                rows={8}
-                required
-              />
-            </div>
+  <label
+    htmlFor="content"
+    className="block text-sm font-medium text-slate-600 mb-1"
+  >
+    Content
+  </label>
+  <textarea
+    id="content"
+    name="content"
+    value={formData.content}
+    onChange={(e) => {
+      const words = e.target.value.trim().split(/\s+/)
+      if (words.length <= 50) {
+        handleChange(e) // keep your existing handler
+      }
+    }}
+    placeholder="Enter blog content (max 50 words)"
+    className="w-full px-4 py-2 rounded-md border border-slate-300 bg-slate-50 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-900 placeholder-slate-400 transition duration-200"
+    rows={4}
+    required
+  />
+  <p className="text-sm text-slate-500 mt-1">
+    {formData.content.trim() === ""
+      ? "0"
+      : formData.content.trim().split(/\s+/).length}{" "}
+    / 50 words
+  </p>
+</div>
+
             <div>
               <label htmlFor="tags" className="block text-sm font-medium text-slate-600 mb-1">
                 Tags (comma-separated)

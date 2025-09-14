@@ -6,7 +6,6 @@ export const createBlog = (data: {
     role: string
     city: string
     country: string
-    date: string
     category: string
     excerpt: string
     content: string
