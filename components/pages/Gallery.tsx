@@ -95,85 +95,41 @@ const Gallery = () => {
     if (descLower.includes("instrumental") || descLower.includes("music") || descLower.includes("soundscape")) return "instrumental"
     return "qawwali"
   }
-
-  const fetchVideoDuration = async (videoId: string): Promise<string> => {
-    try {
-      const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`;
-      const data = await fetchFromYouTube(url, 60 * 60 * 24 * 7); // Cache for 7 days
-
-      if (data.items && data.items[0]) {
-        const duration = data.items[0].contentDetails.duration
-        const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/)
-        const hours = (match[1] || "").replace("H", "")
-        const minutes = (match[2] || "").replace("M", "")
-        const seconds = (match[3] || "").replace("S", "")
-
-        if (hours) {
-          return `${hours}:${minutes.padStart(2, "0")}:${seconds.padStart(2, "0")}`
-        } else {
-          return `${minutes || "0"}:${seconds.padStart(2, "0")}`
-        }
-      }
-      return "0:00"
-    } catch (error) {
-      console.error("Error fetching video duration:", error)
-      return "0:00"
-    }
-  }
-
-  const fetchVideoStats = async (videoId: string): Promise<string> => {
-    try {
-      const url = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`;
-      const data = await fetchFromYouTube(url, 60 * 60); // Cache for 1 hour
-
-      if (data.items && data.items[0]) {
-        const viewCount = Number.parseInt(data.items[0].statistics.viewCount)
-        if (viewCount >= 1000000) {
-          return `${(viewCount / 1000000).toFixed(1)}M`
-        } else if (viewCount >= 1000) {
-          return `${(viewCount / 1000).toFixed(1)}K`
-        } else {
-          return viewCount.toString()
-        }
-      }
-      return "0"
-    } catch (error) {
-      console.error("Error fetching video stats:", error)
-      return "0"
-    }
-  }
-
   const fetchYouTubeVideos = async () => {
     try {
       setLoading(true)
-      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=50&order=date&type=video&key=${YOUTUBE_API_KEY}`;
-      const data = await fetchFromYouTube(url, 60 * 60 * 24); // Cache for 24 hours
 
-      if (data.items) {
-        const processedVideos: ProcessedVideo[] = await Promise.all(
-          data.items.map(async (video: YouTubeVideo) => {
-            const videoId = video.id.videoId
-            const duration = await fetchVideoDuration(videoId)
-            const views = await fetchVideoStats(videoId)
-            const category = categorizeVideo(video.snippet.description)
+      // Call your FastAPI backend instead of YouTube API
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/youtube/videos`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
 
-            return {
-              id: videoId,
-              title: video.snippet.title,
-              writer: video.snippet.channelTitle,
-              vocalist: video.snippet.channelTitle,
-              thumbnail: video.snippet.thumbnails.medium.url,
-              duration,
-              views,
-              category,
-              language: "Multilingual",
-              uploadDate: new Date(video.snippet.publishedAt).toLocaleDateString(),
-              videoId,
-              description: video.snippet.description,
-            }
-          }),
-        )
-        console.log("Fetched and processed videos:", processedVideos)
+      if (!res.ok) {
+        throw new Error(`Error fetching videos: ${res.statusText}`)
+      }
+
+      const data = await res.json()
+
+      if (data) {
+        const processedVideos: ProcessedVideo[] = data.map((video: any) => ({
+          id: video.id,
+          title: video.title,
+          writer: video.writer,
+          vocalist: video.vocalist,
+          thumbnail: video.thumbnail,
+          duration: video.duration,
+          views: video.views,
+          category: categorizeVideo(video.description || ""), // optional
+          language: "Multilingual",
+          uploadDate: new Date().toLocaleDateString(), // or pass real uploadDate from backend if stored
+          videoId: video.id,
+          description: video.description || "",
+        }))
+
+        console.log("Fetched videos from backend:", processedVideos)
 
         setVideos(processedVideos)
 
@@ -187,7 +143,7 @@ const Gallery = () => {
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred")
-      console.error("Error fetching YouTube videos:", err)
+      console.error("Error fetching backend videos:", err)
     } finally {
       setLoading(false)
     }
@@ -357,17 +313,15 @@ const Gallery = () => {
                   <button
                     key={filter.id}
                     onClick={() => setActiveFilter(filter.id)}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg whitespace-nowrap font-medium transition-all duration-200 ${
-                      activeFilter === filter.id
+                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg whitespace-nowrap font-medium transition-all duration-200 ${activeFilter === filter.id
                         ? "bg-emerald-600 text-white"
                         : "bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600"
-                    }`}
+                      }`}
                   >
                     <span>{filter.label}</span>
                     <span
-                      className={`text-xs px-2 py-1 rounded-full ${
-                        activeFilter === filter.id ? "bg-white/20" : "bg-slate-300"
-                      }`}
+                      className={`text-xs px-2 py-1 rounded-full ${activeFilter === filter.id ? "bg-white/20" : "bg-slate-300"
+                        }`}
                     >
                       {filter.id === "all" ? videos.length : videos.filter((v) => v.category === filter.id).length}
                     </span>
@@ -383,86 +337,86 @@ const Gallery = () => {
 
           {/* Videos Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-  {filteredVideos.map((video) => (
-    <div
-      key={video.id}
-      className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100 cursor-pointer"
-      onClick={() => handleVideoClick(video.videoId)}
-    >
-      <div className="relative">
-        <img
-          src={video.thumbnail || "/placeholder.svg"}
-          alt={video.title}
-          className="w-full h-48 object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-        <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
-          <span className="text-xs font-medium text-white bg-emerald-600 px-2 py-1 rounded-lg capitalize">
-            {video.category}
-          </span>
-          <div className="flex items-center space-x-1 text-white text-xs bg-black/40 backdrop-blur-sm px-2 py-1 rounded-lg">
-            <Clock className="w-3 h-3" />
-            <span>{video.duration}</span>
-          </div>
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-          <div className="w-16 h-16 bg-emerald-600/90 rounded-full flex items-center justify-center">
-            <Play className="w-8 h-8 text-white ml-1" />
-          </div>
-        </div>
-      </div>
+            {filteredVideos.map((video) => (
+              <div
+                key={video.id}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100 cursor-pointer"
+                onClick={() => handleVideoClick(video.videoId)}
+              >
+                <div className="relative">
+                  <img
+                    src={video.thumbnail || "/placeholder.svg"}
+                    alt={video.title}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
+                    <span className="text-xs font-medium text-white bg-emerald-600 px-2 py-1 rounded-lg capitalize">
+                      {video.category}
+                    </span>
+                    <div className="flex items-center space-x-1 text-white text-xs bg-black/40 backdrop-blur-sm px-2 py-1 rounded-lg">
+                      <Clock className="w-3 h-3" />
+                      <span>{video.duration}</span>
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-16 h-16 bg-emerald-600/90 rounded-full flex items-center justify-center">
+                      <Play className="w-8 h-8 text-white ml-1" />
+                    </div>
+                  </div>
+                </div>
 
-      <div className="p-6">
-        <h3 className="text-slate-800 font-bold text-lg mb-2 line-clamp-2">{video.title}</h3>
-        <div className="flex items-center justify-between text-slate-600 text-sm mb-4">
-          <span>by {video.writer}</span>
-          <div className="flex items-center space-x-2">
-            <Eye className="w-4 h-3 text-amber-950" />
-            <span>{video.views}</span>
-          </div>
-        </div>
-        <div className="space-y-2 text-sm text-slate-600 mb-4">
-          
-          <div>
-            <span className="font-medium">Language:</span> {video.language}
-          </div>
-          <div>
-            <span className="font-medium">Uploaded:</span> {video.uploadDate}
-          </div>
-        </div>
+                <div className="p-6">
+                  <h3 className="text-slate-800 font-bold text-lg mb-2 line-clamp-2">{video.title}</h3>
+                  <div className="flex items-center justify-between text-slate-600 text-sm mb-4">
+                    <span>by {video.writer}</span>
+                    <div className="flex items-center space-x-2">
+                      <Eye className="w-4 h-3 text-amber-950" />
+                      <span>{video.views}</span>
+                    </div>
+                  </div>
+                  <div className="space-y-2 text-sm text-slate-600 mb-4">
 
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full capitalize">
-            {video.category}
-          </span>
-          <div className="flex space-x-2">
-            <button
-              className="p-2 text-slate-400 hover:text-emerald-600 transition-colors"
-              onClick={(e) => {
-                e.stopPropagation()
-                navigator.share?.({
-                  title: video.title,
-                  url: `https://www.youtube.com/watch?v=${video.videoId}`,
-                })
-              }}
-            >
-              <Share2 className="w-4 h-4" />
-            </button>
-            <button
-              className="p-2 text-slate-400 hover:text-emerald-600 transition-colors"
-              onClick={(e) => {
-                e.stopPropagation()
-                window.open(`https://www.youtube.com/watch?v=${video.videoId}`, "_blank")
-              }}
-            >
-              <Download className="w-4 h-4" />
-            </button>
+                    <div>
+                      <span className="font-medium">Language:</span> {video.language}
+                    </div>
+                    <div>
+                      <span className="font-medium">Uploaded:</span> {video.uploadDate}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full capitalize">
+                      {video.category}
+                    </span>
+                    <div className="flex space-x-2">
+                      <button
+                        className="p-2 text-slate-400 hover:text-emerald-600 transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          navigator.share?.({
+                            title: video.title,
+                            url: `https://www.youtube.com/watch?v=${video.videoId}`,
+                          })
+                        }}
+                      >
+                        <Share2 className="w-4 h-4" />
+                      </button>
+                      <button
+                        className="p-2 text-slate-400 hover:text-emerald-600 transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          window.open(`https://www.youtube.com/watch?v=${video.videoId}`, "_blank")
+                        }}
+                      >
+                        <Download className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
-      </div>
-    </div>
-  ))}
-</div>
 
           <div className="text-center mt-12">
             <button
