@@ -83,3 +83,22 @@ export const getAllPartnershipProposals = async () => {
       headers: { requiresAuth: true },
     });
   };
+
+
+  export const getAllBlogs = () => {
+    return api.get("/admin/admin/all-blogs", {
+      headers: {
+        requiresAuth: true,
+      },
+    });
+  };
+  
+
+  export const updateBlogStatus = (post_id: number, data: { status: string }) => {
+    return api.put(`/admin/${post_id}/blog-status`, data, {
+      headers: {
+        requiresAuth: true,
+      },
+    });
+  };
+  

@@ -1,5 +1,6 @@
-'use client'
-import React, { useState } from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Users,
@@ -18,106 +19,104 @@ import {
   Search,
   Award,
   PenTool,
-  Mic
+  Mic,
 } from 'lucide-react';
+import { getGuestPosts } from '@/services/requests';
+
+// Predefined list of possible categories from the API (lowercase)
+const possibleCategories = [
+  { id: 'sufi poetry', label: 'Sufi Poetry' },
+  { id: 'spirituality', label: 'Spirituality' },
+  { id: 'culture', label: 'Culture' },
+  { id: 'music', label: 'Music' },
+];
 
 const GuestBlogs = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [posts, setPosts] = useState([]);
+  const [skip, setSkip] = useState(0);
+  const [limit] = useState(6);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const guestPosts = [
-    {
-      id: 1,
-      title: "The Sacred Art of Qawwali: Bridging Heaven and Earth",
-      author: "Dr. Hassan Al-Sufi",
-      role: "Islamic Scholar & Musicologist",
-      location: "Cairo, Egypt",
-      date: "2024-01-20",
-      category: "musicology",
-      excerpt: "Qawwali is not merely music—it is a spiritual technology, a divine algorithm that transforms the human heart through sacred sound...",
-      content: "In the mystical tradition of Islam, few art forms possess the transformative power of Qawwali. This sacred musical expression, born in the Sufi gatherings of the Indian subcontinent, serves as a bridge between the earthly and the divine.",
-      tags: ["Qawwali", "Sacred Music", "Spirituality"]
-    },
-    {
-      id: 2,
-      title: "Poetry as Prayer: The Mystical Language of Sufi Verse",
-      author: "Sister Amina Wadud",
-      role: "Sufi Poet & Teacher",
-      location: "Istanbul, Turkey",
-      date: "2024-01-18",
-      category: "poetry",
-      excerpt: "When we write sacred poetry, we are not crafting words—we are opening doorways for the Divine to speak through us...",
-      content: "The pen becomes a prayer tool, the page a sacred space where the human heart meets divine inspiration. In Sufi poetry, every word carries the weight of spiritual longing.",
-
-      tags: ["Poetry", "Prayer", "Divine Inspiration"]
-    },
-    {
-      id: 3,
-      title: "The Science of Sacred Sound: How Dhikr Transforms Consciousness",
-      author: "Prof. Maria Santos",
-      role: "Neuroscientist & Spiritual Researcher",
-      location: "Barcelona, Spain",
-      date: "2024-01-15",
-      category: "science",
-      excerpt: "Modern neuroscience is beginning to understand what Sufis have known for centuries—repetitive sacred sound fundamentally alters brain states...",
-      content: "Through advanced neuroimaging, we can now observe how dhikr practices create measurable changes in brain activity, particularly in areas associated with transcendence and spiritual experience.",
-
-      tags: ["Neuroscience", "Dhikr", "Consciousness"]
-    },
-    {
-      id: 4,
-      title: "Kashmir's Mystical Heritage: Preserving Sacred Traditions",
-      author: "Tariq Ahmad Shah",
-      role: "Cultural Historian",
-      location: "Srinagar, Kashmir",
-      date: "2024-01-12",
-      category: "heritage",
-      excerpt: "The valleys of Kashmir have nurtured mystical traditions for over a millennium. Today, platforms like SufiPulse help preserve this sacred heritage...",
-      content: "From the teachings of Lal Ded to the poetry of Habba Khatoon, Kashmir's mystical tradition represents one of humanity's greatest spiritual treasures. Digital preservation ensures these voices continue to inspire.",
-
-      tags: ["Kashmir", "Heritage", "Preservation"]
-    },
-    {
-      id: 5,
-      title: "Global Unity Through Sacred Music: A Vocalist's Perspective",
-      author: "Fatima Al-Zahra",
-      role: "International Vocalist",
-      location: "Fez, Morocco",
-      date: "2024-01-10",
-      category: "collaboration",
-      excerpt: "Singing kalam from writers across the globe has taught me that divine love speaks the same language in every culture...",
-      content: "When I lend my voice to sacred poetry from different cultures, I discover the universal nature of spiritual longing. Each collaboration becomes a bridge between hearts.",
-      views: "2.6K",
-      comments: 39,
-      tags: ["Collaboration", "Unity", "Global Music"]
-    }
-  ];
-
-  const categories = [
-    { id: 'all', label: 'All Posts', count: 15 },
-    { id: 'musicology', label: 'Sacred Musicology', count: 4 },
-    { id: 'poetry', label: 'Spiritual Poetry', count: 3 },
-    { id: 'science', label: 'Spiritual Science', count: 3 },
-    { id: 'heritage', label: 'Cultural Heritage', count: 2 },
-    { id: 'collaboration', label: 'Global Collaboration', count: 3 }
-  ];
+  // State for dynamic categories
+  const [categories, setCategories] = useState([
+    { id: 'all', label: 'All Posts', count: 0 },
+    ...possibleCategories.map((cat) => ({ ...cat, count: 0 })),
+  ]);
 
   const stats = [
-    { number: "15", label: "Guest Contributors", icon: Users },
-    { number: "25", label: "Published Articles", icon: BookOpen },
-    { number: "12", label: "Countries Represented", icon: Globe },
-    { number: "18K+", label: "Total Reads", icon: Eye }
+    { number: '15', label: 'Guest Contributors', icon: Users },
+    { number: '25', label: 'Published Articles', icon: BookOpen },
+    { number: '12', label: 'Countries Represented', icon: Globe },
+    { number: '18K+', label: 'Total Reads', icon: Eye },
   ];
 
-  const filteredPosts = guestPosts.filter(post => {
-    const matchesFilter = activeFilter === 'all' || post.category === activeFilter;
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  // Function to calculate dynamic category counts
+  const calculateCategoryCounts = (posts) => {
+    const counts = {
+      all: posts.length,
+      'sufi poetry': 0,
+      spirituality: 0,
+      culture: 0,
+      music: 0,
+    };
+
+    posts.forEach((post) => {
+      const category = post.category.toLowerCase();
+      if (counts.hasOwnProperty(category)) {
+        counts[category]++;
+      }
+    });
+
+    return [
+      { id: 'all', label: 'All Posts', count: counts.all },
+      ...possibleCategories.map((cat) => ({
+        ...cat,
+        count: counts[cat.id] || 0,
+      })),
+    ];
+  };
+
+  // Fetch posts from the API
+  const fetchPosts = async (reset = false) => {
+    setLoading(true);
+    try {
+      const response = await getGuestPosts({ skip: reset ? 0 : skip, limit });
+      const newPosts = response.data; // Assuming the API returns posts in response.data
+      setPosts((prev) => (reset ? newPosts : [...prev, ...newPosts]));
+      setSkip((prev) => (reset ? limit : prev + limit));
+      setHasMore(newPosts.length === limit); // If fewer posts than limit, no more posts to fetch
+
+      // Update categories with dynamic counts
+      setCategories(calculateCategoryCounts(reset ? newPosts : [...posts, ...newPosts]));
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch initial posts on component mount
+  useEffect(() => {
+    fetchPosts(true);
+  }, []);
+
+  // Filter posts based on category and search term
+  const filteredPosts = posts.filter((post) => {
+    const matchesFilter = activeFilter === 'all' || post.category.toLowerCase() === activeFilter;
+    const matchesSearch =
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
-  const featuredPost = guestPosts.find(post => post.featured);
+  // Handle Load More button click
+  const handleLoadMore = () => {
+    fetchPosts();
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -133,8 +132,8 @@ const GuestBlogs = () => {
                   <span className="block text-emerald-400">Blogs</span>
                 </h1>
                 <p className="text-xl lg:text-2xl text-slate-300 leading-relaxed">
-                  Voices from our global spiritual community sharing insights on sacred music,
-                  mystical poetry, and the divine art of collaboration.
+                  Voices from our global spiritual community sharing insights on sufi poetry,
+                  spirituality, culture, and music.
                 </p>
               </div>
 
@@ -216,8 +215,6 @@ const GuestBlogs = () => {
         </p>
       </section>
 
-
-
       {/* Search and Filters */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -240,16 +237,18 @@ const GuestBlogs = () => {
                   <button
                     key={category.id}
                     onClick={() => setActiveFilter(category.id)}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg whitespace-nowrap font-medium transition-all duration-200 ${activeFilter === category.id
+                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg whitespace-nowrap font-medium transition-all duration-200 ${
+                      activeFilter === category.id
                         ? 'bg-emerald-600 text-white'
                         : 'bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600'
-                      }`}
+                    }`}
                   >
                     <span>{category.label}</span>
-                    <span className={`text-xs px-2 py-1 rounded-full ${activeFilter === category.id
-                        ? 'bg-white/20'
-                        : 'bg-slate-300'
-                      }`}>
+                    <span
+                      className={`text-xs px-2 py-1 rounded-full ${
+                        activeFilter === category.id ? 'bg-white/20' : 'bg-slate-300'
+                      }`}
+                    >
                       {category.count}
                     </span>
                   </button>
@@ -258,21 +257,22 @@ const GuestBlogs = () => {
             </div>
 
             <div className="text-sm text-slate-600">
-              Showing {filteredPosts.length} of {guestPosts.length} articles
+              Showing {filteredPosts.length} of {posts.length} articles
             </div>
           </div>
 
           {/* Guest Posts Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.map((post) => (
-              <div key={post.id} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100">
+              <div
+                key={post.id}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100"
+              >
                 <div className="relative">
-
                   <div className="absolute top-4 left-6 flex justify-between items-start">
                     <span className="text-xs font-medium text-white bg-emerald-600 px-2 py-1 rounded-lg">
                       {post.category}
                     </span>
-                   
                   </div>
                 </div>
 
@@ -282,12 +282,14 @@ const GuestBlogs = () => {
                     <User className="w-4 h-4" />
                     <span>{post.author}</span>
                   </div>
-                  <div className="text-xs text-slate-500 mb-3">{post.role} • {post.location}</div>
+                  <div className="text-xs text-slate-500 mb-3">
+                    {post.role} • {post.country}, {post.city}
+                  </div>
                   <div className="flex items-center space-x-2 text-sm text-slate-500 mb-4">
                     <Calendar className="w-4 h-4" />
                     <span>{new Date(post.date).toLocaleDateString()}</span>
                   </div>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-3">{post.excerpt}</p>
+                  <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-3">{post.content}</p>
 
                   <div className="flex flex-wrap gap-1 mb-4">
                     {post.tags.slice(0, 2).map((tag, index) => (
@@ -302,14 +304,18 @@ const GuestBlogs = () => {
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3 text-xs text-slate-500">
-                      <div className="flex items-center space-x-1">
-                        <Eye className="w-3 h-3" />
-                        <span>{post.views}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <MessageCircle className="w-3 h-3" />
-                        <span>{post.comments}</span>
-                      </div>
+                      {post.views && (
+                        <div className="flex items-center space-x-1">
+                          <Eye className="w-3 h-3" />
+                          <span>{post.views}</span>
+                        </div>
+                      )}
+                      {post.comments && (
+                        <div className="flex items-center space-x-1">
+                          <MessageCircle className="w-3 h-3" />
+                          <span>{post.comments}</span>
+                        </div>
+                      )}
                     </div>
                     <button className="p-2 text-slate-400 hover:text-emerald-600 transition-colors">
                       <Share2 className="w-4 h-4" />
@@ -320,23 +326,29 @@ const GuestBlogs = () => {
             ))}
           </div>
 
-          <div className="text-center mt-12">
-            <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200">
-              Load More Articles
-            </button>
-          </div>
+          {hasMore && (
+            <div className="text-center mt-12">
+              <button
+                onClick={handleLoadMore}
+                disabled={loading}
+                className={`bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200 ${
+                  loading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              >
+                {loading ? 'Loading...' : 'Load More Articles'}
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
       {/* Call to Action */}
       <section className="py-20 bg-slate-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-            Share Your Spiritual Insights
-          </h2>
+          <h2 className="text-3xl lg:text-4xl font-bold mb-6">Share Your Spiritual Insights</h2>
           <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-            Join our community of guest contributors. Share your knowledge, experiences,
-            and insights about sacred music, spiritual poetry, and mystical traditions.
+            Join our community of guest contributors. Share your knowledge, experiences, and insights
+            about sufi poetry, spirituality, culture, and music.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

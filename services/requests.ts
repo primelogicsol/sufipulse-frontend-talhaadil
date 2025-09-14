@@ -126,3 +126,16 @@ export const getPostedKalams = (skipValue:number, limit:number) => {
     },
   });
 };
+
+
+export const getGuestPosts = (params: { skip?: number; limit?: number } = {}) => {
+  return api.get("/public/posts", {
+    params: {
+      skip: params.skip ?? 0,
+      limit: params.limit ?? 10,
+    },
+    headers: {
+      requiresAuth: false,
+    },
+  });
+};

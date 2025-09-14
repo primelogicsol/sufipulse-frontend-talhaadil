@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import type React from "react"
-import { PenTool, BookOpen, Menu, X, User2, ArrowLeft } from "lucide-react"
+import { PenTool, BookOpen, Menu, X, User2, ArrowLeft, Bell } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
@@ -11,6 +11,7 @@ import NotificationDropdown from "./NotficationDropdown"
 import { checkWriterRegistration } from "@/services/writer"
 import WriterRegistrationForm from "../pages/WriterRegistrationForm"
 import { i } from "framer-motion/m"
+import { BiLogIn } from "react-icons/bi"
 
 interface WriterDashboardLayoutProps {
   children: React.ReactNode
@@ -89,6 +90,18 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
       href:"/writer/profile",
       icon: User2,
       current:pathname === "/writer/profile",
+    },
+    {
+      name: "Blogs",
+      href: "/writer/blog",
+      icon: BiLogIn,
+      current: pathname === "/writer/blog",
+    },
+    {
+      name:'Notifications',
+      href:'/writer/notification',
+      icon: Bell,
+      current : pathname === '/writer/notification',
     }
   ]
 

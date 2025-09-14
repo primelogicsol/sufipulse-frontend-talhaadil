@@ -5,6 +5,7 @@ import type React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, LayoutDashboard, Mic, PenTool, BookText, Building, Globe, User2, LogOut, Handshake, Bell } from "lucide-react";
+import { BiLogIn } from "react-icons/bi";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -20,6 +21,7 @@ const menuItems = [
   { name: "Partnership", href: "/admin/partnership", icon: Handshake },
   { name: "Notification", href: "/admin/notifications", icon: Bell },
   { name: "Sub Admins", href: "/admin/other-admins", icon: User2 },
+  { name: "Blogs", href: "/admin/blog", icon: BiLogIn },
 ];
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {

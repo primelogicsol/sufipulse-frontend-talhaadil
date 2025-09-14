@@ -6,35 +6,97 @@ const Studio = () => {
   const equipment = [
     {
       category: "Microphones",
-      items: ["Neumann U87", "Shure SM7B", "AKG C414", "Rode Procaster"],
+      items: [
+        "Neumann U87 Ai",
+        "Shure SM7B",
+        "AKG C414",
+        "Rode NT1 / Procaster"
+      ],
       image: "https://images.pexels.com/photos/164938/pexels-photo-164938.jpeg?auto=compress&cs=tinysrgb&w=400"
     },
     {
       category: "Audio Interfaces",
-      items: ["Universal Audio Apollo Twin", "Focusrite Scarlett Series", "PreSonus Studio Series"],
+      items: [
+        "Universal Audio Apollo X / Twin",
+        "RME Fireface",
+        "Focusrite Scarlett / Clarett",
+        "PreSonus Studio Series"
+      ],
       image: "https://images.pexels.com/photos/1751731/pexels-photo-1751731.jpeg?auto=compress&cs=tinysrgb&w=400"
     },
     {
-      category: "Digital Audio Workstations",
-      items: ["Logic Pro X", "Ableton Live", "Pro Tools", "Reaper"],
+      category: "Digital Audio Workstations (DAWs)",
+      items: [
+        "Pro Tools",
+        "Logic Pro X",
+        "Ableton Live",
+        "Cubase"
+      ],
       image: "https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=400"
     },
     {
-      category: "Monitoring",
-      items: ["Yamaha HS8", "KRK Rokit", "Audio-Technica ATH-M50x", "Beyerdynamic DT770"],
+      category: "Monitoring & Headphones",
+      items: [
+        "Genelec 8030",
+        "Yamaha HS8",
+        "Adam Audio A8H",
+        "Beyerdynamic DT770/990"
+      ],
       image: "https://images.pexels.com/photos/1751731/pexels-photo-1751731.jpeg?auto=compress&cs=tinysrgb&w=400"
     },
     {
       category: "Acoustic Treatment",
-      items: ["Vocal Isolation Booths", "Acoustic Panels", "Bass Traps", "Diffusers"],
+      items: [
+        "Vocal Isolation Booths",
+        "Acoustic Panels",
+        "Bass Traps",
+        "Diffusers"
+      ],
       image: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400"
     },
     {
-      category: "Recording & Production",
-      items: ["Multi-track Recording", "MIDI Controllers", "Audio Plugins Suite", "Backup Systems"],
+      category: "Recording & Production Tools",
+      items: [
+        "Multi-track Recording",
+        "MIDI Controllers",
+        "Audio Plugins Suite",
+        "Backup Systems"
+      ],
       image: "https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=400"
+    },
+    {
+      category: "Guitars & Bass",
+      items: [
+        "Fender Stratocaster",
+        "Gibson Les Paul",
+        "Taylor Acoustic",
+        "Fender Precision Bass"
+      ],
+      image: "https://images.pexels.com/photos/164938/pexels-photo-164938.jpeg?auto=compress&cs=tinysrgb&w=400"
+    },
+    {
+      category: "Keyboards & Synths",
+      items: [
+        "Nord Stage 3",
+        "Yamaha Montage",
+        "Roland Juno-DS",
+        "NI Komplete Kontrol"
+      ],
+      image: "https://images.pexels.com/photos/1751731/pexels-photo-1751731.jpeg?auto=compress&cs=tinysrgb&w=400"
+    },
+    {
+      category: "Drums, Piano & Percussion",
+      items: [
+        "DW Collector’s Series (acoustic)",
+        "Roland V-Drums TD-50X",
+        "Yamaha C7 Grand Piano",
+        "Tabla, Daf, Djembe, Cajón"
+      ],
+      image: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400"
     }
   ];
+  
+  
 
   const team = [
     {

@@ -383,90 +383,86 @@ const Gallery = () => {
 
           {/* Videos Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredVideos.map((video) => (
-              <div
-                key={video.id}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100 cursor-pointer"
-                onClick={() => handleVideoClick(video.videoId)}
-              >
-                <div className="relative">
-                  <img
-                    src={video.thumbnail || "/placeholder.svg"}
-                    alt={video.title}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
-                    <span className="text-xs font-medium text-white bg-emerald-600 px-2 py-1 rounded-lg capitalize">
-                      {video.category}
-                    </span>
-                    <div className="flex items-center space-x-1 text-white text-xs bg-black/40 backdrop-blur-sm px-2 py-1 rounded-lg">
-                      <Clock className="w-3 h-3" />
-                      <span>{video.duration}</span>
-                    </div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-16 h-16 bg-emerald-600/90 rounded-full flex items-center justify-center">
-                      <Play className="w-8 h-8 text-white ml-1" />
-                    </div>
-                  </div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-white font-bold text-lg mb-1 line-clamp-2">{video.title}</h3>
-                    <div className="flex bits-center justify-between text-white text-xs">
-                      <span>by {video.writer}</span>
-                      <div className="flex items-center space-x-2">
-                        <Eye className="w-3 h-3" />
-                        <span>{video.views}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <div className="space-y-2 text-sm text-slate-600 mb-4">
-                    <div>
-                      <span className="font-medium">Vocalist:</span> {video.vocalist}
-                    </div>
-                    <div>
-                      <span className="font-medium">Language:</span> {video.language}
-                    </div>
-                    <div>
-                      <span className="font-medium">Uploaded:</span> {video.uploadDate}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full capitalize">
-                      {video.category}
-                    </span>
-                    <div className="flex space-x-2">
-                      <button
-                        className="p-2 text-slate-400 hover:text-emerald-600 transition-colors"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          navigator.share?.({
-                            title: video.title,
-                            url: `https://www.youtube.com/watch?v=${video.videoId}`,
-                          })
-                        }}
-                      >
-                        <Share2 className="w-4 h-4" />
-                      </button>
-                      <button
-                        className="p-2 text-slate-400 hover:text-emerald-600 transition-colors"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          window.open(`https://www.youtube.com/watch?v=${video.videoId}`, "_blank")
-                        }}
-                      >
-                        <Download className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+  {filteredVideos.map((video) => (
+    <div
+      key={video.id}
+      className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100 cursor-pointer"
+      onClick={() => handleVideoClick(video.videoId)}
+    >
+      <div className="relative">
+        <img
+          src={video.thumbnail || "/placeholder.svg"}
+          alt={video.title}
+          className="w-full h-48 object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
+          <span className="text-xs font-medium text-white bg-emerald-600 px-2 py-1 rounded-lg capitalize">
+            {video.category}
+          </span>
+          <div className="flex items-center space-x-1 text-white text-xs bg-black/40 backdrop-blur-sm px-2 py-1 rounded-lg">
+            <Clock className="w-3 h-3" />
+            <span>{video.duration}</span>
           </div>
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+          <div className="w-16 h-16 bg-emerald-600/90 rounded-full flex items-center justify-center">
+            <Play className="w-8 h-8 text-white ml-1" />
+          </div>
+        </div>
+      </div>
+
+      <div className="p-6">
+        <h3 className="text-slate-800 font-bold text-lg mb-2 line-clamp-2">{video.title}</h3>
+        <div className="flex items-center justify-between text-slate-600 text-sm mb-4">
+          <span>by {video.writer}</span>
+          <div className="flex items-center space-x-2">
+            <Eye className="w-4 h-3 text-amber-950" />
+            <span>{video.views}</span>
+          </div>
+        </div>
+        <div className="space-y-2 text-sm text-slate-600 mb-4">
+          
+          <div>
+            <span className="font-medium">Language:</span> {video.language}
+          </div>
+          <div>
+            <span className="font-medium">Uploaded:</span> {video.uploadDate}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full capitalize">
+            {video.category}
+          </span>
+          <div className="flex space-x-2">
+            <button
+              className="p-2 text-slate-400 hover:text-emerald-600 transition-colors"
+              onClick={(e) => {
+                e.stopPropagation()
+                navigator.share?.({
+                  title: video.title,
+                  url: `https://www.youtube.com/watch?v=${video.videoId}`,
+                })
+              }}
+            >
+              <Share2 className="w-4 h-4" />
+            </button>
+            <button
+              className="p-2 text-slate-400 hover:text-emerald-600 transition-colors"
+              onClick={(e) => {
+                e.stopPropagation()
+                window.open(`https://www.youtube.com/watch?v=${video.videoId}`, "_blank")
+              }}
+            >
+              <Download className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
 
           <div className="text-center mt-12">
             <button

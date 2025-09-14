@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type React from "react";
-import { User, Music, Menu, X, LogOut, User2, ArrowLeft } from "lucide-react";
+import { User, Music, Menu, X, LogOut, User2, ArrowLeft, Bell } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { checkVocalistRegistration } from "@/services/vocalist";
@@ -11,6 +11,7 @@ import { useAuth } from "@/context/AuthContext";
 import Cookies from "js-cookie";
 import NotificationDropdown from "./NotficationDropdown";
 import { BiLogIn } from "react-icons/bi";
+import path from "path";
 
 interface VocalistLayoutProps {
   children: React.ReactNode;
@@ -62,6 +63,12 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
       icon: BiLogIn,
       current: pathname === "/vocalist/blog",
     },
+    {
+      name: "Notifications",
+      href:"/vocalist/notification",
+      icon : Bell,
+      current: pathname === "/vocalist/notification",
+    }
   ];
 
   // Loader component
