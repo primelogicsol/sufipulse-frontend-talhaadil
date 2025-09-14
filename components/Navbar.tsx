@@ -173,9 +173,7 @@ const Navbar = () => {
       dropdown: [
         { name: "Inside Our Studio", path: "/studio" },
         { name: "Meet the Engineers", path: "/studio-engineers" },
-        { name: "Past Productions", path: "/studio-productions" },
         { name: "How We Select Music Style", path: "/music-style-selection" },
-        { name: "Behind-the-Scenes Videos", path: "/studio-diaries" },
       ],
     },
    
@@ -185,7 +183,6 @@ const Navbar = () => {
       dropdown: [
         { name: "Guest Blogs", path: "/guest-blogs" },
         { name: "Sufi Music Theory", path: "/sufi-music-theory" },
-        { name: "Spiritual Commentary", path: "/spiritual-commentary" },
         { name: "Legacy of Dr. Kumar", path: "/legacy-of-dr-kumar" },
       ],
     },

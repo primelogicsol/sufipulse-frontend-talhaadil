@@ -10,6 +10,7 @@ import SubmitSampleClip from "../pages/SubmitSampleClip";
 import { useAuth } from "@/context/AuthContext";
 import Cookies from "js-cookie";
 import NotificationDropdown from "./NotficationDropdown";
+import { BiLogIn } from "react-icons/bi";
 
 interface VocalistLayoutProps {
   children: React.ReactNode;
@@ -54,6 +55,12 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
       href: "/vocalist/kalam",
       icon: Music,
       current: pathname === "/vocalist/kalam",
+    },
+    {
+      name: "Blog",
+      href: "/vocalist/blog",
+      icon: BiLogIn,
+      current: pathname === "/vocalist/blog",
     },
   ];
 

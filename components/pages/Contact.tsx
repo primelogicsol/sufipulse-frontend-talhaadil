@@ -1,7 +1,20 @@
 'use client'
 
 import React, { useState } from 'react';
-import { Mail, MessageSquare, Users, Building2, Globe, Send, Phone, MapPin, Clock, Heart } from 'lucide-react';
+import {
+  Mail,
+  MessageSquare,
+  Users,
+  Building2,
+  Globe,
+  Send,
+  Phone,
+  MapPin,
+  Clock,
+  HeartHandshake,
+  Music,
+  Sparkles
+} from 'lucide-react';
 
 const Contact = () => {
   const [activeForm, setActiveForm] = useState('general');
@@ -15,7 +28,7 @@ const Contact = () => {
     },
     {
       id: 'writer',
-      icon: Users,
+      icon: Music,
       title: 'Writer Submission',
       description: 'Submit your sacred kalam for consideration'
     },
@@ -44,7 +57,6 @@ const Contact = () => {
       description: 'Institutional or organizational collaboration'
     }
   ];
-
 
   const contactInfo = [
     {
@@ -123,11 +135,9 @@ const Contact = () => {
             placeholder="Please share your message, questions, or how we can assist you..."
           ></textarea>
         </div>
-
       </form>
     );
   }
-
 
   return (
     <div className="min-h-screen bg-white">
@@ -137,7 +147,7 @@ const Contact = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
           <div className="text-center">
             <div className="w-20 h-20 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <Heart className="w-10 h-10 text-white" />
+              <HeartHandshake className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-4xl lg:text-6xl font-bold leading-tight mb-6">
               Connect With Our
@@ -159,30 +169,19 @@ const Contact = () => {
         </div>
       </section>
 
+      {/* Contact Section */}
       <div className="bg-slate-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-
           <div className="flex">
-
-
             {/* Contact Form */}
             <div className="lg:col-span-2 mx-auto w-full lg:w-[65vw]">
               <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-8">
                 <div className="mb-6">
-                  {(() => {
-
-                    return (
-                      <>
-                        <h2 className="text-2xl font-bold text-slate-800 mb-2">
-                          Contact Us
-                        </h2>
-                        <p className="text-slate-600">
-                          How can we help you today
-                        </p>
-                      </>
-                    );
-                  })()}
+                  <h2 className="text-2xl font-bold text-slate-800 mb-2">
+                    Contact Us
+                  </h2>
+                  <p className="text-slate-600">How can we help you today</p>
                 </div>
 
                 {renderForm()}
@@ -210,21 +209,25 @@ const Contact = () => {
                 while ensuring your authorship is always honored.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-slate-700 rounded-xl p-4">
-                  <h4 className="font-bold text-emerald-400 mb-2">100% Free</h4>
+                <div className="bg-slate-700 rounded-xl p-4 flex flex-col items-center">
+                  <Sparkles className="w-8 h-8 text-emerald-400 mb-3" />
+                  <h4 className="font-bold text-emerald-400 mb-1">100% Free</h4>
                   <p className="text-sm text-slate-300">Complete production services at no cost</p>
                 </div>
-                <div className="bg-slate-700 rounded-xl p-4">
-                  <h4 className="font-bold text-emerald-400 mb-2">Global Reach</h4>
+                <div className="bg-slate-700 rounded-xl p-4 flex flex-col items-center">
+                  <Globe className="w-8 h-8 text-emerald-400 mb-3" />
+                  <h4 className="font-bold text-emerald-400 mb-1">Global Reach</h4>
                   <p className="text-sm text-slate-300">Your kalam shared worldwide</p>
                 </div>
-                <div className="bg-slate-700 rounded-xl p-4">
-                  <h4 className="font-bold text-emerald-400 mb-2">Full Credit</h4>
+                <div className="bg-slate-700 rounded-xl p-4 flex flex-col items-center">
+                  <Music className="w-8 h-8 text-emerald-400 mb-3" />
+                  <h4 className="font-bold text-emerald-400 mb-1">Full Credit</h4>
                   <p className="text-sm text-slate-300">Your authorship always honored</p>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

@@ -248,6 +248,40 @@ const HowItWorks = () => {
         </div>
       </section>
 
+      {/* Enroll or Proceed Section */}
+{/* Enroll or Proceed Section */}
+<section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-emerald-50 to-slate-50 relative overflow-hidden">
+  <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=800')] bg-cover bg-center opacity-10"></div>
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div className="mb-12 sm:mb-16">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-3 sm:mb-4 animate-fade-in-down">
+        Begin Your Sacred Writing Journey
+      </h2>
+      <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed animate-fade-in-up">
+        Join SufiPulse as a writer and let your sacred poetry inspire hearts across the globe.
+      </p>
+    </div>
+
+    <div className="relative max-w-md mx-auto group">
+      <div className="relative z-10">
+        <Link
+          href="/register"
+          className="inline-flex items-center space-x-3 bg-emerald-600 hover:bg-emerald-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-sm sm:text-base lg:text-lg transition-all duration-300 transform group-hover:scale-105 group-hover:shadow-2xl"
+        >
+          <PenTool className="w-5 sm:w-6 h-5 sm:h-6" />
+          <span>Start Writing Now</span>
+        </Link>
+      </div>
+      <div className="absolute inset-0 bg-emerald-200/30 rounded-full blur-2xl transform scale-110 group-hover:scale-125 transition-transform duration-500"></div>
+    </div>
+
+    <div className="mt-8 text-sm sm:text-base text-slate-500 max-w-lg mx-auto animate-fade-in">
+      Create your free writer profile, share your spiritual background and sample kalam, and begin your journey with SufiPulse today.
+    </div>
+  </div>
+
+</section>
+
       {/* Key Benefits */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PenTool, Mic, Music, Globe, Award, BookOpen, Heart, Users, Satellite, Leaf, Shield, Code, Building, Star } from 'lucide-react';
+import { PenTool, Mic, Music, Globe, BookOpen, Heart, Users, Satellite, Leaf, Shield, Code, Building, Star, MapPin, Sparkles, Quote } from 'lucide-react';
 
 const Founder = () => {
   const roles = [
@@ -51,32 +51,35 @@ const Founder = () => {
     {
       phase: "Kashmiri Roots",
       description: "Born into the mystical tradition of Kashmir's sacred valleys, inheriting centuries of Sufi wisdom",
-      icon: Heart
+      icon: MapPin // Replaced emoji with MapPin for location-based heritage
     },
     {
       phase: "American Innovation",
       description: "Embracing American technological innovation and entrepreneurial spirit",
-      icon: Star
+      icon: Sparkles // Replaced emoji with Sparkles for innovation
     },
     {
       phase: "Global Vision",
       description: "Synthesizing Eastern spirituality with Western innovation to serve the global ummah",
-      icon: Globe
+      icon: Globe // Already using Globe, fits perfectly
     }
   ];
 
   const quotes = [
     {
       text: "We don't sell divine lyrics. We amplify them.",
-      context: "Core Philosophy"
+      context: "Core Philosophy",
+      icon: Quote // Added Quote icon for quotes
     },
     {
       text: "Technology should serve the sacred, not the other way around.",
-      context: "On Innovation"
+      context: "On Innovation",
+      icon: Quote
     },
     {
       text: "From Kashmir's valleys to the world's heart - every soul deserves to hear the divine pulse.",
-      context: "Mission Statement"
+      context: "Mission Statement",
+      icon: Quote
     }
   ];
 
@@ -135,14 +138,20 @@ const Founder = () => {
                 </div>
               </div>
               <div className="space-y-6">
-                {quotes.map((quote, index) => (
-                  <div key={index} className="bg-slate-700 rounded-xl p-6">
-                    <blockquote className="text-white text-lg italic mb-3">
-                      "{quote.text}"
-                    </blockquote>
-                    <cite className="text-emerald-300 text-sm">— {quote.context}</cite>
-                  </div>
-                ))}
+                {quotes.map((quote, index) => {
+                  const Icon = quote.icon;
+                  return (
+                    <div key={index} className="bg-slate-700 rounded-xl p-6 flex items-start space-x-4">
+                      <Icon className="w-6 h-6 text-emerald-300 flex-shrink-0 mt-1" />
+                      <div>
+                        <blockquote className="text-white text-lg italic mb-3">
+                          "{quote.text}"
+                        </blockquote>
+                        <cite className="text-emerald-300 text-sm">— {quote.context}</cite>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -324,6 +333,9 @@ const Founder = () => {
         <section className="text-center">
           <div className="bg-slate-800 rounded-2xl p-8 lg:p-12 text-white">
             <h2 className="text-3xl font-bold mb-6">Vision for Global Spiritual Unity</h2>
+            <div className="flex justify-center mb-8">
+              <Quote className="w-8 h-8 text-emerald-300" />
+            </div>
             <blockquote className="text-2xl font-light italic text-emerald-300 mb-8 max-w-4xl mx-auto leading-relaxed">
               "Through SufiPulse, we create a bridge where the ancient wisdom of Kashmir's Sufi masters 
               meets the global hunger for spiritual connection. Technology serves the sacred, 

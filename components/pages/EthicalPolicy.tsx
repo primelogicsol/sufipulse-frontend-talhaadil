@@ -8,6 +8,7 @@ import {
   BookOpen,
   CheckCircle,
   FileText,
+  Feather
 } from "lucide-react";
 
 const EthicalPolicy = () => {
@@ -123,56 +124,56 @@ const EthicalPolicy = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-          <div className="text-center">
-            <div className="w-20 h-20 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <Shield className="w-10 h-10 text-white" />
-            </div>
-            <h1 className="text-4xl lg:text-6xl font-bold leading-tight mb-6">
-              🕊️ Ethical Policy
-            </h1>
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-5xl mx-auto">
-              <p className="text-xl text-slate-300 leading-relaxed mb-6">
-                At SufiPulse, our ethical framework is guided by{" "}
-                <strong className="text-emerald-300">adab</strong> (respect),
-                <strong className="text-emerald-300"> ikhlas</strong>{" "}
-                (sincerity), and{" "}
-                <strong className="text-emerald-300">amanah</strong> (trust).
-              </p>
-              <blockquote className="text-2xl font-light italic text-emerald-300 mb-4">
-                "This is sacred ground. We treat it as such."
-              </blockquote>
-              <p className="text-slate-300">
-                Our unwavering commitment to ethical practices in handling
-                sacred content, protecting contributor rights, and maintaining
-                spiritual integrity in all our work.
-              </p>
-            </div>
+    {/* Hero Section */}
+    <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 text-white overflow-hidden">
+      <div className="absolute inset-0 bg-black/20"></div>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+        <div className="text-center">
+          <div className="w-20 h-20 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <Feather className="w-10 h-10 text-white" />
+          </div>
+          <h1 className="text-4xl lg:text-6xl font-bold leading-tight mb-6">
+            Ethical Policy
+          </h1>
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-5xl mx-auto">
+            <p className="text-xl text-slate-300 leading-relaxed mb-6">
+              At SufiPulse, our ethical framework is guided by{" "}
+              <strong className="text-emerald-300">adab</strong> (respect),
+              <strong className="text-emerald-300"> ikhlas</strong>{" "}
+              (sincerity), and{" "}
+              <strong className="text-emerald-300">amanah</strong> (trust).
+            </p>
+            <blockquote className="text-2xl font-light italic text-emerald-300 mb-4">
+              "This is sacred ground. We treat it as such."
+            </blockquote>
+            <p className="text-slate-300">
+              Our unwavering commitment to ethical practices in handling
+              sacred content, protecting contributor rights, and maintaining
+              spiritual integrity in all our work.
+            </p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-lg font-semibold text-slate-800 mb-1">
-                  {stat.label}
-                </div>
-                <div className="text-sm text-slate-600">{stat.description}</div>
+    {/* Stats Section */}
+    <section className="py-16 bg-slate-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          {stats.map((stat, index) => (
+            <div key={index} className="text-center">
+              <div className="text-3xl font-bold text-emerald-600 mb-2">
+                {stat.number}
               </div>
-            ))}
-          </div>
+              <div className="text-lg font-semibold text-slate-800 mb-1">
+                {stat.label}
+              </div>
+              <div className="text-sm text-slate-600">{stat.description}</div>
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* Core Ethical Framework */}
       <section className="py-20 bg-white">

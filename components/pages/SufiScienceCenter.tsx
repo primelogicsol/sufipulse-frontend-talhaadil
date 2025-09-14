@@ -22,7 +22,9 @@ import {
   Brain,
   Waves,
   Eye,
-  Music
+  Music,
+  FlaskConical,
+  Compass
 } from 'lucide-react';
 
 const SufiScienceCenter = () => {
@@ -127,7 +129,7 @@ const SufiScienceCenter = () => {
               <Microscope className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-4xl lg:text-6xl font-bold leading-tight mb-6">
-              🔬 Sufi Science Center
+              Sufi Science Center
             </h1>
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-5xl mx-auto">
               <p className="text-xl text-slate-300 leading-relaxed mb-6">
@@ -166,8 +168,11 @@ const SufiScienceCenter = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
+            <div className="w-16 h-16 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <FlaskConical className="w-8 h-8 text-emerald-600" />
+            </div>
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              🧪 Research Areas
+              Research Areas
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               Comprehensive scientific investigation into the mystical dimensions of sound, consciousness, and spiritual experience
@@ -208,8 +213,11 @@ const SufiScienceCenter = () => {
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
+            <div className="w-16 h-16 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <FlaskConical className="w-8 h-8 text-emerald-600" />
+            </div>
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              🧪 A Revolution in Thought
+              A Revolution in Thought
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
               The Sufi Science Center was born as a spiritual think tank, a technological sanctuary, a metaphysical research lab.
@@ -244,8 +252,11 @@ const SufiScienceCenter = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
+            <div className="w-16 h-16 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Compass className="w-8 h-8 text-emerald-600" />
+            </div>
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              🎵 Guiding SufiPulse Productions
+              Guiding SufiPulse Productions
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               The center mentors the lyrical and sonic vision of SufiPulse, ensuring every production reflects both divine depth and scientific design
@@ -271,7 +282,6 @@ const SufiScienceCenter = () => {
           </div>
         </div>
       </section>
-
       {/* Sacred Science Declaration */}
       <section className="py-20 bg-emerald-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

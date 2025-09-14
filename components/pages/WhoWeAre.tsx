@@ -1,7 +1,10 @@
 'use client'
 import React from 'react';
 import Link from 'next/link';
-import { Heart, Globe, Users, Award, BookOpen, Star, ArrowRight, Shield, Zap, Target, Building, Compass } from 'lucide-react';
+import { 
+  Heart, Globe, Users, Award, BookOpen, Star, 
+  Shield, Zap, Target, Building, Compass, Leaf 
+} from 'lucide-react';
 
 const WhoWeAre = () => {
   const coreValues = [
@@ -15,13 +18,13 @@ const WhoWeAre = () => {
       icon: Globe,
       title: "Unite the Ummah Through Sound",
       description: "From Lahore to Los Angeles, from Cairo to Kuala Lumpur — every soul carrying divine lyrics deserves a global stage.",
-      color: "text-blue-600 bg-blue-50"
+      color: "text-emerald-600 bg-emerald-50"
     },
     {
       icon: Shield,
       title: "Produce With Purity",
       description: "No marketing agenda. No monetization. No fame game. Just sincere production powered by sincerity, silence, and surrender.",
-      color: "text-purple-600 bg-purple-50"
+      color: "text-emerald-600 bg-emerald-50"
     }
   ];
 
@@ -61,10 +64,10 @@ const WhoWeAre = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
           <div className="text-center">
             <div className="w-20 h-20 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <Heart className="w-10 h-10 text-white" />
+              <Leaf className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-4xl lg:text-6xl font-bold leading-tight mb-6">
-              🌿 Who We Are
+              Who We Are
             </h1>
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-5xl mx-auto">
               <p className="text-xl text-slate-300 leading-relaxed mb-6">
@@ -153,8 +156,11 @@ const WhoWeAre = () => {
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
+            <div className="w-20 h-20 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <Globe className="w-10 h-10 text-emerald-600" />
+            </div>
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              🌍 Our Sacred Vows
+              Our Sacred Vows
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               Our mission is rooted in three sacred vows that guide every aspect of our work
@@ -182,6 +188,9 @@ const WhoWeAre = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
+            <div className="w-20 h-20 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <Target className="w-10 h-10 text-emerald-600" />
+            </div>
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
               Our Guiding Principles
             </h2>
@@ -214,6 +223,9 @@ const WhoWeAre = () => {
       <section className="py-20 bg-emerald-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
+            <div className="w-20 h-20 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <Shield className="w-10 h-10 text-emerald-600" />
+            </div>
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-8">
               Our Sacred Declaration
             </h2>
@@ -242,6 +254,9 @@ const WhoWeAre = () => {
       {/* Call to Action */}
       <section className="py-20 bg-slate-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="w-20 h-20 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <Users className="w-10 h-10 text-white" />
+          </div>
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
             Join Our Sacred Legacy
           </h2>

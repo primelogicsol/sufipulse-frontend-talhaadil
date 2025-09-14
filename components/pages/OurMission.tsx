@@ -13,7 +13,6 @@ import {
   Shield,
   Music,
   CheckCircle,
-  Eye,
   Mic
 } from 'lucide-react';
 
@@ -31,14 +30,14 @@ const OurMission = () => {
       title: "Unity Through Sound",
       description: "From Lahore to Los Angeles, from Cairo to Kuala Lumpur we believe every soul carrying divine lyrics deserves a global stage.",
       stats: "50+ Countries Connected",
-      color: "text-blue-600 bg-blue-50"
+      color: "text-emerald-600 bg-emerald-50"
     },
     {
       icon: Shield,
       title: "To Produce With Purity",
       description: "No marketing agenda. No monetization. No fame game. Just sincere production powered by sincerity, silence, and surrender.",
       stats: "100% Pure Intention",
-      color: "text-purple-600 bg-purple-50"
+      color: "text-emerald-600 bg-emerald-50"
     }
   ];
 
@@ -75,10 +74,10 @@ const OurMission = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
           <div className="text-center">
             <div className="w-20 h-20 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <Compass className="w-10 h-10 text-white" />
+              <Globe className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-4xl lg:text-6xl font-bold leading-tight mb-6">
-              🌍 Our Mission
+              Our Mission
             </h1>
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-5xl mx-auto">
               <blockquote className="text-2xl lg:text-3xl font-light italic text-emerald-300 mb-6 leading-relaxed">
@@ -112,6 +111,7 @@ const OurMission = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
+            <Shield className="w-12 h-12 text-emerald-600 mx-auto mb-4" />
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
               Three Sacred Vows
             </h2>
@@ -144,6 +144,7 @@ const OurMission = () => {
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
+            <Compass className="w-12 h-12 text-emerald-600 mx-auto mb-4" />
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
               Vision for Global Spiritual Unity
             </h2>
@@ -169,6 +170,7 @@ const OurMission = () => {
 
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-100">
             <div className="text-center mb-8">
+              <Music className="w-12 h-12 text-emerald-600 mx-auto mb-4" />
               <h3 className="text-2xl font-bold text-slate-800 mb-4">Our Complete Process</h3>
               <p className="text-slate-600 max-w-2xl mx-auto">
                 From sacred submission to global inspiration - how we fulfill our mission
@@ -213,6 +215,7 @@ const OurMission = () => {
       <section className="py-20 bg-emerald-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
+            <Heart className="w-12 h-12 text-emerald-600 mx-auto mb-4" />
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-8">
               Our Sacred Promise
             </h2>
@@ -250,6 +253,7 @@ const OurMission = () => {
       {/* Call to Action */}
       <section className="py-20 bg-slate-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <Users className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
             Be Part of Our Sacred Mission
           </h2>

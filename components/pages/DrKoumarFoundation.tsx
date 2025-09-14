@@ -23,8 +23,15 @@ import {
   GraduationCap,
   Lightbulb,
   Home,
-  Utensils
+  Utensils,
+  Flame, // Added for "From Medicine to Mystical"
+  Moon, // Added for "14 Years of Silence"
+  Brain, // Added for "Sufi Guide for New Generation"
+  FlaskConical,
+  Bird,
+  BirdIcon, // Added for "Sufi Science Center"
 } from 'lucide-react';
+import { FaDove } from 'react-icons/fa';
 
 const DrKumarFoundation = () => {
   const spiritualJourney = [
@@ -175,8 +182,9 @@ const DrKumarFoundation = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              🌿 From Medicine to the Mystical
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
+              <Flame className="w-8 h-8 text-emerald-600 mr-2" />
+              From Medicine to the Mystical
             </h2>
           </div>
 
@@ -219,8 +227,9 @@ const DrKumarFoundation = () => {
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              🧘 14 Years of Silence — The Birth of a Qalandar
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
+              <Moon className="w-8 h-8 text-emerald-600 mr-2" />
+              14 Years of Silence — The Birth of a Qalandar
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
               In the jungles of Ganderbal, he entered a sacred silence. For fourteen years, he lived in Muraqaba — 
@@ -271,8 +280,9 @@ const DrKumarFoundation = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              🕊️ Banday Bagh — The Spiritual Station
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
+              <FaDove className="w-8 h-8 text-emerald-600 mr-2" />
+              Banday Bagh — The Spiritual Station
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
               In the lush valley of Serch Banday Bagh (Ganderbal), where the winds whisper with the voices of saints, 
@@ -311,8 +321,9 @@ const DrKumarFoundation = () => {
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              🧠 A Sufi Guide for the New Generation
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
+              <Brain className="w-8 h-8 text-emerald-600 mr-2" />
+              A Sufi Guide for the New Generation
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
               Where old Sufi languages seemed distant, Dr. Kumar built a new bridge.
@@ -363,8 +374,9 @@ const DrKumarFoundation = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              🧪 The Sufi Science Center (SSC) — A Revolution in Thought
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
+              <FlaskConical className="w-8 h-8 text-emerald-600 mr-2" />
+              The Sufi Science Center (SSC) — A Revolution in Thought
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
               To honor and spread his teachings, the Sufi Science Center was born — 
@@ -403,8 +415,9 @@ const DrKumarFoundation = () => {
       <section className="py-20 bg-emerald-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              🌎 Dr. Kumar Foundation USA — A Light Across Oceans
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
+              <Globe className="w-8 h-8 text-emerald-600 mr-2" />
+              Dr. Kumar Foundation USA — A Light Across Oceans
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
               To carry his vision beyond the borders of Kashmir, one of Dr. Kumar's American students 
@@ -446,8 +459,9 @@ const DrKumarFoundation = () => {
       {/* Call to the Seeker */}
       <section className="py-20 bg-slate-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-8">
-            ✨ A Call to the Seeker
+          <h2 className="text-3xl lg:text-4xl font-bold mb-8 flex items-center justify-center">
+            <Star className="w-8 h-8 text-emerald-300 mr-2" />
+            A Call to the Seeker
           </h2>
           
           <div className="space-y-6 mb-12">
@@ -467,21 +481,21 @@ const DrKumarFoundation = () => {
               className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
             >
               <Leaf className="w-5 h-5" />
-              <span>🌿 Join the journey</span>
+              <span>Join the journey</span>
             </Link>
             <Link
               href="/sufi-science-center"
               className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
               <Eye className="w-5 h-5" />
-              <span>🕊️ Seek the light</span>
+              <span>Seek the light</span>
             </Link>
             <Link
               href="/contact"
               className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
               <Heart className="w-5 h-5" />
-              <span>🕋 Be the voice of the unseen</span>
+              <span>Be the voice of the unseen</span>
             </Link>
           </div>
         </div>
