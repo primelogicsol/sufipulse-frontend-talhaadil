@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { PenTool, Globe, BookOpen, CheckCircle, Award, Star, Users, Briefcase } from "lucide-react"
 import { submitWriterProfile } from "@/services/writer"
+import Cookies from "js-cookie"
 
 interface WriterRegistrationFormProps {
   onRegistrationComplete: () => void
@@ -93,12 +94,7 @@ const WriterRegistrationForm: React.FC<WriterRegistrationFormProps> = ({ onRegis
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
 
-    if (formData.writingStyles.length === 0) newErrors.writingStyles = "Please select at least one writing style"
-    if (formData.languages.length === 0) newErrors.languages = "Please select at least one language"
-    if (!formData.sampleTitle.trim()) newErrors.sampleTitle = "Sample title is required"
-    if (!formData.experienceBackground.trim()) newErrors.experienceBackground = "Experience background is required"
-    if (!formData.availability) newErrors.availability = "Availability is required"
-    if (!formData.acceptTerms) newErrors.acceptTerms = "You must accept the terms"
+  
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -125,7 +121,8 @@ const WriterRegistrationForm: React.FC<WriterRegistrationFormProps> = ({ onRegis
 
       const response = await submitWriterProfile(payload)
       console.log("✅ Writer Profile Submitted:", response.data)
-
+      Cookies.set("info_submitted", "true");
+      window.location.reload()
       // Call the callback to indicate registration is complete
       onRegistrationComplete()
     } catch (error: any) {
@@ -402,7 +399,7 @@ const WriterRegistrationForm: React.FC<WriterRegistrationFormProps> = ({ onRegis
                 </div>
               )}
 
-              <div className="flex justify-center">
+              <div className="flex justify-end">
                 <button
                   type="submit"
                   disabled={loading}

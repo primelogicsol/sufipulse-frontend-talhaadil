@@ -23,10 +23,10 @@ import { vocalistSubmitKalam } from '@/services/vocalist';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import { useToast } from '@/context/ToastContext';
-import { useRouter } from 'next/navigation';  
-
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 const SubmitSampleClip = () => {
-  const {showToast}  = useToast()
+  const { showToast } = useToast()
   const router = useRouter();   // ✅ initialize router
   const [formData, setFormData] = useState({
     fullName: '',
@@ -71,18 +71,7 @@ const SubmitSampleClip = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
-    }
-    if (!formData.location.trim()) newErrors.location = 'Location is required';
-    if (!formData.vocalRange) newErrors.vocalRange = 'Vocal range is required';
-    if (!formData.languages.trim()) newErrors.languages = 'Languages are required';
-    if (!formData.sampleTitle.trim()) newErrors.sampleTitle = 'Sample title is required';
-    if (!formData.audioFile) newErrors.audioFile = 'Audio sample is required';
-    if (!formData.acceptTerms) newErrors.acceptTerms = 'You must accept the terms';
+   
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -92,18 +81,40 @@ const SubmitSampleClip = () => {
     e.preventDefault();
 
     if (!validateForm()) {
-      showToast('Please fix the errors below');
+      showToast("Please fix the errors below");
       return;
     }
 
     setLoading(true);
 
     try {
+      let audioUrl = "";
+
+      // Upload audio to Cloudinary first
+      if (formData.audioFile) {
+        const uploadData = new FormData();
+        uploadData.append("file", formData.audioFile);
+
+        const uploadRes = await fetch("/api/cloudinary", {
+          method: "POST",
+          body: uploadData,
+        });
+
+        if (!uploadRes.ok) {
+          throw new Error("Upload failed")
+          return
+        }
+
+        const { url } = await uploadRes.json();
+        audioUrl = url;
+      }
+
+      // Now submit payload with Cloudinary audio URL
       const payload = {
         vocal_range: formData.vocalRange,
-        languages: formData.languages.split(',').map(lang => lang.trim()),
+        languages: formData.languages.split(",").map((lang) => lang.trim()),
         sample_title: formData.sampleTitle,
-        audio_sample_url: 'https://www.netflix.com/search?q=love',
+        audio_sample_url: audioUrl,
         sample_description: formData.sampleDescription,
         experience_background: formData.experience,
         portfolio: formData.portfolio,
@@ -111,28 +122,31 @@ const SubmitSampleClip = () => {
       };
 
       const response = await vocalistSubmitKalam(payload);
+      Cookies.set("info_submitted", "true");
 
-      console.log('✅ API Response:', response.data);
-      showToast('Your vocal sample has been submitted successfully! ');
+      console.log("✅ API Response:", response.data);
+      showToast("Your vocal sample has been submitted successfully!");
       window.location.reload();
 
       setFormData({
-        fullName: '',
-        email: '',
-        location: '',
-        vocalRange: '',
-        languages: '',
-        experience: '',
-        sampleTitle: '',
-        sampleDescription: '',
+        fullName: "",
+        email: "",
+        location: "",
+        vocalRange: "",
+        languages: "",
+        experience: "",
+        sampleTitle: "",
+        sampleDescription: "",
         audioFile: null,
-        portfolio: '',
-        availability: '',
+        portfolio: "",
+        availability: "",
         acceptTerms: false,
       });
     } catch (error: any) {
-      console.error('❌ Submission Error:', error);
-      showToast(error.response?.data?.detail || 'Submission failed. Please try again.');
+      console.error("❌ Submission Error:", error);
+      showToast(
+        error.response?.data?.detail || "Submission failed. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -179,7 +193,7 @@ const SubmitSampleClip = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar/>
+      <Navbar />
       {/* Hero Section */}
       <section className="fixed bottom-4 right-4 w-64 sm:w-72 md:w-80 bg-white border border-slate-200 shadow-lg rounded-lg p-4 text-center z-10 sm:bottom-5 sm:right-5">
         <h2 className="text-base sm:text-lg font-semibold text-slate-800 mb-2">
@@ -231,35 +245,6 @@ const SubmitSampleClip = () => {
 
           <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-4 sm:p-6 md:p-8">
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-              {/* Personal Information */}
-              <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
-                <div>
-                  <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Your Name *</label>
-                  <input
-                    type="text"
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
-                    placeholder="Enter your full name"
-                    required
-                  />
-                  {errors.fullName && <p className="text-xs sm:text-sm text-red-600 mt-1">{errors.fullName}</p>}
-                </div>
-                <div>
-                  <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Email Address *</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm sm:text-base"
-                    placeholder="your.email@example.com"
-                    required
-                  />
-                  {errors.email && <p className="text-xs sm:text-sm text-red-600 mt-1">{errors.email}</p>}
-                </div>
-              </div>
 
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-slate-700 mb-1 sm:mb-2">Location *</label>
@@ -439,7 +424,7 @@ const SubmitSampleClip = () => {
           </div>
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

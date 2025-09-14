@@ -127,6 +127,7 @@ const Login = () => {
 
       if (response.data) {
         const data = response.data;
+        
 
         console.log("User data:", response.data);
 
@@ -147,6 +148,7 @@ const Login = () => {
         Cookies.set("country", data.user.country);
         Cookies.set("name", data.user.name);
         Cookies.set("email", data.user.email);
+        Cookies.set("info_submitted",data.info_submitted)
 
         router.push("/");
       }

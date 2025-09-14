@@ -12,12 +12,14 @@ import { checkWriterRegistration } from "@/services/writer"
 import WriterRegistrationForm from "../pages/WriterRegistrationForm"
 import { i } from "framer-motion/m"
 import { BiLogIn } from "react-icons/bi"
+import Cookie from "js-cookie"
 
 interface WriterDashboardLayoutProps {
   children: React.ReactNode
 }
 
 const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children }) => {
+  const info_submitted = Cookies.get("info_submitted") 
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
@@ -68,7 +70,7 @@ const WriterDashboardLayout: React.FC<WriterDashboardLayoutProps> = ({ children 
     )
   }
 
-  if (isRegistered === false) {
+  if (info_submitted === "false") {
     return <WriterRegistrationForm onRegistrationComplete={handleRegistrationComplete} />
   }
 

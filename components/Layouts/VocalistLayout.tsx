@@ -18,6 +18,8 @@ interface VocalistLayoutProps {
 }
 
 const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
+  const info_submitted = Cookies.get("info_submitted");
+  console.log(info_submitted)
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isRegistered, setIsRegistered] = useState<boolean | null>(null);
   const pathname = usePathname();
@@ -85,7 +87,7 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
     );
   }
 
-  if (!isRegistered) return <SubmitSampleClip />;
+  if (info_submitted === "false") return <SubmitSampleClip />;
 
   return (
     <div className="min-h-screen bg-slate-50">
