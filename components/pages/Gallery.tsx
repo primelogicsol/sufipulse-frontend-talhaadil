@@ -124,7 +124,7 @@ const Gallery = () => {
           views: video.views,
           category: categorizeVideo(video.description || ""), // optional
           language: "Multilingual",
-          uploadDate: new Date().toLocaleDateString(), // or pass real uploadDate from backend if stored
+          uploadDate: video.uploaded_at, // or pass real uploadDate from backend if stored
           videoId: video.id,
           description: video.description || "",
         }))
@@ -314,8 +314,8 @@ const Gallery = () => {
                     key={filter.id}
                     onClick={() => setActiveFilter(filter.id)}
                     className={`flex items-center space-x-2 px-4 py-2 rounded-lg whitespace-nowrap font-medium transition-all duration-200 ${activeFilter === filter.id
-                        ? "bg-emerald-600 text-white"
-                        : "bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600"
+                      ? "bg-emerald-600 text-white"
+                      : "bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600"
                       }`}
                   >
                     <span>{filter.label}</span>
@@ -377,11 +377,10 @@ const Gallery = () => {
                   </div>
                   <div className="space-y-2 text-sm text-slate-600 mb-4">
 
+
                     <div>
-                      <span className="font-medium">Language:</span> {video.language}
-                    </div>
-                    <div>
-                      <span className="font-medium">Uploaded:</span> {video.uploadDate}
+                      <span className="font-medium">Uploaded:</span>{" "}
+                      {new Date(video.uploadDate).toLocaleDateString()}
                     </div>
                   </div>
 

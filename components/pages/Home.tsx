@@ -71,79 +71,20 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchVideoDuration = async (videoId: string): Promise<string> => {
-    try {
-      const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`;
-      const data = await fetchFromYouTube(url, 60 * 60 * 24 * 7); // Cache for 7 days
-
-      if (data.items && data.items[0]) {
-        const duration = data.items[0].contentDetails.duration;
-        const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
-        const hours = (match[1] || "").replace("H", "");
-        const minutes = (match[2] || "").replace("M", "");
-        const seconds = (match[3] || "").replace("S", "");
-
-        if (hours) {
-          return `${hours}:${minutes.padStart(2, "0")}:${seconds.padStart(2, "0")}`;
-        } else {
-          return `${minutes || "0"}:${seconds.padStart(2, "0")}`;
-        }
-      }
-      return "0:00";
-    } catch (error: any) {
-      console.error("Error fetching video duration:", error);
-      return "0:00";
-    }
-  };
-
-  const fetchVideoStats = async (videoId: string): Promise<string> => {
-    try {
-      const url = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`;
-      const data = await fetchFromYouTube(url, 60 * 60); // Cache for 1 hour since views update frequently
-
-      if (data.items && data.items[0]) {
-        const viewCount = Number.parseInt(data.items[0].statistics.viewCount);
-        if (viewCount >= 1000000) {
-          return `${(viewCount / 1000000).toFixed(1)}M`;
-        } else if (viewCount >= 1000) {
-          return `${(viewCount / 1000).toFixed(1)}K`;
-        } else {
-          return viewCount.toString();
-        }
-      }
-      return "0";
-    } catch (error: any) {
-      console.error("Error fetching video stats:", error);
-      return "0";
-    }
-  };
 
   const fetchYouTubeVideos = async () => {
     try {
       setLoading(true);
-      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=3&order=date&type=video&key=${YOUTUBE_API_KEY}`;
-      const data = await fetchFromYouTube(url, 60 * 60 * 24); // Cache for 24 hours
 
-      if (data.items) {
-        const processedVideos: ProcessedVideo[] = await Promise.all(
-          data.items.map(async (video: YouTubeVideo) => {
-            const videoId = video.id.videoId;
-            const duration = await fetchVideoDuration(videoId);
-            const views = await fetchVideoStats(videoId);
-
-            return {
-              id: videoId,
-              title: video.snippet.title,
-              writer: video.snippet.channelTitle,
-              vocalist: video.snippet.channelTitle,
-              thumbnail: video.snippet.thumbnails.medium.url,
-              views,
-              duration,
-            };
-          }),
-        );
-        setFeaturedKalam(processedVideos);
+      // Call your own API (not YouTube directly)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/youtube/videos-limited`);
+      if (!response.ok) {
+        throw new Error(`API error: ${response.statusText}`);
       }
+
+      const data: ProcessedVideo[] = await response.json();
+
+      setFeaturedKalam(data);
     } catch (err: any) {
       setError(err instanceof Error ? err.message : "An error occurred");
       console.error("Error fetching YouTube videos:", err);
@@ -151,6 +92,7 @@ const Home = () => {
       setLoading(false);
     }
   };
+
 
   useEffect(() => {
     fetchYouTubeVideos();
@@ -340,8 +282,12 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {featuredKalam.map((kalam) => (
-              <div key={kalam.id} className="group cursor-pointer" onClick={() => handleVideoClick(kalam.id)}>
-                <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100">
+              <div
+                key={kalam.id}
+                className="group cursor-pointer"
+                onClick={() => handleVideoClick(kalam.id)}
+              >
+                <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100 flex flex-col h-full">
                   <div className="relative">
                     <img
                       src={kalam.thumbnail}
@@ -354,27 +300,18 @@ const Home = () => {
                         <Play className="w-8 h-8 text-white ml-1" />
                       </div>
                     </div>
-                    <div className="absolute bottom-4 left-4 right-4 text-white">
-                      <div className="flex justify-between items-end">
-                        <div>
-                          <h3 className="font-bold text-lg">{kalam.title}</h3>
-                          <p className="text-sm opacity-90">by {kalam.writer}</p>
-                        </div>
-                        <div className="text-xs bg-black/40 backdrop-blur-sm px-2 py-1 rounded">
-                          {kalam.duration}
-                        </div>
-                      </div>
-                    </div>
                   </div>
-                  <div className="p-6">
-                    <div className="flex items-center justify-between text-sm text-slate-600">
-                      <span>Vocalist: {kalam.vocalist}</span>
-                      <span>{kalam.views} views</span>
-                    </div>
+
+                  {/* Card body with title + writer */}
+                  <div className="p-6 flex-1 flex flex-col">
+                    <h3 className="font-bold text-slate-800 text-lg mb-1 line-clamp-2">{kalam.title}</h3>
+                    <p className="text-sm text-slate-500 mb-3">by {kalam.writer}</p>
                   </div>
                 </div>
               </div>
             ))}
+
+
           </div>
 
           <div className="text-center mt-12">
