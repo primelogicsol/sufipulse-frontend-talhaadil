@@ -101,7 +101,7 @@ const Home = () => {
   const testimonials = [
     {
       name: "Amina Rahman",
-      location: "Karachi, Pakistan",
+      location: "Delhi , India",
       role: "Sufi Writer",
       quote: "SufiPulse transformed my humble kalam into a global spiritual experience. The production quality and respect for the sacred message exceeded all expectations.",
       image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=200"
@@ -210,7 +210,7 @@ const Home = () => {
                   className="inline-flex items-center justify-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
                 >
                   <Mic className="w-5 h-5" />
-                  <span>Join Vocalist Pool</span>
+                  <span>Join Artist Pool</span>
                 </Link>
                 <Link
                   href="/gallery"
@@ -334,7 +334,7 @@ const Home = () => {
               Your Sacred Journey
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              From divine inspiration to global spiritual impact — discover how SufiPulse brings your kalam to life
+              From divine inspiration to global spiritual impact — SufiPulse brings your kalam to life, free of cost.
             </p>
           </div>
 
@@ -495,7 +495,7 @@ const Home = () => {
               className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
               <Mic className="w-5 h-5" />
-              <span>Join as Vocalist</span>
+              <span>Join </span>
             </Link>
             <Link
               href="/about"

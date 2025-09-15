@@ -79,19 +79,7 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Handle vocalist and writer routes: require authentication
-  if (isVocalistRoute || isWriterRoute) {
-    if (!isAuth) {
-      // Redirect unauthenticated users to login
-      const loginUrl = new URL("/login", request.url);
-      loginUrl.searchParams.set("redirect", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-    if (userRole === "subadmin") {
-      // Redirect subadmins to /admin
-      return NextResponse.redirect(new URL("/admin", request.url));
-    }
-  }
+ 
 
   // Allow access to all other routes
   return NextResponse.next();

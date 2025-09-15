@@ -196,7 +196,7 @@ const Vocalists = () => {
                   className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
                 >
                   <Plus className="w-5 h-5" />
-                  <span>Join Vocalist Pool</span>
+                  <span>Join Artist Pool</span>
                 </button>
                 <Link
                   href="/gallery"
@@ -516,7 +516,7 @@ const Vocalists = () => {
             <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
               <div className="p-6 border-b border-slate-200">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-slate-800">Join Vocalist Pool</h2>
+                  <h2 className="text-2xl font-bold text-slate-800">Join Artist Pool</h2>
                   <button
                     onClick={() => setShowApplicationForm(false)}
                     className="text-slate-500 hover:text-slate-700 p-2"

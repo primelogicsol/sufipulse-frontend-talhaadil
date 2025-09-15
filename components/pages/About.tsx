@@ -391,7 +391,7 @@ const About = () => {
                 href="/contact?type=vocalist"
                 className="bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200"
               >
-                Join as Vocalist
+                Join 
               </Link>
               <Link
                 href="/contact"

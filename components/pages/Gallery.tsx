@@ -449,7 +449,7 @@ const Gallery = () => {
               className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
               <Headphones className="w-5 h-5" />
-              <span>Join as Vocalist</span>
+              <span>Join </span>
             </Link>
             <Link
               href="/studio"

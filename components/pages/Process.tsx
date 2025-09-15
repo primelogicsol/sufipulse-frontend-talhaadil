@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import { 
   UserPlus, 
@@ -84,7 +86,7 @@ const Process = () => {
     },
     {
       number: 5,
-      title: "Music & Singer Assigned (Free)",
+      title: "Music & Singer Assigned",
       subtitle: "SufiPulse creates studio-grade music",
       description: "We assign either a local or global Urdu/English vocalist to bring your kalam to life. Translation provided if needed.",
       icon: Music,
@@ -100,7 +102,7 @@ const Process = () => {
     },
     {
       number: 6,
-      title: "Final Production Shared With You",
+      title: "Final Production",
       subtitle: "You receive the full final track for review",
       description: "You can approve or suggest small changes.",
       icon: Headphones,
@@ -427,10 +429,17 @@ const Process = () => {
               we handle everything—completely free—while ensuring your authorship is always prominently credited.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200">
+              <button 
+              onClick={() => window.location.href = '/login'}
+                
+               className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200">
                 Begin Your Journey
               </button>
-              <button className="bg-slate-600 hover:bg-slate-500 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200">
+              <button 
+              onClick={
+                ()=> window.location.href = '/gallery'
+              }
+               className="bg-slate-600 hover:bg-slate-500 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200">
                 View Sample Works
               </button>
             </div>

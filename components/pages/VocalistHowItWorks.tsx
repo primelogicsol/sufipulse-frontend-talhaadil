@@ -27,7 +27,7 @@ const VocalistHowItWorks = () => {
   const processSteps = [
     {
       number: 1,
-      title: "Join Vocalist Pool",
+      title: "Join Artist Pool",
       subtitle: "Create your free vocalist profile on SufiPulse",
       description: "Submit your vocal range, languages, and sample recordings to join our global pool.",
       icon: UserPlus,
@@ -252,7 +252,7 @@ const VocalistHowItWorks = () => {
                 href="/join-vocalist-pool"
                 className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
               >
-                Join Vocalist Pool
+                Join Artist Pool
               </Link>
               <Link
                 href="/vocalists"
