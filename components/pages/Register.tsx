@@ -4,7 +4,7 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { User, Mail, Lock, PenTool, Mic, Globe, Award } from "lucide-react"
+import { User, Mail, Lock, PenTool, Mic, Globe, Award, ArrowLeft } from "lucide-react"
 import Input from "../ui/Input"
 import Button from "../ui/Button"
 import FormCard from "../ui/FormCard"
@@ -15,6 +15,7 @@ import { GoogleLogin } from "@react-oauth/google"
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/context/ToastContext"
+import { incrementWeekly,incrementMonthly } from "@/lib/increment"
 
 const Register = () => {
   const { showToast } = useToast();
@@ -116,17 +117,20 @@ const Register = () => {
     }
   }
 
-
   const handleOTPVerified = async () => {
     setShowOTPVerification(false)
     showToast("Email verified successfully!")
 
   }
 
+  const handleBackToHome = () => {
+    router.push("/");
+  };
+
   const stats = [
-    { number: "89", label: "Writers Joined", icon: PenTool },
-    { number: "43", label: "Vocalists", icon: Mic },
-    { number: "50+", label: "Countries", icon: Globe },
+    { number: `${incrementWeekly(89)}`, label: "Writers Joined", icon: PenTool },
+    { number: `${incrementWeekly(43)}`, label: "Vocalists", icon: Mic },
+    { number: `${incrementMonthly(43,200)}+`, label: "Countries", icon: Globe },
     { number: "100%", label: "Free Service", icon: Award },
   ]
 
@@ -185,6 +189,19 @@ const Register = () => {
       </div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
+        {/* Back Button */}
+        <motion.button
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          onClick={handleBackToHome}
+          className="fixed top-4 left-4 z-50 flex items-center gap-2 bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-lg p-3 border border-white/20 text-white hover:text-emerald-300 transition-all duration-300 shadow-lg"
+          aria-label="Back to home"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span className="text-sm font-medium hidden sm:block">Home</span>
+        </motion.button>
+
         <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Side - Welcome Content */}
           <motion.div

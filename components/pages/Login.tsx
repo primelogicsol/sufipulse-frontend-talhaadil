@@ -2,16 +2,17 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Mail, Lock, Users, Heart, Globe, Award, Key } from "lucide-react";
+import { Mail, Lock, Users, Heart, Globe, Award, Key, ArrowLeft } from "lucide-react";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 import FormCard from "../ui/FormCard";
 import { login, forgotPassword, resetPassword } from "@/services/auth";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import { GoogleLogin } from "@react-oauth/google";
 import { useToast } from "@/context/ToastContext";
+import { incrementMonthly,incrementWeekly } from "@/lib/increment";
 
 const Login = () => {
   const { showToast } = useToast()
@@ -80,7 +81,7 @@ const Login = () => {
     const newErrors: Record<string, string> = {};
 
     if (!forgotPasswordData.email) {
-      newErrors.email = "Email is required";
+      newChanges.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(forgotPasswordData.email)) {
       newErrors.email = "Please enter a valid email";
     }
@@ -216,13 +217,15 @@ const Login = () => {
     }
   };
 
-
+  const handleBackToHome = () => {
+    router.push("/");
+  };
 
   const stats = [
-    { number: "89", label: "Active Writers", icon: Users },
-    { number: "43", label: "Vocalists", icon: Heart },
-    { number: "50+", label: "Countries", icon: Globe },
-    { number: "300+", label: "Collaborations", icon: Award },
+    { number: `${incrementWeekly(89)}`, label: "Active Writers", icon: Users },
+    { number: `${incrementWeekly(43)}`, label: "Vocalists", icon: Heart },
+    { number: `${incrementMonthly(43,200)}+`, label: "Countries", icon: Globe },
+    { number: `${incrementWeekly(300)}+`, label: "Collaborations", icon: Award },
   ];
 
   return (
@@ -256,6 +259,18 @@ const Login = () => {
       </div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
+        {/* Back Button */}
+        <motion.button
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          onClick={handleBackToHome}
+          className="fixed top-4 left-4 z-50 flex items-center gap-2 bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-lg p-3 border border-white/20 text-white hover:text-emerald-300 transition-all duration-300 shadow-lg"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span className="text-sm font-medium hidden sm:block">Home</span>
+        </motion.button>
+
         <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -381,7 +396,6 @@ const Login = () => {
                   >
                     Sign In to SufiPulse
                   </Button>
-
 
                   <div className="w-full">
                     <GoogleLogin
