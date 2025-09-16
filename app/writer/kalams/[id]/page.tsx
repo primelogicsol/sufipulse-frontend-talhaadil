@@ -140,12 +140,23 @@ export default function KalamDetail() {
   }
 
   const formatStatus = (status: string) => {
-    if (status === "final_approved") return "Assigning Vocalist"
-    if (status === "complete_approved") return "Vocalist Assigned"
+    if (status === "final_approved") return "SufiPulse is Assigning Vocalist"
+    if (status === "complete_approved") return "SufiPulse has Assigned Vocalist"
+    if (status === "posted") return "Kalam posted at SufiPulse Channel"
     return status
       .split("_")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ")
+  }
+
+  const getStatus = (status :  string) =>{
+    if (status === "final_approved") return "Kalam Approved"
+    if (status === "complete_approved") return "Kalam Approved"
+     return status
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ")
+    
   }
 
   if (loading) {
@@ -201,7 +212,15 @@ export default function KalamDetail() {
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="bg-white rounded-lg border border-slate-200 p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-slate-900">Status</h3>
+                <div className="flex flex-row gap-2">
+                  <h3 className="text-lg font-semibold text-slate-900">Status : </h3>
+                   <div
+                  className={`px-3 py-2 rounded-lg flex items-center space-x-2 ${getStatusColor(submission.status)}`}
+                >
+                  {getStatusIcon(submission.status)}
+                  <span className="font-medium">{getStatus(submission.status)}</span>
+                </div>
+                </div>
                 <div
                   className={`px-3 py-2 rounded-lg flex items-center space-x-2 ${getStatusColor(submission.status)}`}
                 >
