@@ -239,7 +239,7 @@ const Home = () => {
     },
     {
       name: "Ayesha Khan",
-      location: "Amman, Jordan",
+      location: "Jakarta, Indonesia",
       role: "Sufi Music Enthusiast",
       quote: "SufiPulse’s devotion in sound humbles me, it’s truly prayerful.",
       image: "/pics/4-min.png"
@@ -267,7 +267,7 @@ const Home = () => {
     },
     {
       name: "Putri Lestari",
-      location: "Jakarta, Indonesia",
+      location: "Amman, Jordan",
       role: "Sufi Music Lover",
       quote: "SufiPulse feels like a universal zikr, transcending all boundaries.",
       image: "/pics/15-min.png"
@@ -386,7 +386,7 @@ const Home = () => {
                     <Play className="w-8 h-8 text-white ml-1" />
                   </button>
                 </div>
-                
+
               </div>
             </div>
           </div>
