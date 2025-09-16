@@ -1,8 +1,23 @@
+'use client'
+
 import React from 'react';
 import Link from 'next/link';
 import { Mic, Headphones, Music, Users, Award, MapPin, Calendar, Clock, Star, Shield, Globe } from 'lucide-react';
 import { incrementWeekly,incrementMonthly } from '@/lib/increment';
+import Cookies from 'js-cookie';
+import { useToast } from '@/context/ToastContext';
 const Studio = () => {
+  const {showToast} = useToast()
+  const userole = Cookies.get("user_role");
+
+  const handleButtonClick = () => {
+    if (userole === "vocalist") {
+      window.location.href = "/vocalist/profile";
+    } else {
+      showToast("You must register first to access this feature.");
+    }
+  };
+
   const equipment = [
     {
       category: "Microphones",
@@ -95,8 +110,6 @@ const Studio = () => {
       image: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400"
     }
   ];
-  
-  
 
   const team = [
     {
@@ -234,7 +247,7 @@ const Studio = () => {
               <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Music className="w-8 h-8 text-emerald-600" />
               </div>
-              <div className="text-3xl font-bold text-slate-800 mb-2"> {incrementWeekly(300)}+ </div>
+              <div className="text-3xl font-bold text-slate-800 mb-2">{incrementWeekly(300)}+</div>
               <div className="text-slate-600 font-medium">Recordings Made</div>
             </div>
             <div className="text-center">
@@ -248,8 +261,7 @@ const Studio = () => {
               <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Globe className="w-8 h-8 text-emerald-600" />
               </div>
-              <div className="text-3xl font-bold text-slate-800 mb-2"><div className="text-3xl font-bold text-slate-800 mb-2">{incrementMonthly(17,50)}+</div>
-</div>
+              <div className="text-3xl font-bold text-slate-800 mb-2">{incrementMonthly(17, 50)}+</div>
               <div className="text-slate-600 font-medium">Languages Recorded</div>
             </div>
             <div className="text-center">
@@ -465,53 +477,6 @@ const Studio = () => {
           </div>
         </section>
 
-        {/* Team */}
-        <section className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-800 mb-4">Our Team</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
-              Meet the SufiPulse Studio team - dedicated professionals who combine technical expertise with deep spiritual understanding to serve our mission
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {team.map((member, index) => (
-              <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100">
-                <div className="relative">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="absolute top-4 right-4">
-                    <div className="bg-emerald-600 text-white px-2 py-1 rounded-full text-xs font-medium">
-                      {member.experience}
-                    </div>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-slate-800 mb-1">{member.name}</h3>
-                  <p className="text-emerald-600 font-medium text-sm mb-2">{member.role}</p>
-                  <div className="flex items-center space-x-2 text-xs text-slate-500 mb-3">
-                    <Award className="w-3 h-3" />
-                    <span>SufiPulse Studio</span>
-                  </div>
-                  <p className="text-xs text-slate-600 mb-3">{member.speciality}</p>
-                  <p className="text-xs text-slate-600 leading-relaxed mb-3">{member.bio}</p>
-                  <div className="space-y-1">
-                    {member.achievements.map((achievement, achIndex) => (
-                      <div key={achIndex} className="flex items-center space-x-2 text-xs text-slate-600">
-                        <Star className="w-3 h-3 text-emerald-500" />
-                        <span>{achievement}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* Recording Options */}
         <section className="mb-20">
           <div className="bg-slate-800 rounded-2xl p-8 text-white">
@@ -542,54 +507,27 @@ const Studio = () => {
                 <div className="bg-slate-700 rounded-xl p-6">
                   <h3 className="font-bold mb-2">In-Person Recording</h3>
                   <p className="text-sm text-slate-300 mb-4">Experience SufiPulse Studio with our full team and equipment</p>
-                  
+                  <button
+                    onClick={handleButtonClick}
+                    className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition-all duration-300"
+                  >
+                    Book In-Person Session
+                  </button>
                 </div>
                 <div className="bg-slate-700 rounded-xl p-6">
                   <h3 className="font-bold mb-2">Remote Collaboration</h3>
                   <p className="text-sm text-slate-300 mb-4">High-quality remote recording with SufiPulse team support</p>
-                  
+                  <button
+                    onClick={handleButtonClick}
+                    className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition-all duration-300"
+                  >
+                    Start Remote Session
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </section>
-
-        {/* Studio Stats */}
-        {/* <section className="mb-20">
-          <div className="bg-emerald-50 rounded-2xl p-8 border border-emerald-100">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-slate-800 mb-4">Studio Impact</h2>
-              <p className="text-slate-600">
-                Measuring our contribution to the global spiritual music community
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2"><div className="text-3xl font-bold text-slate-800 mb-2">{incrementWeekly(300)}+</div></div>
-                <div className="text-sm text-slate-600">Kalam Produced</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2"><div className="text-3xl font-bold text-slate-800 mb-2">
-  {incrementMonthly(17,50)}+
-</div>
-</div>
-                <div className="text-sm text-slate-600">Languages Recorded</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2"><div className="text-3xl font-bold text-slate-800 mb-2">
-  {incrementMonthly(43,200)}+
-</div>
-</div>
-                <div className="text-sm text-slate-600">Countries Served</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2">127K+</div>
-                <div className="text-sm text-slate-600">Global Listeners</div>
-              </div>
-            </div>
-          </div>
-        </section> */}
       </div>
     </div>
   );

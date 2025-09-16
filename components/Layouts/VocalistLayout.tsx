@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type React from "react";
-import { User, Music, Menu, X, LogOut, User2, ArrowLeft, Bell } from "lucide-react";
+import { User, Music, Menu, X, LogOut, User2, ArrowLeft, Bell, Mail } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { checkVocalistRegistration } from "@/services/vocalist";
@@ -135,6 +135,13 @@ const VocalistLayout: React.FC<VocalistLayoutProps> = ({ children }) => {
           </nav>
 
           <div className="p-4 sm:p-6 border-t border-slate-800">
+            <a
+              href="mailto:vocalist@sufipulse.com"
+              className="w-full flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition-colors text-sm sm:text-base mb-2"
+            >
+              <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span>Send Email</span>
+            </a>
             <button
               onClick={logout}
               className="w-full flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition-colors text-sm sm:text-base"

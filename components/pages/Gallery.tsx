@@ -16,7 +16,7 @@ import {
   Headphones,
   Users,
 } from "lucide-react"
-import { incrementDaily,incrementMonthly,incrementWeekly } from "@/lib/increment"
+import { incrementDaily, incrementMonthly, incrementWeekly } from "@/lib/increment"
 
 const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
 const CHANNEL_ID = "UCraDr3i5A3k0j7typ6tOOsQ"
@@ -71,6 +71,22 @@ async function fetchFromYouTube(url: string, cacheTime?: number) {
   return await response.json();
 }
 
+const parseDuration = (duration: string): number => {
+  const parts = duration.split(':').map(Number);
+  if (parts.length === 2) {
+    return parts[0] * 60 + parts[1];
+  } else if (parts.length === 3) {
+    return parts[0] * 3600 + parts[1] * 60 + parts[2];
+  }
+  return 0;
+};
+
+const parseViews = (views: string): number => {
+  const num = parseFloat(views.replace(/[KMB]/g, ''));
+  const multiplier = views.toUpperCase().includes('K') ? 1000 : views.toUpperCase().includes('M') ? 1000000 : 1;
+  return num * multiplier;
+};
+
 const Gallery = () => {
   const [activeFilter, setActiveFilter] = useState("all")
   const [searchTerm, setSearchTerm] = useState("")
@@ -80,22 +96,19 @@ const Gallery = () => {
 
   const filters = [
     { id: "all", label: "All Videos", count: 0 },
-    { id: "qawwali", label: "Qawwali", count: 0 },
-    { id: "chant", label: "Sacred Chants", count: 0 },
-    { id: "anthem", label: "Spiritual Anthems", count: 0 },
-    { id: "whisper", label: "Whisper Kalam", count: 0 },
-    { id: "instrumental", label: "Instrumentals", count: 0 },
+    { id: "popular", label: "Popular", count: 0 },
+    { id: "old", label: "Old", count: 0 },
+    { id: "new", label: "New", count: 0 },
   ]
 
   const categorizeVideo = (description: string): string => {
     const descLower = description.toLowerCase()
-    if (descLower.includes("qawwali") || descLower.includes("qawwal")) return "qawwali"
-    if (descLower.includes("chant") || descLower.includes("dhikr") || descLower.includes("zikr")) return "chant"
-    if (descLower.includes("anthem") || descLower.includes("nasheed")) return "anthem"
-    if (descLower.includes("whisper") || descLower.includes("kalam")) return "whisper"
-    if (descLower.includes("instrumental") || descLower.includes("music") || descLower.includes("soundscape")) return "instrumental"
-    return "qawwali"
+    if (descLower.includes("popular")) return "popular"
+    if (descLower.includes("old")) return "old"
+    if (descLower.includes("new")) return "new"
+    return "all"
   }
+
   const fetchYouTubeVideos = async () => {
     try {
       setLoading(true)
@@ -123,9 +136,9 @@ const Gallery = () => {
           thumbnail: video.thumbnail,
           duration: video.duration,
           views: video.views,
-          category: categorizeVideo(video.description || ""), // optional
+          category: categorizeVideo(video.description || ""),
           language: "Multilingual",
-          uploadDate: video.uploaded_at, // or pass real uploadDate from backend if stored
+          uploadDate: video.uploaded_at,
           videoId: video.id,
           description: video.description || "",
         }))
@@ -135,11 +148,7 @@ const Gallery = () => {
         setVideos(processedVideos)
 
         filters.forEach((filter) => {
-          if (filter.id === "all") {
-            filter.count = processedVideos.length
-          } else {
-            filter.count = processedVideos.filter((v) => v.category === filter.id).length
-          }
+          filter.count = processedVideos.length
         })
       }
     } catch (err) {
@@ -165,14 +174,25 @@ const Gallery = () => {
     { number: `${incrementMonthly(43,200)}+`, label: "Countries Reached", icon: Heart },
   ]
 
-  const filteredVideos = videos.filter((video) => {
-    const matchesFilter = activeFilter === "all" || video.category === activeFilter
+  const searchedVideos = videos.filter((video) => {
     const matchesSearch =
       video.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       video.writer.toLowerCase().includes(searchTerm.toLowerCase()) ||
       video.vocalist.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchesFilter && matchesSearch
+    return matchesSearch
   })
+
+  let filteredVideos = [...searchedVideos];
+
+  if (activeFilter === 'all') {
+    filteredVideos.sort((a, b) => parseDuration(b.duration) - parseDuration(a.duration));
+  } else if (activeFilter === 'popular') {
+    filteredVideos.sort((a, b) => parseViews(b.views) - parseViews(a.views));
+  } else if (activeFilter === 'old') {
+    filteredVideos.sort((a, b) => new Date(a.uploadDate).getTime() - new Date(b.uploadDate).getTime());
+  } else if (activeFilter === 'new') {
+    filteredVideos.sort((a, b) => new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime());
+  }
 
   const handleVideoClick = (videoId: string) => {
     window.open(`https://www.youtube.com/watch?v=${videoId}`, "_blank")
@@ -320,12 +340,7 @@ const Gallery = () => {
                       }`}
                   >
                     <span>{filter.label}</span>
-                    <span
-                      className={`text-xs px-2 py-1 rounded-full ${activeFilter === filter.id ? "bg-white/20" : "bg-slate-300"
-                        }`}
-                    >
-                      {filter.id === "all" ? videos.length : videos.filter((v) => v.category === filter.id).length}
-                    </span>
+                    
                   </button>
                 ))}
               </div>
@@ -377,8 +392,6 @@ const Gallery = () => {
                     </div>
                   </div>
                   <div className="space-y-2 text-sm text-slate-600 mb-4">
-
-
                     <div>
                       <span className="font-medium">Uploaded:</span>{" "}
                       {new Date(video.uploadDate).toLocaleDateString()}
@@ -450,7 +463,7 @@ const Gallery = () => {
               className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
               <Headphones className="w-5 h-5" />
-              <span>Join </span>
+              <span>Join</span>
             </Link>
             <Link
               href="/studio"
