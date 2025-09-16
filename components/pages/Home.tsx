@@ -242,7 +242,7 @@ const Home = () => {
       location: "Amman, Jordan",
       role: "Sufi Music Enthusiast",
       quote: "SufiPulse’s devotion in sound humbles me, it’s truly prayerful.",
-      image: "/pics/15-min.png"
+      image: "/pics/4-min.png"
     },
     {
       name: "Bilal Ahmed",
@@ -270,7 +270,7 @@ const Home = () => {
       location: "Jakarta, Indonesia",
       role: "Sufi Music Lover",
       quote: "SufiPulse feels like a universal zikr, transcending all boundaries.",
-      image: "/pics/4-min.png"
+      image: "/pics/15-min.png"
     },
   ];
 
