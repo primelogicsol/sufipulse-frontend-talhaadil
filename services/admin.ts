@@ -102,3 +102,11 @@ export const getAllPartnershipProposals = async () => {
     });
   };
   
+
+
+
+export const getAllWritersForPublic = async (skip = 0, limit = 10) => {
+  return api.get("/public/writers", {
+    params: { skip, limit },
+  });
+};

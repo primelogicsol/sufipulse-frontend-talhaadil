@@ -290,7 +290,8 @@ const GuestBlogs = () => {
                     <Calendar className="w-4 h-4" />
                     <span>{new Date(post.date).toLocaleDateString()}</span>
                   </div>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-3">{post.content}</p>
+                  <p className="text-slate-600 text-sm leading-relaxed mb-4">{post.content}</p>
+
 
                   <div className="flex flex-wrap gap-1 mb-4">
                     {post.tags.slice(0, 2).map((tag, index) => (

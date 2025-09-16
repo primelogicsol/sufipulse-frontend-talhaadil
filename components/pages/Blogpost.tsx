@@ -69,17 +69,17 @@ export default function CreateBlogPage() {
     setLoading(true)
 
     try {
-        const currentDate = new Date().toISOString(); // e.g. "2025-09-14T11:45:30.123Z"
+      const currentDate = new Date().toISOString(); // e.g. "2025-09-14T11:45:30.123Z"
 
-        const dataWithDate = {
-          ...formData,
-          date: currentDate, // 👈 add current date here
-        };
-    
-        const response = await createBlog(dataWithDate);
+      const dataWithDate = {
+        ...formData,
+        date: currentDate, // 👈 add current date here
+      };
+
+      const response = await createBlog(dataWithDate);
       if (response.status === 200) {
         setSuccess("Blog created successfully!")
-        window.location.href='/vocalist/blog'
+        window.location.href = '/vocalist/blog'
         setFormData({
           title: "",
           role: "",
@@ -199,37 +199,38 @@ export default function CreateBlogPage() {
                 />
               </div>
             </div>
-            
-            
+
+
             <div>
-  <label
-    htmlFor="content"
-    className="block text-sm font-medium text-slate-600 mb-1"
-  >
-    Content
-  </label>
-  <textarea
-    id="content"
-    name="content"
-    value={formData.content}
-    onChange={(e) => {
-      const words = e.target.value.trim().split(/\s+/)
-      if (words.length <= 50) {
-        handleChange(e) // keep your existing handler
-      }
-    }}
-    placeholder="Enter blog content (max 50 words)"
-    className="w-full px-4 py-2 rounded-md border border-slate-300 bg-slate-50 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-900 placeholder-slate-400 transition duration-200"
-    rows={4}
-    required
-  />
-  <p className="text-sm text-slate-500 mt-1">
-    {formData.content.trim() === ""
-      ? "0"
-      : formData.content.trim().split(/\s+/).length}{" "}
-    / 50 words
-  </p>
-</div>
+              <label
+                htmlFor="content"
+                className="block text-sm font-medium text-slate-600 mb-1"
+              >
+                Content
+              </label>
+              <textarea
+                id="content"
+                name="content"
+                value={formData.content}
+                onChange={(e) => {
+                  const words = e.target.value.trim().split(/\s+/)
+                  if (words.length <= 100) {
+                    handleChange(e)
+                  }
+                }}
+                placeholder="Enter blog content (max 100 words)"
+                className="w-full px-4 py-2 rounded-md border border-slate-300 bg-slate-50 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-900 placeholder-slate-400 transition duration-200"
+                rows={4}
+                required
+              />
+
+              <p className="text-sm text-slate-500 mt-1">
+                {formData.content.trim() === ""
+                  ? "0"
+                  : formData.content.trim().split(/\s+/).length}{" "}
+                / 50 words
+              </p>
+            </div>
 
             <div>
               <label htmlFor="tags" className="block text-sm font-medium text-slate-600 mb-1">
