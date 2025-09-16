@@ -363,7 +363,7 @@ const Gallery = () => {
                   <img
                     src={video.thumbnail || "/placeholder.svg"}
                     alt={video.title}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-60 object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute top-4 left-4 right-4 flex justify-between items-start">

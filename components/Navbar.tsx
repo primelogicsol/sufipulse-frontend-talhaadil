@@ -196,7 +196,7 @@ const Navbar = () => {
         { name: "Dr. Kumar Foundation USA", path: "/dr-kumar-foundation" },
         { name: "Sufi Science Center", path: "/sufi-science-center" },
         { name: "Acknowledgments", path: "/acknowledgments" },
-        { name: "General Contact", path: "/contact" },
+        { name: "Contact", path: "/contact" },
         { name: "Founder", path: "/founder" },
       ],
     },

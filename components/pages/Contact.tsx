@@ -8,7 +8,6 @@ import {
   Building2,
   Globe,
   Send,
-  Phone,
   MapPin,
   Clock,
   HeartHandshake,
@@ -66,12 +65,6 @@ const Contact = () => {
       description: 'Primary contact for all inquiries'
     },
     {
-      icon: Phone,
-      title: 'Call Us',
-      details: '+1 (555) 123-SUFI',
-      description: 'Available during business hours'
-    },
-    {
       icon: MapPin,
       title: 'Visit Us',
       details: 'SufiPulse Studio - USA',
@@ -82,6 +75,33 @@ const Contact = () => {
       title: 'Office Hours',
       details: 'Mon-Fri: 9AM-6PM EST',
       description: 'Weekend by appointment'
+    }
+  ];
+
+  const globalHubs = [
+    {
+      icon: MapPin,
+      title: 'Global Creative Hub',
+      details: 'SufiPulse Studio, Virginia, USA',
+      description: 'Our main creative center'
+    },
+    {
+      icon: MapPin,
+      title: 'Spiritual Heritage Hub',
+      details: 'SufiPulse – Kashmir, Srinagar, Jammu & Kashmir, India',
+      description: 'Rooted in spiritual tradition'
+    },
+    {
+      icon: Music,
+      title: 'Remote Vocalist Recording Hubs',
+      details: 'Srinagar, Kashmir – India; Dubai – UAE; Mumbai – India; Istanbul – Turkey',
+      description: 'Global recording facilities'
+    },
+    {
+      icon: Mail,
+      title: 'Email Us',
+      details: 'connect@sufipulse.org',
+      description: 'Connect with us globally'
     }
   ];
 
@@ -172,10 +192,9 @@ const Contact = () => {
       {/* Contact Section */}
       <div className="bg-slate-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-          <div className="flex">
+          <div className="flex flex-col lg:flex-row gap-8">
             {/* Contact Form */}
-            <div className="lg:col-span-2 mx-auto w-full lg:w-[65vw]">
+            <div className="lg:w-2/3">
               <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-8">
                 <div className="mb-6">
                   <h2 className="text-2xl font-bold text-slate-800 mb-2">
@@ -195,6 +214,29 @@ const Contact = () => {
                     <span>Send Message</span>
                   </button>
                 </div>
+              </div>
+            </div>
+
+            {/* Global Hubs Section */}
+            <div className="lg:w-1/3">
+              <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-8">
+                <h3 className="text-2xl font-bold text-slate-800 mb-6">Contact Us – SufiPulse</h3>
+                <p className="text-slate-600 mb-6">How can we help you today?</p>
+                <div className="grid grid-cols-1 gap-6">
+                  {globalHubs.map((hub, index) => (
+                    <div key={index} className="flex items-start space-x-4">
+                      <hub.icon className="w-8 h-8 text-emerald-500 flex-shrink-0" />
+                      <div>
+                        <h4 className="font-bold text-slate-800">{hub.title}</h4>
+                        <p className="text-slate-600">{hub.details}</p>
+                        <p className="text-sm text-slate-500">{hub.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-slate-600 mt-6 italic">
+                  From divine inspiration to global impact — we bring your kalam to life everywhere.
+                </p>
               </div>
             </div>
           </div>
@@ -227,7 +269,6 @@ const Contact = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
