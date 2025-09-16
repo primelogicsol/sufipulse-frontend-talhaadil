@@ -278,7 +278,7 @@ const Partnership = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              Propose a Partnership
+              Propose a Collaboration
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               Share your vision for collaboration and let's explore how we can serve the sacred together
@@ -373,7 +373,7 @@ const Partnership = () => {
                     className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
                     required
                   >
-                    <option value="">Select Partnership Type</option>
+                    <option value="">Select Collaboration Type</option>
                     {partnershipTypes.map(type => (
                       <option key={type} value={type}>{type}</option>
                     ))}
@@ -396,7 +396,7 @@ const Partnership = () => {
 
               {/* Partnership Details */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Partnership Proposal *</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Collaboration Proposal *</label>
                 <textarea
                   name="proposal"
                   value={formData.proposal}
@@ -450,7 +450,7 @@ const Partnership = () => {
               <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6">
                 <h4 className="font-medium text-emerald-800 mb-2">Sacred Alignment</h4>
                 <p className="text-sm text-emerald-700">
-                  SufiPulse partnerships are guided by our commitment to serving the sacred without commercialization. 
+                  SufiPulse collaborations are guided by our commitment to serving the sacred without commercialization. 
                   We seek collaborations that honor spiritual values, promote global unity, and amplify divine voices 
                   while maintaining the integrity of our non-commercial mission.
                 </p>

@@ -121,14 +121,6 @@ const DrKumarFoundation = () => {
     "Spiritual literature and awareness campaigns",
     "Global mystic collaboration initiatives"
   ];
-
-  const stats = [
-    { number: "14", label: "Years of Silence", description: "Sacred transformation period" },
-    { number: "1", label: "Qalandar", description: "The wandering light of Kashmir" },
-    { number: "∞", label: "Hearts Touched", description: "Immeasurable spiritual impact" },
-    { number: "USA", label: "Foundation", description: "Carrying the light across oceans" }
-  ];
-
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -163,21 +155,7 @@ const DrKumarFoundation = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2">{stat.number}</div>
-                <div className="text-lg font-semibold text-slate-800 mb-1">{stat.label}</div>
-                <div className="text-sm text-slate-600">{stat.description}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      
       {/* From Medicine to Mystical */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -285,7 +263,7 @@ const DrKumarFoundation = () => {
               Banday Bagh — The Spiritual Station
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
-              In the lush valley of Serch Banday Bagh (Ganderbal), where the winds whisper with the voices of saints, 
+              In the lush valley of Serch Banday Bagh (Ganderbal - Kashmir - INdia), where the winds whisper with the voices of saints, 
               Dr. Kumar's spiritual maqam serves as a beacon for broken hearts.
             </p>
           </div>

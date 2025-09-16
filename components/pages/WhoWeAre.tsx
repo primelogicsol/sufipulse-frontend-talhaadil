@@ -16,8 +16,8 @@ const WhoWeAre = () => {
     },
     {
       icon: Globe,
-      title: "Unite the Ummah Through Sound",
-      description: "From Lahore to Los Angeles, from Cairo to Kuala Lumpur — every soul carrying divine lyrics deserves a global stage.",
+      title: "Unite Ummah via Sound",
+      description: "From Kashmir to Los Angeles, from Cairo to Kuala Lumpur — every soul carrying divine lyrics deserves a global stage.",
       color: "text-emerald-600 bg-emerald-50"
     },
     {
@@ -44,7 +44,7 @@ const WhoWeAre = () => {
     {
       icon: Users,
       title: "Community First",
-      description: "Building bridges between hearts across all boundaries",
+      description: "Building bridges between hearts across all boundaries and cultures.",
       stats: "50+ countries connected"
     }
   ];

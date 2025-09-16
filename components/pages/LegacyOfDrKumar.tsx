@@ -81,7 +81,7 @@ const LegacyOfDrKumar = () => {
     {
       period: "Early Life",
       title: "Medical Training & Service",
-      description: "Trained at Government Medical College Srinagar, served as Block Medical Officer",
+      description: "Trained at Government Medical College Srinagar, Kashmir India  served as Medical Officer at Department of Health Services Government of J&K.",
       significance: "Foundation of service to humanity",
       icon: Shield
     },
@@ -109,7 +109,7 @@ const LegacyOfDrKumar = () => {
     {
       period: "Service",
       title: "Banday Bagh Station",
-      description: "Established spiritual sanctuary serving seekers from around the world",
+      description: "Established spiritual sanctuary at Banday Bagh Ganderbal Kashmir India serving seekers from around the world",
       significance: "Practical manifestation of divine service",
       icon: Compass
     },
@@ -146,13 +146,7 @@ const LegacyOfDrKumar = () => {
     }
   ];
 
-  const stats = [
-    { number: "14", label: "Years of Silence", description: "Sacred transformation period" },
-    { number: "1000+", label: "Lives Touched", description: "Direct spiritual impact" },
-    { number: "3", label: "Institutions Inspired", description: "Global organizational legacy" },
-    { number: "∞", label: "Continuing Influence", description: "Eternal spiritual impact" }
-  ];
-
+  
   const currentEvent = timelineEvents[activeTimeline];
 
   return (
@@ -189,20 +183,7 @@ const LegacyOfDrKumar = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2">{stat.number}</div>
-                <div className="text-lg font-semibold text-slate-800 mb-1">{stat.label}</div>
-                <div className="text-sm text-slate-600">{stat.description}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* Legacy Aspects */}
       <section className="py-20 bg-white">
