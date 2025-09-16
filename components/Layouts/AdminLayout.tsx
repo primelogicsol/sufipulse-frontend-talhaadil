@@ -4,13 +4,14 @@ import { useState } from "react";
 import type React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, LayoutDashboard, Mic, PenTool, BookText, Building, Globe, User2, LogOut, Handshake, Bell,Trophy } from "lucide-react";
+import { Menu, X, LayoutDashboard, Mic, PenTool, BookText, Building, Globe, User2, LogOut, Handshake, Bell, Trophy } from "lucide-react";
 import { BiLogIn } from "react-icons/bi";
 import Cookies from "js-cookie";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
 }
+
 
 const menuItems = [
   // { name: "Dashboard", href: "/admin", icon: LayoutDashboard, permissionKey: "dashboard" },
@@ -23,7 +24,7 @@ const menuItems = [
   { name: "Notification", href: "/admin/notifications", icon: Bell, permissionKey: "notification" },
   { name: "Sub Admins", href: "/admin/other-admins", icon: User2, permissionKey: "sub_admins" },
   { name: "Blogs", href: "/admin/blog", icon: BiLogIn, permissionKey: "blog" },
-  {name : "Special Recognition", href: "/admin/special", icon: Trophy, permissionKey: "recognitions" }
+  { name: "Special Recognition", href: "/admin/special", icon: Trophy, permissionKey: "recognitions" }
 ];
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
@@ -34,21 +35,35 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   const currentPage = menuItems.find((item) => pathname === item.href);
 
+  function handleLogout() {
+    Cookies.remove("access_token", { path: "/" })
+    Cookies.remove("refresh_token", { path: "/" })
+    Cookies.remove("user_role", { path: "/" })
+    Cookies.remove("user_id", { path: "/" })
+    Cookies.remove("is_registered", { path: "/" })
+    Cookies.remove("city", { path: "/" })
+    Cookies.remove("country", { path: "/" })
+    Cookies.remove("name", { path: "/" })
+    Cookies.remove("email", { path: "/" })
+    Cookies.remove("permissions", { path: "/" })
+
+    window.location.href = "/aLogin";
+  }
+
   // Filter menu items based on user_role and permissions
   const filteredMenuItems = user_role === "admin"
     ? menuItems
     : menuItems.filter((item) => {
-        const permission = permissions[item.permissionKey];
-        return permission && permission.includes("view");
-      });
+      const permission = permissions[item.permissionKey];
+      return permission && permission.includes("view");
+    });
 
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-40 w-3/4 sm:w-64 max-w-xs bg-slate-900 transform transition-transform duration-300 ease-in-out ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:w-64 lg:max-w-none`}
+        className={`fixed inset-y-0 left-0 z-40 w-3/4 sm:w-64 max-w-xs bg-slate-900 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0 lg:w-64 lg:max-w-none`}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
@@ -69,9 +84,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                   key={item.name}
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-colors text-sm sm:text-base ${
-                    isActive ? "bg-emerald-600 text-white" : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                  }`}
+                  className={`flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-colors text-sm sm:text-base ${isActive ? "bg-emerald-600 text-white" : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                    }`}
                 >
                   <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>{item.name}</span>
@@ -82,7 +96,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
           {/* Footer */}
           <div className="p-4 sm:p-6 border-t border-slate-800">
-            <button className="w-full flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition-colors text-sm sm:text-base">
+            <button onClick={handleLogout} className="w-full flex items-center space-x-3 px-3 py-2 sm:px-4 sm:py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition-colors text-sm sm:text-base">
               <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Logout</span>
             </button>

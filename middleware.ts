@@ -56,7 +56,7 @@ export function middleware(request: NextRequest) {
   if (isAdminRoute) {
     if (!isAuth) {
       // Redirect unauthenticated users to login
-      const loginUrl = new URL("/login", request.url);
+      const loginUrl = new URL("/aLogin", request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
     }
