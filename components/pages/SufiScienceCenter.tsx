@@ -26,7 +26,7 @@ import {
   FlaskConical,
   Compass
 } from 'lucide-react';
-
+import { incrementWeekly } from '@/lib/increment';
 const SufiScienceCenter = () => {
   const researchAreas = [
     {
@@ -112,9 +112,9 @@ const SufiScienceCenter = () => {
   ];
 
   const stats = [
-    { number: "2015", label: "Established", description: "Founded as research center" },
-    { number: "25+", label: "Research Projects", description: "Active investigations" },
-    { number: "100+", label: "Publications", description: "Scientific papers" },
+    { number: "2025", label: "Established", description: "Founded as research center" },
+    { number: `${incrementWeekly(25)}+`, label: "Research Projects", description: "Active investigations" },
+    { number: `${incrementWeekly(100)}+`, label: "Publications", description: "Scientific papers" },
     { number: "∞", label: "Discoveries", description: "Ongoing revelations" }
   ];
 

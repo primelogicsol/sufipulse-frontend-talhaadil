@@ -20,6 +20,7 @@ import {
   Award
 } from 'lucide-react';
 import { getPostedKalams } from '@/services/requests';
+import { incrementMonthly,incrementWeekly } from '@/lib/increment';
 
 const KalamLibrary = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -68,10 +69,10 @@ const KalamLibrary = () => {
   ];
 
   const stats = [
-    { number: "300+", label: "Sacred Texts", icon: BookOpen },
-    { number: "25+", label: "Languages", icon: Globe },
-    { number: "89", label: "Contributing Writers", icon: Users },
-    { number: "127K+", label: "Total Downloads", icon: Download }
+    { number: `${incrementWeekly(300)}+`, label: "Sacred Texts", icon: BookOpen },
+    { number: `${incrementMonthly(17,50)}+`, label: "Languages", icon: Globe },
+    { number: `${incrementWeekly(89)}+`, label: "Contributing Writers", icon: Users },
+    { number: "100%", label: "Free Service", icon: Award }
   ];
 
   const sortOptions = [

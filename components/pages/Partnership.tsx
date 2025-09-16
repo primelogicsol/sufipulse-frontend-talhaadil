@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { createPartnershipProposal } from '@/services/requests';
 import { useToast } from '@/context/ToastContext';
+import { incrementDaily,incrementMonthly,incrementWeekly } from '@/lib/increment';
 
 const Partnership = () => {
   const {showToast} = useToast()
@@ -126,9 +127,9 @@ const Partnership = () => {
   };
 
   const stats = [
-    { number: "15+", label: "Global Partners", icon: Globe },
-    { number: "50+", label: "Countries Connected", icon: Users },
-    { number: "25+", label: "Languages Served", icon: BookOpen },
+    { number: `${incrementMonthly(15,1000)}+`, label: "Global Partners", icon: Globe },
+    { number: `${incrementMonthly(43,200)}+`, label: "Countries Connected", icon: Users },
+    { number: `${incrementMonthly(17,50)}+`, label: "Languages Served", icon: BookOpen },
     { number: "100%", label: "Sacred Focus", icon: Award }
   ];
 

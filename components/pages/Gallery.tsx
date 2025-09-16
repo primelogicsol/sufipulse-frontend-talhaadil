@@ -16,6 +16,7 @@ import {
   Headphones,
   Users,
 } from "lucide-react"
+import { incrementDaily,incrementMonthly,incrementWeekly } from "@/lib/increment"
 
 const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
 const CHANNEL_ID = "UCraDr3i5A3k0j7typ6tOOsQ"
@@ -155,13 +156,13 @@ const Gallery = () => {
 
   const stats = [
     { number: videos.length.toString(), label: "Sacred Videos", icon: Play },
-    { number: "25+", label: "Languages", icon: Globe },
+    { number: `${incrementMonthly(17,50)}+`, label: "Languages", icon: Globe },
     {
       number: videos.reduce((total, video) => total + Number.parseInt(video.views.replace(/[KM]/g, "")), 0) + "K+",
       label: "Total Views",
       icon: Eye,
     },
-    { number: "50+", label: "Countries Reached", icon: Heart },
+    { number: `${incrementMonthly(43,200)}+`, label: "Countries Reached", icon: Heart },
   ]
 
   const filteredVideos = videos.filter((video) => {

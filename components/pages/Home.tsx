@@ -16,6 +16,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import PromoteProtectSufiKalam from '../PromoteProtectSufiKalam';
+import { incrementWeekly,incrementMonthly } from '@/lib/increment';
 
 const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
 const CHANNEL_ID = "UCraDr3i5A3k0j7typ6tOOsQ";
@@ -123,9 +124,9 @@ const Home = () => {
   ];
 
   const stats = [
-    { number: "300+", label: "Sacred Collaborations", icon: Heart },
-    { number: "50+", label: "Countries Represented", icon: Globe },
-    { number: "150+", label: "Divine Kalam Created", icon: Music },
+    { number: `${incrementWeekly(300)}+`, label: "Sacred Collaborations", icon: Heart },
+    { number: `${incrementMonthly(43,200)}+`, label: "Countries Represented", icon: Globe },
+    { number: `${incrementWeekly(150)}+`, label: "Divine Kalam Created", icon: Music },
     { number: "100%", label: "Free for Writers", icon: Award }
   ];
 

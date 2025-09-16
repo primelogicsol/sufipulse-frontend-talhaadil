@@ -20,6 +20,7 @@ import {
   Globe,
   CheckCircle
 } from 'lucide-react';
+import { incrementYearly} from '@/lib/increment';
 
 const SufiMusicTheory = () => {
   const [activeTab, setActiveTab] = useState('fundamentals');
@@ -137,9 +138,9 @@ const SufiMusicTheory = () => {
   ];
 
   const stats = [
-    { number: "1000+", label: "Years of Tradition", icon: BookOpen },
-    { number: "25+", label: "Musical Modes", icon: Music },
-    { number: "50+", label: "Rhythmic Patterns", icon: Heart },
+    { number: `1000+`, label: "Years of Tradition", icon: BookOpen },
+    { number: `${incrementYearly(25)}+`, label: "Musical Modes", icon: Music },
+    { number: `${incrementYearly(50)}+`, label: "Rhythmic Patterns", icon: Heart },
     { number: "∞", label: "Spiritual Applications", icon: Star }
   ];
 

@@ -32,6 +32,7 @@ import {
   BirdIcon, // Added for "Sufi Science Center"
 } from 'lucide-react';
 import { FaDove } from 'react-icons/fa';
+import { incrementYearly } from '@/lib/increment';
 
 const DrKumarFoundation = () => {
   const spiritualJourney = [
@@ -123,7 +124,7 @@ const DrKumarFoundation = () => {
   ];
 
   const stats = [
-    { number: "14", label: "Years of Silence", description: "Sacred transformation period" },
+    { number: `${incrementYearly(14)}+`, label: "Years of Silence", description: "Sacred transformation period" },
     { number: "1", label: "Qalandar", description: "The wandering light of Kashmir" },
     { number: "∞", label: "Hearts Touched", description: "Immeasurable spiritual impact" },
     { number: "USA", label: "Foundation", description: "Carrying the light across oceans" }
@@ -164,7 +165,7 @@ const DrKumarFoundation = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-slate-50">
+      {/* <section className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -176,7 +177,7 @@ const DrKumarFoundation = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* From Medicine to Mystical */}
       <section className="py-20 bg-white">

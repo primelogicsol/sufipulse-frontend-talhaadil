@@ -5,7 +5,7 @@ import {
   Heart, Globe, Users, Award, BookOpen, Star, 
   Shield, Zap, Target, Building, Compass, Leaf 
 } from 'lucide-react';
-
+import { incrementMonthly,incrementWeekly } from '@/lib/increment';
 const WhoWeAre = () => {
   const coreValues = [
     {
@@ -50,9 +50,9 @@ const WhoWeAre = () => {
   ];
 
   const stats = [
-    { number: "300+", label: "Sacred Collaborations", description: "Divine kalam brought to life" },
-    { number: "89", label: "Writers", description: "From 50+ countries" },
-    { number: "43", label: "Vocalists", description: "Diverse spiritual voices" },
+    { number: `${incrementWeekly(300)}+`, label: "Sacred Collaborations", description: "Divine kalam brought to life" },
+    { number: `${incrementWeekly(89)}+`, label: "Writers", description: "From 50+ countries" },
+    { number: `${incrementWeekly(43)}+`, label: "Vocalists", description: "Diverse spiritual voices" },
     { number: "100%", label: "Free Service", description: "No cost to writers ever" }
   ];
 

@@ -22,6 +22,7 @@ import {
   Mic,
 } from 'lucide-react';
 import { getGuestPosts } from '@/services/requests';
+import { incrementMonthly,incrementWeekly } from '@/lib/increment';
 
 // Predefined list of possible categories from the API (lowercase)
 const possibleCategories = [
@@ -47,10 +48,10 @@ const GuestBlogs = () => {
   ]);
 
   const stats = [
-    { number: '15', label: 'Guest Contributors', icon: Users },
-    { number: '25', label: 'Published Articles', icon: BookOpen },
-    { number: '12', label: 'Countries Represented', icon: Globe },
-    { number: '18K+', label: 'Total Reads', icon: Eye },
+    { number: `${incrementWeekly(15)}`, label: 'Guest Contributors', icon: Users },
+    { number: `${incrementWeekly(25)}`, label: 'Published Articles', icon: BookOpen },
+    { number: `${incrementMonthly(12,200)}`, label: 'Countries Represented', icon: Globe },
+    { number: "100%", label: "Free Service", icon: Award },
   ];
 
   // Function to calculate dynamic category counts

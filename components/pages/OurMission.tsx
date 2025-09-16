@@ -15,6 +15,7 @@ import {
   CheckCircle,
   Mic
 } from 'lucide-react';
+import { incrementWeekly } from '@/lib/increment';
 
 const OurMission = () => {
   const missionPillars = [
@@ -60,10 +61,10 @@ const OurMission = () => {
   ];
 
   const stats = [
-    { number: "89", label: "Writers", description: "Global contributors" },
+    { number: `${incrementWeekly(89)}+`, label: "Writers", description: "Global contributors" },
     { number: "43", label: "Vocalists", description: "Sacred voices" },
     { number: "300+", label: "Collaborations", description: "Divine productions" },
-    { number: "127K+", label: "Hearts Touched", description: "Global impact" }
+    { number: "100%", label: "Free Service", description: "No cost to writers ever" }
   ];
 
   return (

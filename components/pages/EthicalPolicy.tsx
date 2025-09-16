@@ -10,7 +10,7 @@ import {
   FileText,
   Feather
 } from "lucide-react";
-
+import { incrementWeekly,incrementMonthly } from "@/lib/increment";
 const EthicalPolicy = () => {
   const ethicalPrinciples = [
     {
@@ -106,7 +106,7 @@ const EthicalPolicy = () => {
       description: "No cost to writers ever",
     },
     {
-      number: "300+",
+      number: `${incrementWeekly(300)}+`,
       label: "Sacred Collaborations",
       description: "Handled with ethical care",
     },
@@ -116,7 +116,7 @@ const EthicalPolicy = () => {
       description: "Zero monetization of sacred content",
     },
     {
-      number: "50+",
+      number: `${incrementMonthly(43,200)}+`,
       label: "Countries",
       description: "Ethical standards maintained globally",
     },

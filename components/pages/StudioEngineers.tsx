@@ -14,6 +14,7 @@ import {
   Heart,
   BookOpen
 } from 'lucide-react';
+import { incrementMonthly,incrementWeekly ,incrementYearly} from '@/lib/increment';
 
 const StudioEngineers = () => {
   const engineers = [
@@ -105,10 +106,10 @@ const StudioEngineers = () => {
   ];
 
   const stats = [
-    { number: "5", label: "Expert Engineers", icon: Users },
-    { number: "300+", label: "Productions", icon: Music },
-    { number: "25+", label: "Languages", icon: Globe },
-    { number: "15+", label: "Years Experience", icon: Award }
+    { number: "6", label: "Expert Engineers", icon: Users },
+    { number:`${incrementWeekly(300)}+`, label: "Productions", icon: Music },
+    { number: `${incrementMonthly(17,50)}+`, label: "Languages", icon: Globe },
+    { number: `${incrementYearly(15)}+`, label: "Years Experience", icon: Award }
   ];
 
   const expertise = [

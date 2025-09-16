@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Mic, Headphones, Music, Users, Award, MapPin, Calendar, Clock, Star, Shield, Globe } from 'lucide-react';
-
+import { incrementWeekly,incrementMonthly } from '@/lib/increment';
 const Studio = () => {
   const equipment = [
     {
@@ -234,21 +234,22 @@ const Studio = () => {
               <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Music className="w-8 h-8 text-emerald-600" />
               </div>
-              <div className="text-3xl font-bold text-slate-800 mb-2">300+</div>
+              <div className="text-3xl font-bold text-slate-800 mb-2"> {incrementWeekly(300)}+ </div>
               <div className="text-slate-600 font-medium">Recordings Made</div>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="w-8 h-8 text-emerald-600" />
               </div>
-              <div className="text-3xl font-bold text-slate-800 mb-2">5</div>
+              <div className="text-3xl font-bold text-slate-800 mb-2">6</div>
               <div className="text-slate-600 font-medium">Expert Engineers</div>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Globe className="w-8 h-8 text-emerald-600" />
               </div>
-              <div className="text-3xl font-bold text-slate-800 mb-2">25+</div>
+              <div className="text-3xl font-bold text-slate-800 mb-2"><div className="text-3xl font-bold text-slate-800 mb-2">{incrementMonthly(17,50)}+</div>
+</div>
               <div className="text-slate-600 font-medium">Languages Recorded</div>
             </div>
             <div className="text-center">
@@ -554,7 +555,7 @@ const Studio = () => {
         </section>
 
         {/* Studio Stats */}
-        <section className="mb-20">
+        {/* <section className="mb-20">
           <div className="bg-emerald-50 rounded-2xl p-8 border border-emerald-100">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-slate-800 mb-4">Studio Impact</h2>
@@ -565,15 +566,21 @@ const Studio = () => {
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2">300+</div>
+                <div className="text-3xl font-bold text-emerald-600 mb-2"><div className="text-3xl font-bold text-slate-800 mb-2">{incrementWeekly(300)}+</div></div>
                 <div className="text-sm text-slate-600">Kalam Produced</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2">25+</div>
+                <div className="text-3xl font-bold text-emerald-600 mb-2"><div className="text-3xl font-bold text-slate-800 mb-2">
+  {incrementMonthly(17,50)}+
+</div>
+</div>
                 <div className="text-sm text-slate-600">Languages Recorded</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2">50+</div>
+                <div className="text-3xl font-bold text-emerald-600 mb-2"><div className="text-3xl font-bold text-slate-800 mb-2">
+  {incrementMonthly(43,200)}+
+</div>
+</div>
                 <div className="text-sm text-slate-600">Countries Served</div>
               </div>
               <div className="text-center">
@@ -582,7 +589,7 @@ const Studio = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </div>
     </div>
   );

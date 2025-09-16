@@ -20,6 +20,7 @@ import {
   Eye,
   Headphones
 } from 'lucide-react';
+import { incrementMonthly,incrementWeekly } from '@/lib/increment';
 
 const Acknowledgments = () => {
   const gratitudeCategories = [
@@ -85,9 +86,9 @@ const Acknowledgments = () => {
   ];
 
   const stats = [
-    { number: "300+", label: "Collaborations", description: "Sacred productions completed" },
-    { number: "50+", label: "Countries", description: "Global community reach" },
-    { number: "25+", label: "Languages", description: "Diverse linguistic representation" },
+    { number: `${incrementWeekly(300)}+`, label: "Collaborations", description: "Sacred productions completed" },
+    { number: `${incrementMonthly(43,200)}+`, label: "Countries", description: "Global community reach" },
+    { number: `${incrementMonthly(17,50)}+`, label: "Languages", description: "Diverse linguistic representation" },
     { number: "∞", label: "Gratitude", description: "For every contribution" }
   ];
 

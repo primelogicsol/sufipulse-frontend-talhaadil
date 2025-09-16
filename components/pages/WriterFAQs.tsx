@@ -15,6 +15,7 @@ import {
   Play,
   PenTool
 } from 'lucide-react';
+import { incrementWeekly,incrementMonthly } from '@/lib/increment';
 
 const WriterFAQs = () => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(0);
@@ -136,9 +137,9 @@ const WriterFAQs = () => {
   ];
 
   const stats = [
-    { number: "89", label: "Active Writers", icon: Users },
-    { number: "300+", label: "Kalam Published", icon: BookOpen },
-    { number: "25+", label: "Languages", icon: Globe },
+    { number: `${incrementWeekly(89)}+`, label: "Active Writers", icon: Users },
+    { number: `${incrementWeekly(300)}+`, label: "Kalam Published", icon: BookOpen },
+    { number: `${incrementMonthly(17,50)}+`, label: "Languages", icon: Globe },
     { number: "100%", label: "Free Service", icon: Award }
   ];
 

@@ -17,6 +17,7 @@ import {
   Play,
   Headphones
 } from 'lucide-react';
+import { incrementMonthly,incrementYearly ,incrementWeekly} from '@/lib/increment';
 
 const MusicStyleSelection = () => {
   const [activeStyle, setActiveStyle] = useState('qawwali');
@@ -148,9 +149,9 @@ const MusicStyleSelection = () => {
   ];
 
   const stats = [
-    { number: "4", label: "Musical Styles", icon: Music },
-    { number: "300+", label: "Style Selections", icon: CheckCircle },
-    { number: "25+", label: "Languages Adapted", icon: Globe },
+    { number: `${incrementYearly(4)}+`, label: "Musical Styles", icon: Music },
+    { number: `${incrementWeekly(300)}+`, label: "Style Selections", icon: CheckCircle },
+    { number: `${incrementMonthly(17,50)}+`, label: "Languages Adapted", icon: Globe },
     { number: "100%", label: "Spiritual Alignment", icon: Heart }
   ];
 

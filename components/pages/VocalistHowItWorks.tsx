@@ -20,6 +20,7 @@ import {
   Volume2,
   ArrowRight
 } from 'lucide-react';
+import { incrementWeekly } from '@/lib/increment';
 
 const VocalistHowItWorks = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
@@ -201,7 +202,7 @@ const VocalistHowItWorks = () => {
     { number: "8", label: "Simple Steps", icon: CheckCircle },
     { number: "4-6", label: "Weeks Timeline", icon: Clock },
     { number: "100%", label: "Free Service", icon: Award },
-    { number: "200+", label: "Successful Collaborations", icon: Heart }
+    { number: `${incrementWeekly(200)}+`, label: "Successful Collaborations", icon: Heart }
   ];
 
   const faqs = [

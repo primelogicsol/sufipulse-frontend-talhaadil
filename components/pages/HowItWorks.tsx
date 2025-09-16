@@ -19,7 +19,7 @@ import {
   Heart,
   Play
 } from 'lucide-react';
-
+import { incrementWeekly } from '@/lib/increment';
 const HowItWorks = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
@@ -75,7 +75,7 @@ const HowItWorks = () => {
     { number: "8", label: "Simple Steps", icon: CheckCircle },
     { number: "4-8", label: "Weeks Timeline", icon: Clock },
     { number: "100%", label: "Free Service", icon: Award },
-    { number: "300+", label: "Successful Journeys", icon: Heart }
+    { number: `${incrementWeekly(300)}+`, label: "Successful Journeys", icon: Heart }
   ];
 
   const highlights = [

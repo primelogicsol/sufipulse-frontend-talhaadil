@@ -1,6 +1,6 @@
 import React from 'react';
 import { PenTool, Mic, Music, Globe, BookOpen, Heart, Users, Satellite, Leaf, Shield, Code, Building, Star, MapPin, Sparkles, Quote } from 'lucide-react';
-
+import { incrementMonthly,incrementWeekly } from '@/lib/increment';
 const Founder = () => {
   const roles = [
     { icon: PenTool, title: "Writer", description: "Crafting sacred Sufi poetry with deep spiritual insight" },
@@ -310,20 +310,20 @@ const Founder = () => {
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2">300+</div>
+                <div className="text-3xl font-bold text-emerald-600 mb-2">{incrementWeekly(300)}+</div>
                 <div className="text-sm text-slate-600">Sacred Collaborations</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2">50+</div>
+                <div className="text-3xl font-bold text-emerald-600 mb-2">{incrementMonthly(43,200)}+</div>
                 <div className="text-sm text-slate-600">Countries Connected</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2">25+</div>
+                <div className="text-3xl font-bold text-emerald-600 mb-2">{incrementMonthly(17,50)}+`</div>
                 <div className="text-sm text-slate-600">Languages Served</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 mb-2">127K+</div>
-                <div className="text-sm text-slate-600">Global Views</div>
+                <div className="text-3xl font-bold text-emerald-600 mb-2">100%</div>
+                <div className="text-sm text-slate-600">Free Service</div>
               </div>
             </div>
           </div>
