@@ -18,6 +18,7 @@ interface Admin {
     writer: string[]
     notification: string[]
     blog: string[]
+    recognitions: string[]
   }
   created_at: string
 }
@@ -34,6 +35,7 @@ interface AdminFormData {
     writer: string[]
     notification: string[]
     blog: string[]
+    recognitions: string[]
   }
 }
 
@@ -45,6 +47,7 @@ const permissionOptions = {
   writer: ["view"],
   notification: ["view"],
   blog: ["view"],
+  recognitions: ["view"],
 }
 
 const defaultPermissions: AdminFormData["permissions"] = {
@@ -55,6 +58,7 @@ const defaultPermissions: AdminFormData["permissions"] = {
   writer: [],
   notification: [],
   blog: [],
+  recognitions: [],
 }
 
 export default function OtherAdminsPage() {
@@ -79,8 +83,8 @@ export default function OtherAdminsPage() {
         const subadmins: Admin[] = response.data.subadmins.map((a: any) => ({
           ...a,
           permissions: {
-            ...defaultPermissions, // Ensure all permission keys exist
-            ...a.permissions, // Override with actual permissions from backend
+            ...defaultPermissions,
+            ...a.permissions,
           },
         }))
         setAdmins(subadmins)
@@ -115,8 +119,8 @@ export default function OtherAdminsPage() {
       email: admin.email,
       password: "",
       permissions: {
-        ...defaultPermissions, // Ensure all permission keys exist
-        ...admin.permissions, // Override with admin's permissions
+        ...defaultPermissions,
+        ...admin.permissions,
       },
     })
     setEditingAdmin(admin)
@@ -166,8 +170,8 @@ export default function OtherAdminsPage() {
           role: "sub-admin",
           created_at: new Date().toISOString(),
           permissions: {
-            ...defaultPermissions, // Ensure all permission keys exist
-            ...response.data.user.permissions, // Override with actual permissions
+            ...defaultPermissions,
+            ...response.data.user.permissions,
           },
         }
         setAdmins([...admins, newAdmin])

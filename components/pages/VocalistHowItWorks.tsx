@@ -1,14 +1,15 @@
 'use client'
-import React, { useState } from 'react';
+import { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import Link from 'next/link';
-import { 
-  UserPlus, 
-  CheckCircle, 
-  Mic, 
-  Eye, 
-  Music, 
-  Headphones, 
-  Youtube, 
+import {
+  UserPlus,
+  CheckCircle,
+  Mic,
+  Eye,
+  Music,
+  Headphones,
+  Youtube,
   Globe,
   ArrowDown,
   Users,
@@ -24,6 +25,11 @@ import { incrementWeekly } from '@/lib/increment';
 
 const VocalistHowItWorks = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const toggleFAQ = (index: any) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
   const processSteps = [
     {
@@ -278,7 +284,7 @@ const VocalistHowItWorks = () => {
         <div className="relative">
           {/* Timeline Line */}
           <div className="absolute left-6 sm:left-8 top-0 w-1 h-full bg-gradient-to-b from-emerald-200 to-slate-200 sm:block hidden"></div>
-          
+
           <div className="space-y-12 sm:space-y-16">
             {processSteps.map((step, index) => {
               const Icon = step.icon;
@@ -288,7 +294,7 @@ const VocalistHowItWorks = () => {
                   <div className="absolute left-0 sm:left-2 top-6 sm:top-8 w-8 sm:w-12 h-8 sm:h-12 bg-white rounded-full border-4 border-emerald-200 flex items-center justify-center z-10 shadow-lg">
                     <span className="text-sm sm:text-base font-bold text-emerald-600">{step.number}</span>
                   </div>
-                  
+
                   {/* Content Card */}
                   <div className="ml-12 sm:ml-16 w-full">
                     <div className="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden transform hover:scale-105 transition-all duration-300">
@@ -308,7 +314,7 @@ const VocalistHowItWorks = () => {
                           </div>
                         </div>
                       </div>
-                      
+
                       {/* Card Content */}
                       <div className="p-4 sm:p-6">
                         <h4 className="text-base sm:text-lg font-semibold text-slate-800 mb-2 sm:mb-3">
@@ -328,7 +334,7 @@ const VocalistHowItWorks = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Arrow for larger screens */}
                   {index < processSteps.length - 1 && (
                     <div className="hidden sm:block absolute left-6 sm:left-8 top-full mt-4 sm:mt-8">
@@ -342,39 +348,39 @@ const VocalistHowItWorks = () => {
         </div>
       </div>
 
-    {/* Enroll or Proceed Section */}
-<section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-emerald-50 to-slate-50 relative overflow-hidden">
-  <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=800')] bg-cover bg-center opacity-10"></div>
-  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <div className="mb-12 sm:mb-16">
-      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-3 sm:mb-4 animate-fade-in-down">
-        Begin Your Sacred Vocal Journey
-      </h2>
-      <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed animate-fade-in-up">
-        Join SufiPulse as a vocalist and let your voice carry divine poetry to hearts across the globe.
-      </p>
-    </div>
+      {/* Enroll or Proceed Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-emerald-50 to-slate-50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=800')] bg-cover bg-center opacity-10"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-3 sm:mb-4 animate-fade-in-down">
+              Begin Your Sacred Vocal Journey
+            </h2>
+            <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed animate-fade-in-up">
+              Join SufiPulse as a vocalist and let your voice carry divine poetry to hearts across the globe.
+            </p>
+          </div>
 
-    <div className="relative max-w-md mx-auto group">
-      <div className="relative z-10">
-        <Link
-          href="/register"
-          className="inline-flex items-center space-x-3 bg-emerald-600 hover:bg-emerald-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-sm sm:text-base lg:text-lg transition-all duration-300 transform group-hover:scale-105 group-hover:shadow-2xl"
-        >
-          <Mic className="w-5 sm:w-6 h-5 sm:h-6" />
-          <span>Join the Vocalist Pool</span>
-        </Link>
-      </div>
-      <div className="absolute inset-0 bg-emerald-200/30 rounded-full blur-2xl transform scale-110 group-hover:scale-125 transition-transform duration-500"></div>
-    </div>
+          <div className="relative max-w-md mx-auto group">
+            <div className="relative z-10">
+              <Link
+                href="/register"
+                className="inline-flex items-center space-x-3 bg-emerald-600 hover:bg-emerald-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-sm sm:text-base lg:text-lg transition-all duration-300 transform group-hover:scale-105 group-hover:shadow-2xl"
+              >
+                <Mic className="w-5 sm:w-6 h-5 sm:h-6" />
+                <span>Join the Vocalist Pool</span>
+              </Link>
+            </div>
+            <div className="absolute inset-0 bg-emerald-200/30 rounded-full blur-2xl transform scale-110 group-hover:scale-125 transition-transform duration-500"></div>
+          </div>
 
-    <div className="mt-8 text-sm sm:text-base text-slate-500 max-w-lg mx-auto animate-fade-in">
-      Create your free profile, share your vocal range and samples, and start your sacred journey with SufiPulse today.
-    </div>
-  </div>
-   
+          <div className="mt-8 text-sm sm:text-base text-slate-500 max-w-lg mx-auto animate-fade-in">
+            Create your free profile, share your vocal range and samples, and start your sacred journey with SufiPulse today.
+          </div>
+        </div>
 
-</section>
+
+      </section>
 
       {/* Key Highlights */}
       <div className="bg-white py-12 sm:py-16 lg:py-20">
@@ -387,7 +393,7 @@ const VocalistHowItWorks = () => {
               Experience the complete journey from sacred voice to global spiritual impact
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {highlights.map((highlight, index) => {
               const Icon = highlight.icon;
@@ -437,7 +443,7 @@ const VocalistHowItWorks = () => {
               Hear from vocalists who have experienced the complete SufiPulse journey
             </p>
           </div>
-          
+
           <div className="relative">
             <div className="bg-slate-800 rounded-2xl p-6 sm:p-8 lg:p-12 text-white">
               <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 items-center">
@@ -462,15 +468,14 @@ const VocalistHowItWorks = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="flex justify-center space-x-2 mt-6 sm:mt-8">
                 {testimonials.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setActiveTestimonial(index)}
-                    className={`w-2 sm:w-3 h-2 sm:h-3 rounded-full transition-all duration-200 ${
-                      index === activeTestimonial ? 'bg-emerald-400' : 'bg-slate-600 hover:bg-slate-500'
-                    }`}
+                    className={`w-2 sm:w-3 h-2 sm:h-3 rounded-full transition-all duration-200 ${index === activeTestimonial ? 'bg-emerald-400' : 'bg-slate-600 hover:bg-slate-500'
+                      }`}
                   />
                 ))}
               </div>
@@ -483,21 +488,44 @@ const VocalistHowItWorks = () => {
       <div className="bg-slate-50 py-12 sm:py-16 lg:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3 sm:mb-4">Frequently Asked Questions</h2>
-            <p className="text-base sm:text-lg text-slate-600">Common questions about the SufiPulse vocalist journey</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3 sm:mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-base sm:text-lg text-slate-600">
+              Common questions about the SufiPulse vocalist journey
+            </p>
           </div>
-          
+
           <div className="space-y-4 sm:space-y-6">
             {faqs.map((faq, index) => (
-              <div key={index} className="bg-white rounded-xl p-4 sm:p-6 border border-slate-100 shadow-lg">
-                <h3 className="text-base sm:text-lg font-bold text-slate-800 mb-2 sm:mb-3">{faq.question}</h3>
-                <p className="text-sm sm:text-base text-slate-600 leading-relaxed">{faq.answer}</p>
+              <div
+                key={index}
+                className="bg-white rounded-xl border border-slate-100 shadow-lg"
+              >
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full flex justify-between items-center p-4 sm:p-6 text-left"
+                >
+                  <span className="text-base sm:text-lg font-bold text-slate-800">
+                    {faq.question}
+                  </span>
+                  {openIndex === index ? (
+                    <ChevronUp className="h-5 w-5 text-slate-600" />
+                  ) : (
+                    <ChevronDown className="h-5 w-5 text-slate-600" />
+                  )}
+                </button>
+
+                {openIndex === index && (
+                  <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-sm sm:text-base text-slate-600 leading-relaxed">
+                    {faq.answer}
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </div>
       </div>
-
       {/* Sacred Promise */}
       <div className="bg-slate-800 py-12 sm:py-16 lg:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -507,9 +535,9 @@ const VocalistHowItWorks = () => {
               "Your voice is a sacred trust. We honor it with world-class production and global reach."
             </blockquote>
             <p className="text-sm sm:text-base lg:text-lg text-slate-300 leading-relaxed mb-6 sm:mb-8">
-              Every step of this journey is designed to honor your sacred voice while providing the 
-              technical excellence and spiritual reverence your performance deserves. From assignment 
-              to global publication, we handle everything while ensuring your vocal contribution is 
+              Every step of this journey is designed to honor your sacred voice while providing the
+              technical excellence and spiritual reverence your performance deserves. From assignment
+              to global publication, we handle everything while ensuring your vocal contribution is
               always prominently credited.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
@@ -537,7 +565,7 @@ const VocalistHowItWorks = () => {
             <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-3 sm:mb-4">Journey Timeline</h2>
             <p className="text-sm sm:text-base text-slate-600">Typical timeframes for each stage of the vocalist process</p>
           </div>
-          
+
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 sm:gap-6">
             {processSteps.map((step, index) => (
               <div key={index} className="text-center">
@@ -548,9 +576,9 @@ const VocalistHowItWorks = () => {
                 <div className="flex items-center justify-center space-x-1 text-xs text-slate-500">
                   <Clock className="w-3 h-3" />
                   <span>
-                    {index < 2 ? '1-2 days' : 
-                     index < 4 ? '3-5 days' : 
-                     index < 6 ? '1-2 weeks' : '1-3 days'}
+                    {index < 2 ? '1-2 days' :
+                      index < 4 ? '3-5 days' :
+                        index < 6 ? '1-2 weeks' : '1-3 days'}
                   </span>
                 </div>
               </div>

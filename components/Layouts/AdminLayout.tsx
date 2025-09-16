@@ -23,7 +23,7 @@ const menuItems = [
   { name: "Notification", href: "/admin/notifications", icon: Bell, permissionKey: "notification" },
   { name: "Sub Admins", href: "/admin/other-admins", icon: User2, permissionKey: "sub_admins" },
   { name: "Blogs", href: "/admin/blog", icon: BiLogIn, permissionKey: "blog" },
-  {name : "Special Recognition", href: "/admin/special", icon: Trophy, permissionKey: "special_recognition" }
+  {name : "Special Recognition", href: "/admin/special", icon: Trophy, permissionKey: "recognitions" }
 ];
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {

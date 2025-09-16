@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import Link from 'next/link'
 import { 
@@ -21,6 +23,16 @@ import {
   Headphones
 } from 'lucide-react';
 import { incrementMonthly,incrementWeekly } from '@/lib/increment';
+import { useState, useEffect } from 'react';
+import { getAllSpecialRecognitions } from '@/services/recognition';
+
+interface SpecialRecognition {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  achievement: string;
+}
 
 const Acknowledgments = () => {
   const gratitudeCategories = [
@@ -61,29 +73,19 @@ const Acknowledgments = () => {
     }
   ];
 
-  const specialRecognitions = [
-    {
-      icon: Crown,
-      title: "Dr. Ghulam Mohammad Kumar",
-      subtitle: "The Qalandar of Kashmir",
-      description: "Whose spiritual legacy and teachings inspire every aspect of our sacred work",
-      achievement: "14 years of silence, a lifetime of awakening"
-    },
-    {
-      icon: Heart,
-      title: "Dr. Zarf-e-Noori",
-      subtitle: "Founder & Visionary",
-      description: "For conceiving and nurturing SufiPulse as a bridge between Kashmir's sacred valleys and the global ummah",
-      achievement: "Transforming spiritual vision into global reality"
-    },
-    {
-      icon: Star,
-      title: "The Sacred Tradition of Kashmir",
-      subtitle: "Mystical Heritage",
-      description: "Honoring the mystical tradition of Kashmir that serves as the spiritual foundation of our mission",
-      achievement: "Centuries of divine wisdom and poetic excellence"
-    }
-  ];
+  const [specialRecognitions, setSpecialRecognitions] = useState<SpecialRecognition[]>([]);
+
+  useEffect(() => {
+    const fetchRecognitions = async () => {
+      try {
+        const response = await getAllSpecialRecognitions();
+        setSpecialRecognitions(response.data);
+      } catch (error) {
+        console.error("Failed to fetch special recognitions:", error);
+      }
+    };
+    fetchRecognitions();
+  }, []);
 
   const stats = [
     { number: `${incrementWeekly(300)}+`, label: "Collaborations", description: "Sacred productions completed" },
@@ -150,22 +152,19 @@ const Acknowledgments = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {specialRecognitions.map((recognition, index) => {
-              const Icon = recognition.icon;
-              return (
-                <div key={index} className="text-center group">
-                  <div className="w-20 h-20 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Icon className="w-10 h-10 text-emerald-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-800 mb-2">{recognition.title}</h3>
-                  <p className="text-emerald-600 font-medium mb-3">{recognition.subtitle}</p>
-                  <p className="text-slate-600 leading-relaxed mb-4">{recognition.description}</p>
-                  <div className="text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full inline-block">
-                    {recognition.achievement}
-                  </div>
+            {specialRecognitions.map((recognition, index) => (
+              <div key={index} className="bg-white rounded-2xl p-8 shadow-lg border border-slate-100 text-center group">
+                <div className="w-20 h-20 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Crown className="w-10 h-10 text-emerald-600" />
                 </div>
-              );
-            })}
+                <h3 className="text-xl font-bold text-slate-800 mb-2">{recognition.title}</h3>
+                <p className="text-emerald-600 font-medium mb-3">{recognition.subtitle}</p>
+                <p className="text-slate-600 leading-relaxed mb-4">{recognition.description}</p>
+                <div className="text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full inline-block">
+                  {recognition.achievement}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

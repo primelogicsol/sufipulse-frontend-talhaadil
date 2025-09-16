@@ -1,13 +1,13 @@
 'use client'
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { 
-  Music, 
-  BookOpen, 
-  Waves, 
-  Heart, 
-  Brain, 
-  Volume2, 
+import {
+  Music,
+  BookOpen,
+  Waves,
+  Heart,
+  Brain,
+  Volume2,
   ArrowRight,
   Play,
   Star,
@@ -20,7 +20,7 @@ import {
   Globe,
   CheckCircle
 } from 'lucide-react';
-import { incrementYearly} from '@/lib/increment';
+import { incrementYearly } from '@/lib/increment';
 
 const SufiMusicTheory = () => {
   const [activeTab, setActiveTab] = useState('fundamentals');
@@ -36,7 +36,7 @@ const SufiMusicTheory = () => {
         overview: "Sufi music theory transcends conventional musical analysis, incorporating spiritual dimensions that transform sound into a vehicle for divine connection.",
         principles: [
           "Intention (Niyyah) as the foundation of sacred sound",
-          "Breath (Nafas) as the source of spiritual vibration", 
+          "Breath (Nafas) as the source of spiritual vibration",
           "Rhythm (Wazn) as the heartbeat of divine remembrance",
           "Melody (Lahn) as the pathway to transcendence"
         ],
@@ -151,7 +151,7 @@ const SufiMusicTheory = () => {
       techniques: ["Modal selection for spiritual themes", "Rhythmic patterns for dhikr", "Harmonic progressions for transcendence"]
     },
     {
-      title: "For Vocalists", 
+      title: "For Vocalists",
       description: "Understand how vocal techniques serve spiritual expression",
       techniques: ["Breath control for sustained dhikr", "Microtonal inflection for emotional depth", "Vocal projection in sacred space"]
     },
@@ -178,11 +178,11 @@ const SufiMusicTheory = () => {
                   <span className="block text-emerald-400">Theory</span>
                 </h1>
                 <p className="text-xl lg:text-2xl text-slate-300 leading-relaxed">
-                  Exploring the sacred science behind spiritual sound. Understanding how traditional 
+                  Exploring the sacred science behind spiritual sound. Understanding how traditional
                   Sufi musical principles create pathways to divine connection.
                 </p>
               </div>
-              
+
               <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-emerald-500/20">
                 <p className="text-emerald-300 font-medium mb-2">Sacred Sound Science</p>
                 <blockquote className="text-lg italic">
@@ -272,11 +272,10 @@ const SufiMusicTheory = () => {
                 <button
                   key={topic.id}
                   onClick={() => setActiveTab(topic.id)}
-                  className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
-                    activeTab === topic.id
+                  className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${activeTab === topic.id
                       ? 'bg-emerald-600 text-white shadow-lg'
                       : 'bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600'
-                  }`}
+                    }`}
                 >
                   <Icon className="w-5 h-5" />
                   <span>{topic.title}</span>
@@ -297,13 +296,19 @@ const SufiMusicTheory = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="p-8">
+                {/* Overview - full width */}
+                <div className="mb-10">
+                  <h4 className="text-xl font-bold text-slate-800 mb-4">Overview</h4>
+                  <p className="text-slate-600 leading-relaxed">
+                    {currentTopic.content.overview}
+                  </p>
+                </div>
+
+                {/* Grid Section */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <div>
-                    <h4 className="text-xl font-bold text-slate-800 mb-4">Overview</h4>
-                    <p className="text-slate-600 leading-relaxed mb-6">{currentTopic.content.overview}</p>
-                    
                     <h4 className="text-lg font-bold text-slate-800 mb-4">Core Principles</h4>
                     <ul className="space-y-3">
                       {currentTopic.content.principles.map((principle, index) => (
@@ -314,7 +319,7 @@ const SufiMusicTheory = () => {
                       ))}
                     </ul>
                   </div>
-                  
+
                   <div>
                     <h4 className="text-lg font-bold text-slate-800 mb-4">Practical Applications</h4>
                     <ul className="space-y-3">
@@ -344,7 +349,7 @@ const SufiMusicTheory = () => {
               How sacred music theory translates into real-world spiritual practice
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {practicalApplications.map((application, index) => (
               <div key={index} className="bg-white rounded-2xl p-8 shadow-lg border border-slate-100 text-center">
@@ -404,15 +409,14 @@ const SufiMusicTheory = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="flex justify-center space-x-2 mt-8">
                 {testimonials.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setActiveTestimonial(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                      index === activeTestimonial ? 'bg-emerald-400' : 'bg-slate-600 hover:bg-slate-500'
-                    }`}
+                    className={`w-3 h-3 rounded-full transition-all duration-200 ${index === activeTestimonial ? 'bg-emerald-400' : 'bg-slate-600 hover:bg-slate-500'
+                      }`}
                   />
                 ))}
               </div>
@@ -428,7 +432,7 @@ const SufiMusicTheory = () => {
             Apply Sacred Music Theory
           </h2>
           <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-            Experience how these theoretical principles come to life in our productions. 
+            Experience how these theoretical principles come to life in our productions.
             Submit your kalam or join our community to participate in sacred musical collaboration.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

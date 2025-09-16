@@ -1,24 +1,28 @@
 'use client'
 
 import React from 'react';
-import { 
-  UserPlus, 
-  CheckCircle, 
-  Upload, 
-  Eye, 
-  Music, 
-  Headphones, 
-  Youtube, 
+import { useState } from 'react';
+import {
+  UserPlus,
+  CheckCircle,
+  Upload,
+  Eye,
+  Music,
+  Headphones,
+  Youtube,
   Globe,
   ArrowDown,
   PenTool,
   Users,
   Award,
   Clock,
-  Star
+  Star,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 
 const Process = () => {
+
   const steps = [
     {
       number: 1,
@@ -213,6 +217,12 @@ const Process = () => {
     }
   ];
 
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const toggleFAQ = (index: any) => {
+    setOpenIndex(openIndex === index ? null : index)
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-50">
       {/* Header */}
@@ -253,21 +263,20 @@ const Process = () => {
         <div className="relative">
           {/* Timeline Line */}
           <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-emerald-200 to-slate-200 hidden lg:block"></div>
-          
+
           <div className="space-y-16">
             {steps.map((step, index) => {
               const Icon = step.icon;
               const isEven = index % 2 === 0;
-              
+
               return (
-                <div key={step.number} className={`relative flex items-center ${
-                  isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'
-                }`}>
+                <div key={step.number} className={`relative flex items-center ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'
+                  }`}>
                   {/* Timeline Dot */}
                   <div className="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-white rounded-full border-4 border-emerald-200 flex items-center justify-center z-10 hidden lg:flex shadow-lg">
                     <span className="text-2xl font-bold text-emerald-600">{step.number}</span>
                   </div>
-                  
+
                   {/* Content Card */}
                   <div className={`w-full lg:w-5/12 ${isEven ? 'lg:pr-16' : 'lg:pl-16'}`}>
                     <div className="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden transform hover:scale-105 transition-all duration-300">
@@ -287,7 +296,7 @@ const Process = () => {
                           </div>
                         </div>
                       </div>
-                      
+
                       {/* Card Content */}
                       <div className="p-6">
                         <h4 className="text-lg font-semibold text-slate-800 mb-3">
@@ -307,12 +316,12 @@ const Process = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Mobile Timeline Indicator */}
                   <div className="lg:hidden absolute -left-4 top-8 w-8 h-8 bg-white rounded-full border-4 border-emerald-200 flex items-center justify-center shadow-lg">
                     <span className="text-sm font-bold text-emerald-600">{step.number}</span>
                   </div>
-                  
+
                   {/* Arrow for larger screens */}
                   {index < steps.length - 1 && (
                     <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 top-full mt-8">
@@ -337,7 +346,7 @@ const Process = () => {
               Experience the complete journey from sacred words to global spiritual impact
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {highlights.map((highlight, index) => {
               const Icon = highlight.icon;
@@ -367,7 +376,7 @@ const Process = () => {
               Hear from writers who have experienced the complete SufiPulse journey
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {testimonials.map((testimonial, index) => (
               <div key={index} className="bg-white rounded-2xl p-8 shadow-lg border border-slate-100">
@@ -403,17 +412,38 @@ const Process = () => {
             <h2 className="text-3xl font-bold text-slate-800 mb-4">Frequently Asked Questions</h2>
             <p className="text-slate-600">Common questions about the SufiPulse writer journey</p>
           </div>
-          
-          <div className="space-y-6">
+
+          <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <div key={index} className="bg-slate-50 rounded-xl p-6 border border-slate-100">
-                <h3 className="text-lg font-bold text-slate-800 mb-3">{faq.question}</h3>
-                <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
+              <div
+                key={index}
+                className="bg-slate-50 rounded-xl border border-slate-100"
+              >
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full flex justify-between items-center p-6 text-left"
+                >
+                  <span className="text-lg font-semibold text-slate-800">
+                    {faq.question}
+                  </span>
+                  {openIndex === index ? (
+                    <ChevronUp className="h-5 w-5 text-slate-600" />
+                  ) : (
+                    <ChevronDown className="h-5 w-5 text-slate-600" />
+                  )}
+                </button>
+
+                {openIndex === index && (
+                  <div className="px-6 pb-6 text-slate-600 leading-relaxed">
+                    {faq.answer}
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </div>
       </div>
+      );
 
       {/* Sacred Promise */}
       <div className="bg-slate-800 py-20">
@@ -424,22 +454,22 @@ const Process = () => {
               "We don't sell divine lyrics. We amplify them. Submit your kalam. Let the ummah hear its pulse."
             </blockquote>
             <p className="text-slate-300 text-lg leading-relaxed mb-8">
-              Every step of this journey is designed to honor your sacred words while providing them with the 
-              world-class production they deserve. From the moment you submit your kalam to its global release, 
+              Every step of this journey is designed to honor your sacred words while providing them with the
+              world-class production they deserve. From the moment you submit your kalam to its global release,
               we handle everything—completely free—while ensuring your authorship is always prominently credited.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-              onClick={() => window.location.href = '/login'}
-                
-               className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200">
+              <button
+                onClick={() => window.location.href = '/login'}
+
+                className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200">
                 Begin Your Journey
               </button>
-              <button 
-              onClick={
-                ()=> window.location.href = '/gallery'
-              }
-               className="bg-slate-600 hover:bg-slate-500 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200">
+              <button
+                onClick={
+                  () => window.location.href = '/gallery'
+                }
+                className="bg-slate-600 hover:bg-slate-500 text-white px-8 py-4 rounded-xl font-semibold transition-colors duration-200">
                 View Sample Works
               </button>
             </div>
@@ -454,7 +484,7 @@ const Process = () => {
             <h2 className="text-2xl font-bold text-slate-800 mb-4">Journey Timeline</h2>
             <p className="text-slate-600">Typical timeframes for each stage of the process</p>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
             {steps.map((step, index) => (
               <div key={index} className="text-center">
@@ -465,9 +495,9 @@ const Process = () => {
                 <div className="flex items-center justify-center space-x-1 text-xs text-slate-500">
                   <Clock className="w-3 h-3" />
                   <span>
-                    {index < 2 ? '1-2 days' : 
-                     index < 4 ? '3-5 days' : 
-                     index < 6 ? '1-2 weeks' : '1-3 days'}
+                    {index < 2 ? '1-2 days' :
+                      index < 4 ? '3-5 days' :
+                        index < 6 ? '1-2 weeks' : '1-3 days'}
                   </span>
                 </div>
               </div>
