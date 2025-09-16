@@ -1,12 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import { 
-  Heart, 
-  Mountain, 
-  Users, 
-  Award, 
-  Star, 
-  BookOpen, 
+import {
+  Heart,
+  Mountain,
+  Users,
+  Award,
+  Star,
+  BookOpen,
   ArrowRight,
   Building,
   Compass,
@@ -140,15 +140,15 @@ const DrKumarFoundation = () => {
             </h2>
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-5xl mx-auto">
               <p className="text-xl text-slate-300 leading-relaxed mb-6">
-                In the sacred history of Kashmir — where mystics have roamed like silent rivers of divine remembrance — 
-                one soul emerged beyond the veil of time: <strong className="text-emerald-300">Dr. Ghulam Mohammad Kumar</strong>, 
+                In the sacred history of Kashmir — where mystics have roamed like silent rivers of divine remembrance —
+                one soul emerged beyond the veil of time: <strong className="text-emerald-300">Dr. Ghulam Mohammad Kumar</strong>,
                 lovingly known as Mama Ji or Kumar Sahib, the Qalandar of Kashmir.
               </p>
               <blockquote className="text-2xl font-light italic text-emerald-300 mb-4">
                 "More than a man, more than a mystic — he is a presence."
               </blockquote>
               <p className="text-slate-300">
-                A wandering flame of Haqiqat, a silent earthquake in the hearts of seekers. 
+                A wandering flame of Haqiqat, a silent earthquake in the hearts of seekers.
                 He lives not to be followed, but to awaken.
               </p>
             </div>
@@ -156,7 +156,7 @@ const DrKumarFoundation = () => {
         </div>
       </section>
 
-      
+
       {/* From Medicine to Mystical */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -170,8 +170,8 @@ const DrKumarFoundation = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
             <div className="space-y-6">
               <p className="text-lg text-slate-600 leading-relaxed">
-                Born into an esteemed Kashmiri family of scholars and professionals, Dr. Kumar trained in modern medicine 
-                at Government Medical College Srinagar and rose to become a Block Medical Officer. But his heart could not 
+                Born into an esteemed Kashmiri family of scholars and professionals, Dr. Kumar trained in modern medicine
+                at Government Medical College Srinagar and rose to become a Block Medical Officer. But his heart could not
                 be contained by clinics and contracts.
               </p>
               <p className="text-lg text-slate-600 leading-relaxed">
@@ -184,7 +184,7 @@ const DrKumarFoundation = () => {
                 </p>
               </div>
             </div>
-            
+
             <div className="relative">
               <div className="aspect-square bg-gradient-to-br from-emerald-100 to-slate-100 rounded-2xl p-8 flex items-center justify-center">
                 <div className="text-center">
@@ -211,18 +211,17 @@ const DrKumarFoundation = () => {
               14 Years of Silence — The Birth of a Qalandar
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
-              In the jungles of Ganderbal, he entered a sacred silence. For fourteen years, he lived in Muraqaba — 
+              In the jungles of Ganderbal, he entered a sacred silence. For fourteen years, he lived in Muraqaba —
               in absorption, in poverty, in truth.
             </p>
           </div>
-          
+
           <div className="relative">
             <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-emerald-200 hidden lg:block"></div>
             <div className="space-y-12">
               {spiritualJourney.map((phase, index) => (
-                <div key={index} className={`flex items-center relative ${
-                  index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
-                }`}>
+                <div key={index} className={`flex items-center relative ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
+                  }`}>
                   <div className={`w-full lg:w-1/2 ${index % 2 === 0 ? 'lg:pr-8' : 'lg:pl-8'}`}>
                     <div className="bg-white rounded-xl p-8 shadow-lg border border-slate-100">
                       <div className="flex items-center space-x-4 mb-4">
@@ -264,11 +263,11 @@ const DrKumarFoundation = () => {
               Banday Bagh — The Spiritual Station
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
-              In the lush valley of Serch Banday Bagh (Ganderbal - Kashmir - INdia), where the winds whisper with the voices of saints, 
+              In the lush valley of Serch Banday Bagh (Ganderbal - Kashmir - INdia), where the winds whisper with the voices of saints,
               Dr. Kumar's spiritual maqam serves as a beacon for broken hearts.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             {bandayBaghServices.map((service, index) => {
               const Icon = service.icon;
@@ -322,7 +321,7 @@ const DrKumarFoundation = () => {
                 </blockquote>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white rounded-xl p-6 shadow-lg border border-slate-100 text-center">
                 <Lightbulb className="w-8 h-8 text-emerald-600 mx-auto mb-3" />
@@ -358,11 +357,11 @@ const DrKumarFoundation = () => {
               The Sufi Science Center (SSC) — A Revolution in Thought
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
-              To honor and spread his teachings, the Sufi Science Center was born — 
+              To honor and spread his teachings, the Sufi Science Center was born —
               a spiritual think tank, a technological sanctuary, a metaphysical research lab.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             {sscInitiatives.map((initiative, index) => {
               const Icon = initiative.icon;
@@ -399,7 +398,7 @@ const DrKumarFoundation = () => {
               Dr. Kumar Foundation USA — A Light Across Oceans
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
-              To carry his vision beyond the borders of Kashmir, one of Dr. Kumar's American students 
+              To carry his vision beyond the borders of Kashmir, one of Dr. Kumar's American students
               established the Dr. Kumar Foundation USA.
             </p>
           </div>
@@ -408,7 +407,7 @@ const DrKumarFoundation = () => {
             <div className="space-y-6">
               <h3 className="text-2xl font-bold text-slate-800">A Sanctuary for Seekers in the West</h3>
               <p className="text-slate-600 leading-relaxed">
-                The foundation supports spiritual awakening and mystical understanding across America, 
+                The foundation supports spiritual awakening and mystical understanding across America,
                 serving as a bridge between Eastern wisdom and Western seeking.
               </p>
               <div className="space-y-3">
@@ -420,14 +419,14 @@ const DrKumarFoundation = () => {
                 ))}
               </div>
             </div>
-            
+
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-100">
               <div className="text-center mb-6">
                 <Globe className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
                 <h4 className="text-xl font-bold text-slate-800 mb-3">Sacred Sustainability</h4>
               </div>
               <p className="text-slate-600 text-center leading-relaxed">
-                With no sponsors, no donations, and no commercialization — 
+                With no sponsors, no donations, and no commercialization —
                 it sustains itself through love, longing, and labor.
               </p>
             </div>
@@ -435,50 +434,78 @@ const DrKumarFoundation = () => {
         </div>
       </section>
 
-      {/* Call to the Seeker */}
       <section className="py-20 bg-slate-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-8 flex items-center justify-center">
-            <Star className="w-8 h-8 text-emerald-300 mr-2" />
-            A Call to the Seeker
+          {/* Dr. Kumar Foundation Website Link Section */}
+          <div className="bg-gradient-to-r from-emerald-600 to-slate-700 rounded-2xl p-8 mb-12 border border-emerald-500/20">
+            <div className="flex items-center justify-center space-x-4 mb-6">
+              <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
+                <Globe className="w-8 h-8 text-white" />
+              </div>
+              <div className="text-left">
+                <h3 className="text-2xl font-bold text-white mb-2">Visit Dr. Kumar Foundation</h3>
+                <p className="text-emerald-200">Explore the legacy and vision of Dr. Kumar</p>
+              </div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-6">
+              <p className="text-white text-lg mb-4">
+                Learn about the mission, ongoing projects, and initiatives of the Dr. Kumar Foundation
+                at the official website.
+              </p>
+              <div className="flex items-center justify-center space-x-2 text-emerald-200 mb-4">
+                <Globe className="w-5 h-5" />
+                <span className="font-mono text-lg">dkf.sufisciencecenter.info</span>
+              </div>
+            </div>
+            <a
+              href="http://dkf.sufisciencecenter.info/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center space-x-3 bg-white hover:bg-emerald-50 text-slate-800 hover:text-emerald-700 px-8 py-4 rounded-xl font-bold text-lg transition-all duration-200 transform hover:scale-105 shadow-xl"
+            >
+              <Globe className="w-6 h-6" />
+              <span>Visit Dr. Kumar Foundation</span>
+              <ArrowRight className="w-6 h-6" />
+            </a>
+            <p className="text-emerald-200 text-sm mt-4">
+              Opens in new window • Official foundation website
+            </p>
+          </div>
+
+          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+            Supporting a Legacy of Service
           </h2>
-          
-          <div className="space-y-6 mb-12">
-            <p className="text-xl text-slate-300">To the restless soul…</p>
-            <p className="text-xl text-slate-300">To the one who feels the world is not enough…</p>
-            <p className="text-xl text-slate-300">To the one who hears the silence between words…</p>
-          </div>
-
-          <div className="bg-slate-700 rounded-2xl p-8 mb-8">
-            <h3 className="text-2xl font-bold text-emerald-300 mb-4">This is your moment. This is your path.</h3>
-            <p className="text-slate-300 text-lg">The caravan of truth has begun to move.</p>
-          </div>
-
+          <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+            Join hands with the Dr. Kumar Foundation in advancing its mission to preserve
+            and spread the wisdom of service, compassion, and knowledge for humanity’s
+            spiritual and social well-being.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/join"
+              href="/acknowledgments"
               className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
             >
-              <Leaf className="w-5 h-5" />
-              <span>Join the journey</span>
+              <Award className="w-5 h-5" />
+              <span>Acknowledgments</span>
             </Link>
             <Link
-              href="/sufi-science-center"
+              href="/join"
               className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
-              <Eye className="w-5 h-5" />
-              <span>Seek the light</span>
+              <Users className="w-5 h-5" />
+              <span>Join the Mission</span>
             </Link>
             <Link
               href="/contact"
               className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
             >
               <Heart className="w-5 h-5" />
-              <span>Be the voice of the unseen</span>
+              <span>Get Involved</span>
             </Link>
           </div>
         </div>
       </section>
+
     </div>
   );
 };

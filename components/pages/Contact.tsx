@@ -179,7 +179,7 @@ const Contact = () => {
               <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-8">
                 <div className="mb-6">
                   <h2 className="text-2xl font-bold text-slate-800 mb-2">
-                    Contact Us
+                    Sufi Pulse
                   </h2>
                   <p className="text-slate-600">How can we help you today</p>
                 </div>
