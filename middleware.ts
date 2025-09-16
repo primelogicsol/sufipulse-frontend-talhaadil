@@ -61,12 +61,12 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    if (userRole !== "admin" && userRole !== "subadmin") {
+    if (userRole !== "admin" && userRole !== "sub-admin") {
       // Redirect non-admin/subadmin users to root (/)
       return NextResponse.redirect(new URL("/", request.url));
     }
 
-    if (userRole === "subadmin") {
+    if (userRole === "sub-admin") {
       // Check permissions for subadmin
       const requiredPermission = Object.entries(permissionMap).find(([route]) =>
         pathname.startsWith(route)
