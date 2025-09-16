@@ -16,7 +16,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import PromoteProtectSufiKalam from '../PromoteProtectSufiKalam';
-import { incrementWeekly,incrementMonthly } from '@/lib/increment';
+import { incrementWeekly, incrementMonthly } from '@/lib/increment';
 
 const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
 const CHANNEL_ID = "UCraDr3i5A3k0j7typ6tOOsQ";
@@ -102,30 +102,246 @@ const Home = () => {
   const testimonials = [
     {
       name: "Amina Rahman",
-      location: "Delhi , India",
+      location: "Delhi, India",
       role: "Sufi Writer",
-      quote: "SufiPulse transformed my humble kalam into a global spiritual experience. The production quality and respect for the sacred message exceeded all expectations.",
+      quote: "SufiPulse turned my kalam into a global spiritual experience with exceptional production quality.",
       image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Omar Ali",
+      location: "London, UK",
+      role: "Sufi Devotee",
+      quote: "SufiPulse evokes the warmth of zikr circles, deepening my spiritual connection.",
+      image: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Sofia Müller",
+      location: "Berlin, Germany",
+      role: "Spiritual Music Lover",
+      quote: "SufiPulse’s harmonies create a sacred space, pure and deeply moving.",
+      image: "https://images.pexels.com/photos/38554/girl-people-landscape-sun-38554.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Yusuf Khan",
+      location: "Mumbai, India",
+      role: "Sufi Music Lover",
+      quote: "SufiPulse delivers kalam with grace, a true gift for spiritual seekers.",
+      image: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Emily Carter",
+      location: "Boston, USA",
+      role: "Sufi Music Enthusiast",
+      quote: "SufiPulse opened my heart to meditative sounds, a new world of peace.",
+      image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200"
     },
     {
       name: "Muhammad Ali",
       location: "Istanbul, Turkey",
       role: "Qawwali Vocalist",
-      quote: "Being part of SufiPulse's mission feels like serving the divine. Every collaboration is a spiritual journey that connects hearts across continents.",
+      quote: "SufiPulse collaborations feel like a divine journey, uniting hearts globally.",
       image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Fatima Al Zahra",
+      location: "Dubai, UAE",
+      role: "Sufi Listener",
+      quote: "SufiPulse’s kalams carry reverence, feeling like home for the soul.",
+      image: "https://images.pexels.com/photos/38554/girl-people-landscape-sun-38554.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "David Coleman",
+      location: "New York, USA",
+      role: "Sufi Music Enthusiast",
+      quote: "SufiPulse reveals Sufi music’s depth, like prayer through soulful sound.",
+      image: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Clara Hoffmann",
+      location: "Munich, Germany",
+      role: "Sufi Listener",
+      quote: "SufiPulse feels like a garden of sound, a sanctuary for souls.",
+      image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Karim Hassan",
+      location: "Doha, Qatar",
+      role: "Sufi Listener",
+      quote: "SufiPulse feels like a majlis of seekers, pure and deeply soulful.",
+      image: "https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Rachel Green",
+      location: "San Francisco, USA",
+      role: "Sufi Listener",
+      quote: "SufiPulse songs feel like intimate soul conversations, uplifting and grounding.",
+      image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Ahmed Khan",
+      location: "Karachi, Pakistan",
+      role: "Sufi Music Lover",
+      quote: "SufiPulse’s poetry and sound immerse me in beauty and devotion.",
+      image: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Isabella Rossi",
+      location: "Rome, Italy",
+      role: "Sufi Spirit Seeker",
+      quote: "SufiPulse echoes devotion, timeless music that uplifts the soul.",
+      image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Faisal Al-Mutairi",
+      location: "Riyadh, Saudi Arabia",
+      role: "Sufi Music Lover",
+      quote: "SufiPulse’s sincerity in melody touches the heart, pure remembrance.",
+      image: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Hannah Wilson",
+      location: "Toronto, Canada",
+      role: "Spiritual Music Enthusiast",
+      quote: "SufiPulse connects deeply with universal spirituality, transcending boundaries.",
+      image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Sameer Sheikh",
+      location: "Hyderabad, India",
+      role: "Sufi Music Enthusiast",
+      quote: "SufiPulse feels like entering a dargah, each note radiant with light.",
+      image: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=200"
     },
     {
       name: "Dr. Sarah Ahmed",
       location: "London, UK",
       role: "Contemporary Spiritual Poet",
-      quote: "The platform bridges ancient wisdom with modern expression beautifully. My English kalam found its perfect Urdu voice through their expert team.",
+      quote: "SufiPulse blends ancient wisdom with modern expression beautifully.",
       image: "https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Mariam Nasser",
+      location: "Doha, Qatar",
+      role: "Sufi Spirit Seeker",
+      quote: "SufiPulse evokes my grandmother’s prayers, nostalgic and deeply divine.",
+      image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Michael Hartman",
+      location: "Los Angeles, USA",
+      role: "Spiritual Music Lover",
+      quote: "SufiPulse blends tradition and modernity, connecting hearts timelessly.",
+      image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Ayesha Khan",
+      location: "Amman, Jordan",
+      role: "Sufi Music Enthusiast",
+      quote: "SufiPulse’s devotion in sound humbles me, it’s truly prayerful.",
+      image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Bilal Ahmed",
+      location: "Lahore, Pakistan",
+      role: "Sufi Listener",
+      quote: "SufiPulse revived my love for qawwali, recalling childhood shrine visits.",
+      image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Anna Johansson",
+      location: "Stockholm, Sweden",
+      role: "Global Sufi Music Lover",
+      quote: "SufiPulse feels ancient yet alive, connecting me to sacred traditions.",
+      image: "https://images.pexels.com/photos/38554/girl-people-landscape-sun-38554.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Malik Johnson",
+      location: "Atlanta, USA",
+      role: "Sufi Spirit Seeker",
+      quote: "SufiPulse connects my Black Muslim heritage to rhythm and dhikr.",
+      image: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Putri Lestari",
+      location: "Jakarta, Indonesia",
+      role: "Sufi Music Lover",
+      quote: "SufiPulse feels like a universal zikr, transcending all boundaries.",
+      image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Arif Mohammed",
+      location: "Lucknow, India",
+      role: "Sufi Listener",
+      quote: "SufiPulse captures the emotions of sama, music for the heart.",
+      image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Laura Evans",
+      location: "Chicago, USA",
+      role: "Spiritual Music Lover",
+      quote: "SufiPulse evokes a higher presence, gentle, sacred, and true.",
+      image: "https://images.pexels.com/photos/38554/girl-people-landscape-sun-38554.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Imran Qureshi",
+      location: "Islamabad, Pakistan",
+      role: "Sufi Spirit Seeker",
+      quote: "SufiPulse preserves roots while reaching modern ears, truly remarkable.",
+      image: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Maria Gonzalez",
+      location: "Madrid, Spain",
+      role: "Sufi Spirit Seeker",
+      quote: "SufiPulse lights a candle in the heart with pure, devotional sound.",
+      image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Jamal Williams",
+      location: "Detroit, USA",
+      role: "Sufi Music Enthusiast",
+      quote: "SufiPulse bridges my faith and love for music in every track.",
+      image: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Sarah Ahmed",
+      location: "Cairo, Egypt",
+      role: "Sufi Music Lover",
+      quote: "SufiPulse mirrors the serenity of zikr gatherings, beautifully crafted.",
+      image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Jaspreet Singh",
+      location: "Toronto, Canada",
+      role: "Spiritual Music Enthusiast",
+      quote: "SufiPulse resonates across faiths, uniting souls through divine music.",
+      image: "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Amélie Laurent",
+      location: "Paris, France",
+      role: "Sufi Music Lover",
+      quote: "SufiPulse’s melodies bring peace, healing the soul after long days.",
+      image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Jessica Brown",
+      location: "Vancouver, Canada",
+      role: "Sufi Music Enthusiast",
+      quote: "SufiPulse reveals music as a path to reflection and inner silence.",
+      image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=200"
+    },
+    {
+      name: "Olivia Smith",
+      location: "London, UK",
+      role: "Sufi Music Lover",
+      quote: "SufiPulse honors tradition with devotion, crafting melody that inspires.",
+      image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200"
     }
   ];
-
   const stats = [
     { number: `${incrementWeekly(300)}+`, label: "Sacred Collaborations", icon: Heart },
-    { number: `${incrementMonthly(43,200)}+`, label: "Countries Represented", icon: Globe },
+    { number: `${incrementMonthly(43, 200)}+`, label: "Countries Represented", icon: Globe },
     { number: `${incrementWeekly(150)}+`, label: "Divine Kalam Created", icon: Music },
     { number: "100%", label: "Free for Writers", icon: Award }
   ];
@@ -293,9 +509,8 @@ const Home = () => {
                     <img
                       src={kalam.thumbnail}
                       alt={kalam.title}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="w-16 h-16 bg-emerald-600/90 rounded-full flex items-center justify-center">
                         <Play className="w-8 h-8 text-white ml-1" />
@@ -305,7 +520,7 @@ const Home = () => {
 
                   {/* Card body with title + writer */}
                   <div className="p-6 flex-1 flex flex-col">
-                    <h3 className="font-bold text-slate-800 text-lg mb-1 line-clamp-2">{kalam.title}</h3>
+                    <h3 className="font-bold text-emerald-600 text-lg mb-1 line-clamp-2">{kalam.title}</h3>
                     <p className="text-sm text-slate-500 mb-3">by {kalam.writer}</p>
                   </div>
                 </div>
@@ -388,10 +603,10 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              Voices from Our Community
+              Voices from our Global Community
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Hear from writers and vocalists who have experienced the SufiPulse journey
+              Hear from Sufi music lovers around the world who have felt the SufiPulse journey
             </p>
           </div>
 

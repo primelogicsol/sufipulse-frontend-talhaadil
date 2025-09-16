@@ -365,7 +365,6 @@ const Gallery = () => {
                     alt={video.title}
                     className="w-full h-60 object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
                     <span className="text-xs font-medium text-white bg-emerald-600 px-2 py-1 rounded-lg capitalize">
                       {video.category}
@@ -383,7 +382,7 @@ const Gallery = () => {
                 </div>
 
                 <div className="p-6">
-                  <h3 className="text-slate-800 font-bold text-lg mb-2 line-clamp-2">{video.title}</h3>
+                  <h3 className="text-emerald-600 font-bold text-lg mb-2 line-clamp-2">{video.title}</h3>
                   <div className="flex items-center justify-between text-slate-600 text-sm mb-4">
                     <span>by {video.writer}</span>
                     <div className="flex items-center space-x-2">

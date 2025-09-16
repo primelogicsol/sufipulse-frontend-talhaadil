@@ -238,6 +238,7 @@ const StudioEngineers = () => {
                       alt={engineer.name}
                       className="w-full h-full object-cover rounded-2xl shadow-xl"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/100 to-transparent"></div>
                     <div className="absolute top-3 left-3">
                       <span className="bg-emerald-600 text-white px-2 py-1 rounded-full text-xs font-medium">
                         {engineer.experience}
@@ -307,9 +308,9 @@ const StudioEngineers = () => {
             ))}
           </div>
         </div>
-      </section>     
-      
-       {/* Call to Action */}
+      </section>
+
+      {/* Call to Action */}
       <section className="py-20 bg-slate-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
