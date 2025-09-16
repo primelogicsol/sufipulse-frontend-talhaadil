@@ -4,7 +4,7 @@ import { useState } from "react";
 import type React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, LayoutDashboard, Mic, PenTool, BookText, Building, Globe, User2, LogOut, Handshake, Bell } from "lucide-react";
+import { Menu, X, LayoutDashboard, Mic, PenTool, BookText, Building, Globe, User2, LogOut, Handshake, Bell,Trophy } from "lucide-react";
 import { BiLogIn } from "react-icons/bi";
 import Cookies from "js-cookie";
 
@@ -23,6 +23,7 @@ const menuItems = [
   { name: "Notification", href: "/admin/notifications", icon: Bell, permissionKey: "notification" },
   { name: "Sub Admins", href: "/admin/other-admins", icon: User2, permissionKey: "sub_admins" },
   { name: "Blogs", href: "/admin/blog", icon: BiLogIn, permissionKey: "blog" },
+  {name : "Special Recognition", href: "/admin/special", icon: Trophy, permissionKey: "special_recognition" }
 ];
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
