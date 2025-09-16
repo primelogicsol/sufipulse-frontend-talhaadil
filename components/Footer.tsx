@@ -77,10 +77,10 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className='flex flex-col gap-2'>
             <p className="text-slate-300 text-sm">
-              © 2025 SufiPulse. A project of Dr. Kumar Foundation & Sufi Science Center USA.
+              © 2025 SufiPulse. A project of <a  href="http://dkf.sufisciencecenter.info" target='_blank' className="text-emerald-300 hover:underline">Dr. Kumar Foundation</a> & <a href="https://sufisciencecenter.info/" target="_blank" className="text-emerald-300 hover:underline">Sufi Science Center USA</a>.
             </p>
             <p className="text-slate-300 text-sm">
-             Website desgined, developed & maintained by <a href="" className="text-emerald-300 hover:underline">Prime Logic Solutions USA</a>
+             Website desgined, developed & maintained by <a href="https://primelogicsol.com" target='_blank' className="text-emerald-300 hover:underline">Prime Logic Solutions USA</a>
             </p>
             </div>
             <p className="text-slate-300 text-sm">
