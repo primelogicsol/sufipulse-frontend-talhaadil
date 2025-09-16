@@ -373,58 +373,7 @@ const SufiMusicTheory = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              Scholarly Recognition
-            </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              What leading scholars and practitioners say about our theoretical framework
-            </p>
-          </div>
-
-          <div className="relative">
-            <div className="bg-slate-800 rounded-2xl p-8 lg:p-12 text-white">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                <div className="lg:col-span-2">
-                  <blockquote className="text-2xl lg:text-3xl font-light italic leading-relaxed mb-6">
-                    "{testimonials[activeTestimonial].quote}"
-                  </blockquote>
-                  <div>
-                    <div className="font-bold text-xl text-emerald-300">
-                      {testimonials[activeTestimonial].name}
-                    </div>
-                    <div className="text-slate-300">
-                      {testimonials[activeTestimonial].role} • {testimonials[activeTestimonial].location}
-                    </div>
-                  </div>
-                </div>
-                <div className="text-center">
-                  <img
-                    src={testimonials[activeTestimonial].image}
-                    alt={testimonials[activeTestimonial].name}
-                    className="w-32 h-32 rounded-full object-cover mx-auto mb-4 ring-4 ring-emerald-400"
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-center space-x-2 mt-8">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveTestimonial(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 ${index === activeTestimonial ? 'bg-emerald-400' : 'bg-slate-600 hover:bg-slate-500'
-                      }`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      
       {/* Call to Action */}
       <section className="py-20 bg-slate-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

@@ -434,55 +434,7 @@ const VocalistHowItWorks = () => {
         </div>
       </div>
 
-      {/* Testimonials */}
-      <div className="bg-white py-12 sm:py-16 lg:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3 sm:mb-4">Vocalist Experiences</h2>
-            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
-              Hear from vocalists who have experienced the complete SufiPulse journey
-            </p>
-          </div>
-
-          <div className="relative">
-            <div className="bg-slate-800 rounded-2xl p-6 sm:p-8 lg:p-12 text-white">
-              <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 items-center">
-                <div className="w-full lg:w-2/3">
-                  <blockquote className="text-lg sm:text-xl lg:text-2xl font-light italic leading-relaxed mb-4 sm:mb-6">
-                    "{testimonials[activeTestimonial].quote}"
-                  </blockquote>
-                  <div>
-                    <div className="font-bold text-base sm:text-lg lg:text-xl text-emerald-300">
-                      {testimonials[activeTestimonial].name}
-                    </div>
-                    <div className="text-sm sm:text-base text-slate-300">
-                      Vocalist • {testimonials[activeTestimonial].location}
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full lg:w-1/3 text-center">
-                  <img
-                    src={testimonials[activeTestimonial].image}
-                    alt={testimonials[activeTestimonial].name}
-                    className="w-24 sm:w-32 h-24 sm:h-32 rounded-full object-cover mx-auto mb-4 ring-4 ring-emerald-400"
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-center space-x-2 mt-6 sm:mt-8">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveTestimonial(index)}
-                    className={`w-2 sm:w-3 h-2 sm:h-3 rounded-full transition-all duration-200 ${index === activeTestimonial ? 'bg-emerald-400' : 'bg-slate-600 hover:bg-slate-500'
-                      }`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      
 
       {/* FAQ Section */}
       <div className="bg-slate-50 py-12 sm:py-16 lg:py-20">
