@@ -165,13 +165,13 @@ const Gallery = () => {
 
   const stats = [
     { number: videos.length.toString(), label: "Sacred Videos", icon: Play },
-    { number: `${incrementMonthly(17,50)}+`, label: "Languages", icon: Globe },
+    { number: `${incrementMonthly(17, 50)}+`, label: "Languages", icon: Globe },
     {
       number: videos.reduce((total, video) => total + Number.parseInt(video.views.replace(/[KM]/g, "")), 0) + "K+",
       label: "Total Views",
       icon: Eye,
     },
-    { number: `${incrementMonthly(43,200)}+`, label: "Countries Reached", icon: Heart },
+    { number: `${incrementMonthly(43, 200)}+`, label: "Countries Reached", icon: Heart },
   ]
 
   const searchedVideos = videos.filter((video) => {
@@ -340,7 +340,7 @@ const Gallery = () => {
                       }`}
                   >
                     <span>{filter.label}</span>
-                    
+
                   </button>
                 ))}
               </div>
@@ -352,20 +352,20 @@ const Gallery = () => {
           </div>
 
           {/* Videos Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredVideos.map((video) => (
               <div
                 key={video.id}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100 cursor-pointer"
                 onClick={() => handleVideoClick(video.videoId)}
               >
-                <div className="relative">
+                <div className="relative w-full aspect-w-16 aspect-h-9">
                   <img
                     src={video.thumbnail || "/placeholder.svg"}
                     alt={video.title}
-                    className="w-full h-60 object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
+                  <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
                     <span className="text-xs font-medium text-white bg-emerald-600 px-2 py-1 rounded-lg capitalize">
                       {video.category}
                     </span>
@@ -375,22 +375,24 @@ const Gallery = () => {
                     </div>
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-16 h-16 bg-emerald-600/90 rounded-full flex items-center justify-center">
-                      <Play className="w-8 h-8 text-white ml-1" />
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-600/90 rounded-full flex items-center justify-center">
+                      <Play className="w-6 h-6 sm:w-8 sm:h-8 text-white ml-1" />
                     </div>
                   </div>
                 </div>
 
-                <div className="p-6">
-                  <h3 className="text-emerald-600 font-bold text-lg mb-2 line-clamp-2">{video.title}</h3>
-                  <div className="flex items-center justify-between text-slate-600 text-sm mb-4">
+                <div className="p-4 sm:p-6">
+                  <h3 className="text-emerald-600 font-bold text-base sm:text-lg mb-2 line-clamp-2">
+                    {video.title}
+                  </h3>
+                  <div className="flex items-center justify-between text-slate-600 text-xs sm:text-sm mb-4">
                     <span>by {video.writer}</span>
                     <div className="flex items-center space-x-2">
-                      <Eye className="w-4 h-3 text-amber-950" />
+                      <Eye className="w-3 h-3 sm:w-4 sm:h-4 text-amber-950" />
                       <span>{video.views}</span>
                     </div>
                   </div>
-                  <div className="space-y-2 text-sm text-slate-600 mb-4">
+                  <div className="space-y-2 text-xs sm:text-sm text-slate-600 mb-4">
                     <div>
                       <span className="font-medium">Uploaded:</span>{" "}
                       {new Date(video.uploadDate).toLocaleDateString()}
@@ -405,23 +407,23 @@ const Gallery = () => {
                       <button
                         className="p-2 text-slate-400 hover:text-emerald-600 transition-colors"
                         onClick={(e) => {
-                          e.stopPropagation()
+                          e.stopPropagation();
                           navigator.share?.({
                             title: video.title,
                             url: `https://www.youtube.com/watch?v=${video.videoId}`,
-                          })
+                          });
                         }}
                       >
-                        <Share2 className="w-4 h-4" />
+                        <Share2 className="w-3 h-3 sm:w-4 sm:h-4" />
                       </button>
                       <button
                         className="p-2 text-slate-400 hover:text-emerald-600 transition-colors"
                         onClick={(e) => {
-                          e.stopPropagation()
-                          window.open(`https://www.youtube.com/watch?v=${video.videoId}`, "_blank")
+                          e.stopPropagation();
+                          window.open(`https://www.youtube.com/watch?v=${video.videoId}`, "_blank");
                         }}
                       >
-                        <Download className="w-4 h-4" />
+                        <Download className="w-3 h-3 sm:w-4 sm:h-4" />
                       </button>
                     </div>
                   </div>
@@ -429,7 +431,6 @@ const Gallery = () => {
               </div>
             ))}
           </div>
-
           <div className="text-center mt-12">
             <button
               onClick={fetchYouTubeVideos}

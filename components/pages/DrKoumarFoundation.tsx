@@ -217,27 +217,41 @@ const DrKumarFoundation = () => {
           </div>
 
           <div className="relative">
+            {/* Timeline line only on large screens */}
             <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-emerald-200 hidden lg:block"></div>
-            <div className="space-y-12">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:block gap-6 lg:gap-0">
               {spiritualJourney.map((phase, index) => (
-                <div key={index} className={`flex items-center relative ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
-                  }`}>
-                  <div className={`w-full lg:w-1/2 ${index % 2 === 0 ? 'lg:pr-8' : 'lg:pl-8'}`}>
-                    <div className="bg-white rounded-xl p-8 shadow-lg border border-slate-100">
-                      <div className="flex items-center space-x-4 mb-4">
-                        <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
-                          <phase.icon className="w-6 h-6 text-emerald-600" />
+                <div
+                  key={index}
+                  className={`relative flex ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
+                    }`}
+                >
+                  {/* Card */}
+                  <div
+                    className={`w-full lg:w-1/2 ${index % 2 === 0 ? 'lg:pr-8' : 'lg:pl-8'
+                      }`}
+                  >
+                    <div className="bg-white rounded-xl p-8 shadow-lg border border-slate-100 h-full flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center space-x-4 mb-4">
+                          <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
+                            <phase.icon className="w-6 h-6 text-emerald-600" />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-bold text-slate-800">{phase.phase}</h3>
+                            <p className="text-emerald-600 font-medium">{phase.period}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="text-xl font-bold text-slate-800">{phase.phase}</h3>
-                          <p className="text-emerald-600 font-medium">{phase.period}</p>
-                        </div>
+                        <p className="text-slate-600 leading-relaxed">{phase.description}</p>
                       </div>
-                      <p className="text-slate-600 leading-relaxed">{phase.description}</p>
                     </div>
                   </div>
+
+                  {/* Timeline dot only on large screens */}
                   <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-emerald-600 rounded-full border-4 border-white shadow-lg hidden lg:block"></div>
-                  <div className="w-full lg:w-1/2"></div>
+
+                  <div className="hidden lg:block w-full lg:w-1/2"></div>
                 </div>
               ))}
             </div>
@@ -254,6 +268,7 @@ const DrKumarFoundation = () => {
         </div>
       </section>
 
+
       {/* Banday Bagh */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -263,7 +278,7 @@ const DrKumarFoundation = () => {
               Banday Bagh — The Spiritual Station
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
-              In the lush valley of Serch Banday Bagh (Ganderbal - Kashmir - INdia), where the winds whisper with the voices of saints,
+              In the lush valley of Serch Banday Bagh (Ganderbal - Kashmir - India), where the winds whisper with the voices of saints,
               Dr. Kumar's spiritual maqam serves as a beacon for broken hearts.
             </p>
           </div>
@@ -454,7 +469,7 @@ const DrKumarFoundation = () => {
               </p>
               <div className="flex items-center justify-center space-x-2 text-emerald-200 mb-4">
                 <Globe className="w-5 h-5" />
-                <span className="font-mono text-lg">dkf.sufisciencecenter.info</span>
+                <span className="font-mono text-sm lg:text-lg">dkf.sufisciencecenter.info</span>
               </div>
             </div>
             <a

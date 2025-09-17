@@ -232,13 +232,13 @@ const StudioEngineers = () => {
                   }`}
               >
                 <div className={index % 2 === 1 ? 'lg:col-start-2' : ''}>
-                  <div className="relative min-h-[400px] h-fit w-full">
+                  <div className="relative h-fit w-full mb-10 lg:mb-0">
                     <img
                       src={engineer.image}
                       alt={engineer.name}
-                      className="w-full h-full object-cover rounded-2xl shadow-xl"
+                      className="w-full h-full object-cover shadow-xl rounded-2xl"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/100 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/100 to-transparent rounded-2xl"></div>
                     <div className="absolute top-3 left-3">
                       <span className="bg-emerald-600 text-white px-2 py-1 rounded-full text-xs font-medium">
                         {engineer.experience}

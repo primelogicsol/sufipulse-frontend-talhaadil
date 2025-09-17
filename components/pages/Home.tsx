@@ -380,10 +380,10 @@ const Home = () => {
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <button
-                    className="w-20 h-20 bg-emerald-600/90 hover:bg-emerald-600 rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110"
+                    className="w-14 h-14 lg:w-20 lg:h-20 bg-emerald-600/90 hover:bg-emerald-600 rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110"
                     onClick={() => featuredKalam[0] && handleVideoClick(featuredKalam[0].id)}
                   >
-                    <Play className="w-8 h-8 text-white ml-1" />
+                    <Play className="w-5 h-5 lg:w-8 lg:h-8 text-white ml-1" />
                   </button>
                 </div>
 
@@ -411,18 +411,17 @@ const Home = () => {
           </div>
         </div>
       </section>
-      {/* Featured Kalam */}
-      <section className="py-20 bg-white">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
               Featured Sacred Collaborations
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto">
               Experience the divine fusion of sacred poetry and spiritual voices from our global community
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {featuredKalam.map((kalam) => (
               <div
                 key={kalam.id}
@@ -430,33 +429,35 @@ const Home = () => {
                 onClick={() => handleVideoClick(kalam.id)}
               >
                 <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-slate-100 flex flex-col h-full">
-                  <div className="relative">
+                  <div className="relative w-full aspect-w-16 aspect-h-9">
                     <img
                       src={kalam.thumbnail}
                       alt={kalam.title}
-                      className="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="w-16 h-16 bg-emerald-600/90 rounded-full flex items-center justify-center">
-                        <Play className="w-8 h-8 text-white ml-1" />
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-600/90 rounded-full flex items-center justify-center">
+                        <Play className="w-6 h-6 sm:w-8 sm:h-8 text-white ml-1" />
                       </div>
                     </div>
                   </div>
-                  <div className="p-6 flex-1 flex flex-col">
-                    <h3 className="font-bold text-emerald-600 text-lg mb-1 line-clamp-2">{kalam.title}</h3>
-                    <p className="text-sm text-slate-500 mb-3">by {kalam.writer}</p>
+                  <div className="p-4 sm:p-6 flex-1 flex flex-col">
+                    <h3 className="font-bold text-emerald-600 text-base sm:text-lg mb-1 line-clamp-2">
+                      {kalam.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-500 mb-3">by {kalam.writer}</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          <div className="text-center mt-12">
+          <div className="text-center mt-10">
             <Link
               href="/gallery"
-              className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
+              className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
             >
               <span>Explore All Kalam</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </Link>
           </div>
         </div>
