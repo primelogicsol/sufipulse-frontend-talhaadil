@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useState, useEffect } from "react";
 import type React from "react";
 import Link from "next/link";
@@ -54,7 +54,6 @@ interface KalamResponse {
   data: {
     id: string;
     title: string;
-    // Add other fields as needed
   };
 }
 
@@ -98,8 +97,6 @@ export default function EditKalam() {
       if (response.status === 200) {
         const data = response.data;
         setKalamData(data);
-
-        // Populate form with existing data
         const { kalam } = data;
         setFormData({
           title: kalam.title,
@@ -145,7 +142,6 @@ export default function EditKalam() {
     e.preventDefault();
     if (!validateForm() || !kalamData) return;
 
-    // Check if editing is allowed
     if (["final_approved", "complete_approved"].includes(kalamData.submission.status)) {
       alert("This kalam cannot be edited as it has been finalized.");
       return;
@@ -154,7 +150,7 @@ export default function EditKalam() {
     setSaving(true);
     try {
       const response: KalamResponse = await updateKalam(Number(params.id), formData);
-      console.log("✅ Kalam updated successfully:", response.data); // Log full API response
+      console.log("✅ Kalam updated successfully:", response.data);
       alert("Kalam updated successfully!");
       router.push(`/writer/kalams/${params.id}`);
     } catch (error: any) {
@@ -172,8 +168,8 @@ export default function EditKalam() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-emerald-900 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-600">Loading kalam...</p>
+          <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-emerald-900 border-t-transparent rounded-full animate-spin mx-auto mb-3 sm:mb-4"></div>
+          <p className="text-sm sm:text-base text-slate-600">Loading kalam...</p>
         </div>
       </div>
     );
@@ -183,8 +179,8 @@ export default function EditKalam() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <h3 className="text-lg font-medium text-slate-900 mb-2">Kalam not found</h3>
-          <Link href="/writer/kalams" className="text-emerald-900 hover:text-emerald-800">
+          <h3 className="text-base sm:text-lg font-medium text-slate-900 mb-2">Kalam not found</h3>
+          <Link href="/writer/kalams" className="text-emerald-900 hover:text-emerald-800 text-sm sm:text-base">
             Back to My Kalams
           </Link>
         </div>
@@ -196,9 +192,9 @@ export default function EditKalam() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <h3 className="text-lg font-medium text-slate-900 mb-2">Cannot Edit</h3>
-          <p className="text-slate-600 mb-4">This kalam has been finalized and cannot be edited.</p>
-          <Link href={`/writer/kalams/${params.id}`} className="text-emerald-900 hover:text-emerald-800">
+          <h3 className="text-base sm:text-lg font-medium text-slate-900 mb-2">Cannot Edit</h3>
+          <p className="text-sm sm:text-base text-slate-600 mb-3 sm:mb-4">This kalam has been finalized and cannot be edited.</p>
+          <Link href={`/writer/kalams/${params.id}`} className="text-emerald-900 hover:text-emerald-800 text-sm sm:text-base">
             View Kalam
           </Link>
         </div>
@@ -211,15 +207,37 @@ export default function EditKalam() {
       {/* Sidebar */}
       {sidebarOpen && (
         <div className="lg:hidden fixed inset-0 bg-slate-900 bg-opacity-50 z-50">
-          <div className="w-64 bg-white h-full p-4">
+          <div className="w-64 sm:w-72 bg-white h-full p-4 sm:p-6">
             <button
               onClick={() => setSidebarOpen(false)}
-              className="text-slate-600 hover:text-slate-900"
+              className="text-slate-600 hover:text-slate-900 mb-4"
               aria-label="Close sidebar"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
-            {/* Add sidebar content */}
+            <nav className="space-y-4">
+              <Link
+                href="/writer/kalams"
+                className="flex items-center space-x-2 text-sm sm:text-base text-slate-600 hover:text-emerald-900"
+              >
+                <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>My Kalams</span>
+              </Link>
+              <Link
+                href="/writer/profile"
+                className="flex items-center space-x-2 text-sm sm:text-base text-slate-600 hover:text-emerald-900"
+              >
+                <User className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>Profile</span>
+              </Link>
+              <Link
+                href="/writer/submit"
+                className="flex items-center space-x-2 text-sm sm:text-base text-slate-600 hover:text-emerald-900"
+              >
+                <PenTool className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>Submit New Kalam</span>
+              </Link>
+            </nav>
           </div>
         </div>
       )}
@@ -227,47 +245,51 @@ export default function EditKalam() {
       {/* Main content */}
       <div>
         {/* Top bar */}
-        <div className="bg-white border-b border-slate-200 px-4 py-4 lg:px-8">
+        <div className="bg-white border-b border-slate-200 px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden text-slate-600 hover:text-slate-900"
+                aria-label="Open sidebar"
+              >
+                <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
               <Link href={`/writer/kalams/${params.id}`} className="text-slate-600 hover:text-slate-900">
-                <ArrowLeft className="w-5 h-5" aria-label="Back to kalam" />
+                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" aria-label="Back to kalam" />
               </Link>
-              <h2 className="text-xl font-semibold text-slate-900">Edit Kalam</h2>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-slate-900">Edit Kalam</h2>
             </div>
           </div>
         </div>
 
         {/* Form content */}
-        <div className="p-4 lg:p-8">
+        <div className="p-4 sm:p-6 lg:p-8">
           <div className="max-w-2xl mx-auto">
-            <div className="bg-white rounded-lg border border-slate-200 p-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="bg-white rounded-lg sm:rounded-xl border border-slate-200 p-4 sm:p-6 lg:p-8">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2">Title *</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-1 sm:mb-2">Title *</label>
                   <input
                     type="text"
                     name="title"
                     value={formData.title}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none text-sm sm:text-base"
                     placeholder="Enter kalam title"
                     aria-required="true"
                   />
-                  {errors.title && <p className="text-sm text-red-600 mt-1">{errors.title}</p>}
+                  {errors.title && <p className="text-xs sm:text-sm text-red-600 mt-1">{errors.title}</p>}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-900 mb-2">
-                      Language *
-                    </label>
+                    <label className="block text-sm font-medium text-slate-900 mb-1 sm:mb-2">Language *</label>
                     <select
                       name="language"
                       value={formData.language}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none text-sm sm:text-base"
                       aria-required="true"
                     >
                       <option value="">Select Language</option>
@@ -280,18 +302,16 @@ export default function EditKalam() {
                       <option value="Multilingual">Multilingual</option>
                       <option value="Other">Other</option>
                     </select>
-                    {errors.language && (
-                      <p className="text-sm text-red-600 mt-1">{errors.language}</p>
-                    )}
+                    {errors.language && <p className="text-xs sm:text-sm text-red-600 mt-1">{errors.language}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-900 mb-2">Theme *</label>
+                    <label className="block text-sm font-medium text-slate-900 mb-1 sm:mb-2">Theme *</label>
                     <select
                       name="theme"
                       value={formData.theme}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none text-sm sm:text-base"
                       aria-required="true"
                     >
                       <option value="">Select Theme</option>
@@ -303,64 +323,56 @@ export default function EditKalam() {
                       <option value="Spiritual Awakening">Spiritual Awakening</option>
                       <option value="Other">Other</option>
                     </select>
-                    {errors.theme && <p className="text-sm text-red-600 mt-1">{errors.theme}</p>}
+                    {errors.theme && <p className="text-xs sm:text-sm text-red-600 mt-1">{errors.theme}</p>}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2">
-                    Kalam Text *
-                  </label>
+                  <label className="block text-sm font-medium text-slate-900 mb-1 sm:mb-2">Kalam Text *</label>
                   <textarea
                     name="kalam_text"
                     value={formData.kalam_text}
                     onChange={handleInputChange}
-                    rows={8}
-                    className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none"
+                    rows={6}
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none text-sm sm:text-base"
                     placeholder="Enter your sacred poetry here..."
                     aria-required="true"
                   />
-                  {errors.kalam_text && (
-                    <p className="text-sm text-red-600 mt-1">{errors.kalam_text}</p>
-                  )}
+                  {errors.kalam_text && <p className="text-xs sm:text-sm text-red-600 mt-1">{errors.kalam_text}</p>}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2">
-                    Description
-                  </label>
+                  <label className="block text-sm font-medium text-slate-900 mb-1 sm:mb-2">Description</label>
                   <textarea
                     name="description"
                     value={formData.description}
                     onChange={handleInputChange}
                     rows={3}
-                    className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none text-sm sm:text-base"
                     placeholder="Describe the inspiration or meaning..."
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-900 mb-2">
-                      Sufi Influence
-                    </label>
+                    <label className="block text-sm font-medium text-slate-900 mb-1 sm:mb-2">Sufi Influence</label>
                     <input
                       type="text"
                       name="sufi_influence"
                       value={formData.sufi_influence}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none text-sm sm:text-base"
                       placeholder="e.g., Rumi, Bulleh Shah"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-900 mb-2">Musical Preference</label>
+                    <label className="block text-sm font-medium text-slate-900 mb-1 sm:mb-2">Musical Preference</label>
                     <select
                       name="musical_preference"
                       value={formData.musical_preference}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-900 focus:border-emerald-900 outline-none text-sm sm:text-base"
                     >
                       <option value="">Open to Direction</option>
                       <option value="Qawwali">Qawwali</option>
@@ -372,19 +384,26 @@ export default function EditKalam() {
                   </div>
                 </div>
 
-                <div className="flex justify-end space-x-4">
+                <div className="flex justify-end space-x-3 sm:space-x-4">
                   <Link
                     href={`/writer/kalams/${params.id}`}
-                    className="px-6 py-3 border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 transition-colors"
+                    className="px-4 sm:px-6 py-2 sm:py-3 border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 transition-colors text-sm sm:text-base"
                   >
                     Cancel
                   </Link>
                   <button
                     type="submit"
                     disabled={saving}
-                    className="px-6 py-3 bg-emerald-900 text-white rounded-lg hover:bg-emerald-800 disabled:opacity-50 transition-colors"
+                    className="px-4 sm:px-6 py-2 sm:py-3 bg-emerald-900 text-white rounded-lg hover:bg-emerald-800 disabled:opacity-50 transition-colors text-sm sm:text-base"
                   >
-                    {saving ? "Saving..." : "Save Changes"}
+                    {saving ? (
+                      <>
+                        <div className="inline-block w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
+                        Saving...
+                      </>
+                    ) : (
+                      "Save Changes"
+                    )}
                   </button>
                 </div>
               </form>
@@ -393,5 +412,5 @@ export default function EditKalam() {
         </div>
       </div>
     </div>
-  )
+  );
 }

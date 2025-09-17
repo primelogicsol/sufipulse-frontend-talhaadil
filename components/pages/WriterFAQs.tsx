@@ -15,7 +15,7 @@ import {
   Play,
   PenTool
 } from 'lucide-react';
-import { incrementWeekly,incrementMonthly } from '@/lib/increment';
+import { incrementWeekly, incrementMonthly } from '@/lib/increment';
 
 const WriterFAQs = () => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(0);
@@ -153,54 +153,47 @@ const WriterFAQs = () => {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="space-y-6">
+              <div className="space-y-3">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
                   Writer
                   <span className="block text-emerald-400">FAQs</span>
                 </h1>
-                <p className="text-xl lg:text-2xl text-slate-300 leading-relaxed">
+                <p className="text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed">
                   Everything you need to know about joining our global community of Sufi writers. 
                   Your questions answered with transparency and care.
                 </p>
               </div>
               
-              <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-emerald-500/20">
-                <p className="text-emerald-300 font-medium mb-2">Quick Start Guide</p>
-                <blockquote className="text-lg italic">
+              <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-emerald-500/20">
+                <p className="text-emerald-300 font-medium text-sm sm:text-base mb-2">Quick Start Guide</p>
+                <blockquote className="text-sm sm:text-lg italic">
                   "Create profile → Submit sample → Get approved → Start your spiritual collaboration journey!"
                 </blockquote>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <Link
                   href="/writer/submit"
-                  className="inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
+                  className="inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
                 >
-                  <PenTool className="w-5 h-5" />
+                  <PenTool className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Submit Your Kalam</span>
                 </Link>
-                {/* <Link
-                  href="/writers"
-                  className="inline-flex items-center justify-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
-                >
-                  <Users className="w-5 h-5" />
-                  <span>Meet Writers</span>
-                </Link> */}
                 <Link
                   href="/how-it-works"
-                  className="inline-flex items-center justify-center space-x-2 border-2 border-white/30 hover:border-emerald-400 text-white hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
+                  className="inline-flex items-center justify-center space-x-2 border-2 border-white/30 hover:border-emerald-400 text-white hover:text-emerald-400 px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold transition-all duration-200 text-sm sm:text-base"
                 >
-                  <HelpCircle className="w-5 h-5" />
+                  <HelpCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>How It Works</span>
                 </Link>
               </div>
             </div>
 
             <div className="relative">
-              <div className="aspect-video bg-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+              <div className="aspect-video bg-slate-800 rounded-xl overflow-hidden shadow-xl">
                 <img
                   src="https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=800"
                   alt="Writer Support"
@@ -208,13 +201,13 @@ const WriterFAQs = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <button className="w-20 h-20 bg-emerald-600/90 hover:bg-emerald-600 rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110">
-                    <HelpCircle className="w-8 h-8 text-white" />
+                  <button className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-600/90 hover:bg-emerald-600 rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110">
+                    <HelpCircle className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                   </button>
                 </div>
-                <div className="absolute bottom-6 left-6 right-6">
-                  <h3 className="text-white text-xl font-bold mb-2">Complete Writer Support</h3>
-                  <p className="text-slate-200 text-sm">All your questions answered with care and transparency</p>
+                <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
+                  <h3 className="text-white text-lg sm:text-xl font-bold mb-1 sm:mb-2">Complete Writer Support</h3>
+                  <p className="text-slate-200 text-xs sm:text-sm">All your questions answered with care and transparency</p>
                 </div>
               </div>
             </div>
@@ -223,18 +216,18 @@ const WriterFAQs = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-slate-50">
+      <section className="py-12 sm:py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
             {stats.map((stat, index) => {
               const Icon = stat.icon;
               return (
                 <div key={index} className="text-center">
-                  <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Icon className="w-8 h-8 text-emerald-600" />
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                    <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600" />
                   </div>
-                  <div className="text-3xl font-bold text-slate-800 mb-2">{stat.number}</div>
-                  <div className="text-slate-600 font-medium">{stat.label}</div>
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-1 sm:mb-2">{stat.number}</div>
+                  <div className="text-slate-600 text-sm sm:text-base font-medium">{stat.label}</div>
                 </div>
               );
             })}
@@ -243,30 +236,30 @@ const WriterFAQs = () => {
       </section>
 
       {/* FAQ Categories */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-3 sm:mb-4">
               Frequently Asked Questions
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto">
               Common questions about joining our global community of Sufi writers
             </p>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {faqCategories.map((category, categoryIndex) => {
               const Icon = category.icon;
               return (
-                <div key={categoryIndex} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-100">
-                  <div className="bg-gradient-to-r from-emerald-600 to-slate-700 p-6 text-white">
-                    <div className="flex items-center space-x-3">
-                      <Icon className="w-6 h-6" />
-                      <h2 className="text-xl font-bold">{category.title}</h2>
+                <div key={categoryIndex} className="bg-white rounded-xl shadow-md overflow-hidden border border-slate-100">
+                  <div className="bg-gradient-to-r from-emerald-600 to-slate-700 p-4 sm:p-6 text-white">
+                    <div className="flex items-center space-x-2 sm:space-x-3">
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                      <h2 className="text-lg sm:text-xl font-bold">{category.title}</h2>
                     </div>
                   </div>
                   
-                  <div className="p-6">
+                  <div className="p-4 sm:p-6">
                     <div className="space-y-4">
                       {category.faqs.map((faq, faqIndex) => {
                         const globalIndex = categoryIndex * 100 + faqIndex;
@@ -276,19 +269,19 @@ const WriterFAQs = () => {
                           <div key={faqIndex} className="border border-slate-200 rounded-lg overflow-hidden">
                             <button
                               onClick={() => toggleFAQ(categoryIndex, faqIndex)}
-                              className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-50 transition-colors duration-200"
+                              className="w-full flex items-center justify-between p-3 sm:p-4 text-left hover:bg-slate-50 transition-colors duration-200"
                             >
-                              <h3 className="font-semibold text-slate-800 pr-4">{faq.question}</h3>
+                              <h3 className="font-semibold text-slate-800 pr-4 text-sm sm:text-base">{faq.question}</h3>
                               {isOpen ? (
-                                <ChevronUp className="w-5 h-5 text-slate-500 flex-shrink-0" />
+                                <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500 flex-shrink-0" />
                               ) : (
-                                <ChevronDown className="w-5 h-5 text-slate-500 flex-shrink-0" />
+                                <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500 flex-shrink-0" />
                               )}
                             </button>
                             
                             {isOpen && (
-                              <div className="px-4 pb-4 border-t border-slate-100">
-                                <p className="text-slate-600 leading-relaxed pt-4">{faq.answer}</p>
+                              <div className="px-3 sm:px-4 pb-4 border-t border-slate-100">
+                                <p className="text-slate-600 leading-relaxed pt-3 sm:pt-4 text-sm sm:text-base">{faq.answer}</p>
                               </div>
                             )}
                           </div>
@@ -301,104 +294,103 @@ const WriterFAQs = () => {
             })}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-8 sm:mt-12">
             <Link
               href="/contact"
-              className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
+              className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
             >
               <span>Still Have Questions? Contact Us</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* Quick Start Guide */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-12 sm:py-16 lg:py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-3 sm:mb-4">
               Quick Start Guide
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto">
               Ready to begin? Follow these simple steps to join our sacred community
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
             <div className="text-center group">
-              <div className="w-20 h-20 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <Users className="w-10 h-10 text-emerald-600" />
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Users className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-800 mb-3">1. Create Profile</h3>
-              <p className="text-slate-600 leading-relaxed">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-2 sm:mb-3">1. Create Profile</h3>
+              <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
                 Sign up and complete your writer profile with spiritual background and sample kalam
               </p>
             </div>
             <div className="text-center group">
-              <div className="w-20 h-20 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <CheckCircle className="w-10 h-10 text-emerald-600" />
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-800 mb-3">2. Get Approved</h3>
-              <p className="text-slate-600 leading-relaxed">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-2 sm:mb-3">2. Get Approved</h3>
+              <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
                 Our team reviews your submission for spiritual alignment and quality within 1-2 days
               </p>
             </div>
             <div className="text-center group">
-              <div className="w-20 h-20 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <PenTool className="w-10 h-10 text-emerald-600" />
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                <PenTool className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-800 mb-3">3. Start Creating</h3>
-              <p className="text-slate-600 leading-relaxed">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-2 sm:mb-3">3. Start Creating</h3>
+              <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
                 Submit your sacred kalam and watch it transform into global spiritual inspiration
               </p>
             </div>
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-8 sm:mt-12">
             <Link
               href="/how-it-works"
-              className="inline-flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
+              className="inline-flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold transition-all duration-200 text-sm sm:text-base"
             >
               <span>View Complete Process</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </Link>
           </div>
         </div>
       </section>
 
-     
       {/* Mission Statement */}
-      <section className="py-20 bg-emerald-50">
+      <section className="py-12 sm:py-16 lg:py-20 bg-emerald-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-8">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-6 sm:mb-8">
               Our Sacred Promise to Writers
             </h2>
             <div className="max-w-4xl mx-auto">
-              <blockquote className="text-2xl lg:text-3xl font-light italic text-slate-700 leading-relaxed mb-8">
+              <blockquote className="text-xl sm:text-2xl lg:text-3xl font-light italic text-slate-700 leading-relaxed mb-6 sm:mb-8">
                 "Submit your kalam and we handle everything else—completely free while ensuring your authorship is always honored."
               </blockquote>
-              <p className="text-lg text-slate-600 leading-relaxed mb-8">
+              <p className="text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed mb-6 sm:mb-8">
                 Our FAQ section reflects our commitment to transparency and support. Every question answered here 
                 represents our dedication to serving writers with clarity, respect, and spiritual integrity. 
                 Your sacred words deserve world-class treatment, and we provide it completely free.
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white rounded-xl p-6 shadow-lg">
-                  <CheckCircle className="w-8 h-8 text-emerald-600 mb-4" />
-                  <h3 className="font-bold text-slate-800 mb-2">Complete Transparency</h3>
-                  <p className="text-sm text-slate-600">Every aspect of our process clearly explained</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                <div className="bg-white rounded-xl p-4 sm:p-6 shadow-md">
+                  <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600 mb-3 sm:mb-4" />
+                  <h3 className="font-bold text-slate-800 mb-2 text-sm sm:text-base">Complete Transparency</h3>
+                  <p className="text-xs sm:text-sm text-slate-600">Every aspect of our process clearly explained</p>
                 </div>
-                <div className="bg-white rounded-xl p-6 shadow-lg">
-                  <CheckCircle className="w-8 h-8 text-emerald-600 mb-4" />
-                  <h3 className="font-bold text-slate-800 mb-2">Ongoing Support</h3>
-                  <p className="text-sm text-slate-600">Dedicated team available for all your questions</p>
+                <div className="bg-white rounded-xl p-4 sm:p-6 shadow-md">
+                  <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600 mb-3 sm:mb-4" />
+                  <h3 className="font-bold text-slate-800 mb-2 text-sm sm:text-base">Ongoing Support</h3>
+                  <p className="text-xs sm:text-sm text-slate-600">Dedicated team available for all your questions</p>
                 </div>
-                <div className="bg-white rounded-xl p-6 shadow-lg">
-                  <CheckCircle className="w-8 h-8 text-emerald-600 mb-4" />
-                  <h3 className="font-bold text-slate-800 mb-2">Sacred Commitment</h3>
-                  <p className="text-sm text-slate-600">Every interaction guided by spiritual principles</p>
+                <div className="bg-white rounded-xl p-4 sm:p-6 shadow-md">
+                  <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600 mb-3 sm:mb-4" />
+                  <h3 className="font-bold text-slate-800 mb-2 text-sm sm:text-base">Sacred Commitment</h3>
+                  <p className="text-xs sm:text-sm text-slate-600">Every interaction guided by spiritual principles</p>
                 </div>
               </div>
             </div>
@@ -407,37 +399,30 @@ const WriterFAQs = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 bg-slate-800 text-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-slate-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">
             Ready to Begin Your Sacred Journey?
           </h2>
-          <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+          <p className="text-base sm:text-lg lg:text-xl text-slate-300 mb-6 sm:mb-8 leading-relaxed">
             All your questions answered, all barriers removed. Join our global community of Sufi writers 
             and experience the complete journey from sacred words to worldwide spiritual impact.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Link
               href="/writer/submit"
-              className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
+              className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
             >
-              <PenTool className="w-5 h-5" />
+              <PenTool className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Submit Your Kalam</span>
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
+              className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold transition-all duration-200 text-sm sm:text-base"
             >
-              <HelpCircle className="w-5 h-5" />
+              <HelpCircle className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Ask a Question</span>
             </Link>
-            {/* <Link
-              href="/writers"
-              className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
-            >
-              <Users className="w-5 h-5" />
-              <span>Meet Writers</span>
-            </Link> */}
           </div>
         </div>
       </section>

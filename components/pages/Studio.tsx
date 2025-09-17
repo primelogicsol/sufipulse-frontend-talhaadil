@@ -3,15 +3,16 @@
 import React from 'react';
 import Link from 'next/link';
 import { Mic, Headphones, Music, Users, Award, MapPin, Calendar, Clock, Star, Shield, Globe } from 'lucide-react';
-import { incrementWeekly,incrementMonthly } from '@/lib/increment';
+import { incrementWeekly, incrementMonthly } from '@/lib/increment';
 import Cookies from 'js-cookie';
 import { useToast } from '@/context/ToastContext';
+
 const Studio = () => {
-  const {showToast} = useToast()
-  const userole = Cookies.get("user_role");
+  const { showToast } = useToast();
+  const userRole = Cookies.get("user_role");
 
   const handleButtonClick = () => {
-    if (userole === "vocalist") {
+    if (userRole === "vocalist") {
       window.location.href = "/vocalist/profile";
     } else {
       showToast("You must register first to access this feature.");
@@ -212,27 +213,27 @@ const Studio = () => {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24 xl:py-32">
           <div className="text-center">
-            <div className="w-20 h-20 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <Headphones className="w-10 h-10 text-white" />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <Headphones className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
             </div>
-            <h1 className="text-4xl lg:text-6xl font-bold leading-tight mb-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-6">
               SufiPulse Studio
               <span className="block text-emerald-400">USA</span>
             </h1>
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-4xl mx-auto">
-              <p className="text-xl text-slate-300 leading-relaxed mb-6">
+            <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8 border border-emerald-500/20 max-w-4xl mx-auto">
+              <p className="text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed mb-6">
                 Where Sacred Meets Technical Excellence. High-fidelity world-fusion soundscapes & 
                 spiritual vocal engineering serving the global ummah through divine sound.
               </p>
-              <blockquote className="text-2xl font-light italic text-emerald-300 mb-4">
+              <blockquote className="text-lg sm:text-xl lg:text-2xl font-light italic text-emerald-300 mb-4">
                 "Every recording session is a sacred ceremony, every mix a prayer in frequencies"
               </blockquote>
-              <div className="flex flex-wrap justify-center gap-2 text-sm">
-                <span className="bg-emerald-100/20 text-emerald-300 px-3 py-1 rounded-full border border-emerald-400/30">Dr. Kumar Foundation</span>
-                <span className="bg-slate-100/20 text-slate-300 px-3 py-1 rounded-full border border-slate-400/30">Professional Studio</span>
-                <span className="bg-emerald-100/20 text-emerald-300 px-3 py-1 rounded-full border border-emerald-400/30">Spiritual Audio Specialists</span>
+              <div className="flex flex-wrap justify-center gap-2 sm:gap-3 text-xs sm:text-sm">
+                <span className="bg-emerald-100/20 text-emerald-300 px-2 sm:px-3 py-1 rounded-full border border-emerald-400/30">Dr. Kumar Foundation</span>
+                <span className="bg-slate-100/20 text-slate-300 px-2 sm:px-3 py-1 rounded-full border border-slate-400/30">Professional Studio</span>
+                <span className="bg-emerald-100/20 text-emerald-300 px-2 sm:px-3 py-1 rounded-full border border-emerald-400/30">Spiritual Audio Specialists</span>
               </div>
             </div>
           </div>
@@ -240,46 +241,46 @@ const Studio = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-slate-50">
+      <section className="py-12 sm:py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Music className="w-8 h-8 text-emerald-600" />
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Music className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600" />
               </div>
-              <div className="text-3xl font-bold text-slate-800 mb-2">{incrementWeekly(300)}+</div>
-              <div className="text-slate-600 font-medium">Recordings Made</div>
+              <div className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">{incrementWeekly(300)}+</div>
+              <div className="text-sm sm:text-base text-slate-600 font-medium">Recordings Made</div>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="w-8 h-8 text-emerald-600" />
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600" />
               </div>
-              <div className="text-3xl font-bold text-slate-800 mb-2">6</div>
-              <div className="text-slate-600 font-medium">Expert Engineers</div>
+              <div className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">6</div>
+              <div className="text-sm sm:text-base text-slate-600 font-medium">Expert Engineers</div>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Globe className="w-8 h-8 text-emerald-600" />
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Globe className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600" />
               </div>
-              <div className="text-3xl font-bold text-slate-800 mb-2">{incrementMonthly(17, 50)}+</div>
-              <div className="text-slate-600 font-medium">Languages Recorded</div>
+              <div className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">{incrementMonthly(17, 50)}+</div>
+              <div className="text-sm sm:text-base text-slate-600 font-medium">Languages Recorded</div>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="w-8 h-8 text-emerald-600" />
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Award className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600" />
               </div>
-              <div className="text-3xl font-bold text-slate-800 mb-2">100%</div>
-              <div className="text-slate-600 font-medium">Sacred Focus</div>
+              <div className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">100%</div>
+              <div className="text-sm sm:text-base text-slate-600 font-medium">Sacred Focus</div>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
         {/* Main Studio Image */}
-        <section className="mb-20">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
           <div className="relative">
-            <div className="aspect-video bg-gradient-to-br from-slate-700 to-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+            <div className="aspect-[4/3] sm:aspect-video bg-gradient-to-br from-slate-700 to-slate-800 rounded-2xl overflow-hidden shadow-2xl">
               <img
                 src="https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1200"
                 alt="SufiPulse Studio USA"
@@ -288,10 +289,10 @@ const Studio = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center text-white">
-                  <h2 className="text-4xl font-bold mb-4">SufiPulse USA</h2>
-                  <p className="text-xl mb-6">Where Divine Kalam Meets Technical Excellence</p>
-                  <div className="bg-emerald-600/90 backdrop-blur-sm rounded-lg px-6 py-3 inline-block">
-                    <p className="font-semibold">Sacred Audio Production Studio</p>
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">SufiPulse USA</h2>
+                  <p className="text-base sm:text-lg lg:text-xl mb-6">Where Divine Kalam Meets Technical Excellence</p>
+                  <div className="bg-emerald-600/90 backdrop-blur-sm rounded-lg px-4 sm:px-6 py-2 sm:py-3 inline-block">
+                    <p className="font-semibold text-sm sm:text-base">Sacred Audio Production Studio</p>
                   </div>
                 </div>
               </div>
@@ -300,37 +301,37 @@ const Studio = () => {
         </section>
 
         {/* Studio Overview */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 mb-12 sm:mb-16 lg:mb-20">
           <div className="space-y-6">
-            <h2 className="text-3xl font-bold text-slate-800">Where Sacred Meets Technical Excellence</h2>
-            <p className="text-slate-600 leading-relaxed">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800">Where Sacred Meets Technical Excellence</h2>
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
               SufiPulse Studio – USA represents the harmonious fusion of cutting-edge audio technology with deep spiritual understanding. 
               Every element, from our acoustic design to our production philosophy, is crafted to serve the sacred purpose 
               of amplifying divine kalam for the global ummah. We handle all aspects of production—from musical direction 
               and vocalist selection to final mastering—completely free for writers.
             </p>
-            <div className="grid grid-cols-2 gap-6">
-              <div className="bg-white rounded-xl p-6 border border-slate-100 shadow-lg">
-                <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4">
-                  <Award className="w-6 h-6 text-emerald-600" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className="bg-white rounded-xl p-4 sm:p-6 border border-slate-100 shadow-lg">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4">
+                  <Award className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600" />
                 </div>
-                <h3 className="font-bold text-slate-800 mb-2">Complete Production</h3>
-                <p className="text-sm text-slate-600">From musical arrangement to vocalist assignment—we handle everything</p>
+                <h3 className="font-bold text-slate-800 mb-2 text-base sm:text-lg">Complete Production</h3>
+                <p className="text-xs sm:text-sm text-slate-600">From musical arrangement to vocalist assignment—we handle everything</p>
               </div>
-              <div className="bg-white rounded-xl p-6 border border-slate-100 shadow-lg">
-                <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mb-4">
-                  <Shield className="w-6 h-6 text-slate-600" />
+              <div className="bg-white rounded-xl p-4 sm:p-6 border border-slate-100 shadow-lg">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-slate-100 rounded-lg flex items-center justify-center mb-4">
+                  <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-slate-600" />
                 </div>
-                <h3 className="font-bold text-slate-800 mb-2">Spiritual Focus</h3>
-                <p className="text-sm text-slate-600">Every session guided by spiritual intention and cultural authenticity</p>
+                <h3 className="font-bold text-slate-800 mb-2 text-base sm:text-lg">Spiritual Focus</h3>
+                <p className="text-xs sm:text-sm text-slate-600">Every session guided by spiritual intention and cultural authenticity</p>
               </div>
             </div>
           </div>
           
           <div className="space-y-6">
-            <div className="bg-emerald-50 rounded-xl p-6 border border-emerald-100">
-              <h3 className="text-lg font-bold text-slate-800 mb-4">Studio Capabilities</h3>
-              <ul className="space-y-2 text-sm text-slate-600">
+            <div className="bg-emerald-50 rounded-xl p-4 sm:p-6 border border-emerald-100">
+              <h3 className="text-base sm:text-lg font-bold text-slate-800 mb-4">Studio Capabilities</h3>
+              <ul className="space-y-2 text-xs sm:text-sm text-slate-600">
                 <li className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
                   <span>High-fidelity world-fusion soundscapes</span>
@@ -353,9 +354,9 @@ const Studio = () => {
                 </li>
               </ul>
             </div>
-            <div className="bg-slate-800 rounded-xl p-6 text-white">
-              <h3 className="text-lg font-bold mb-4">Our Promise</h3>
-              <blockquote className="italic text-emerald-300">
+            <div className="bg-slate-800 rounded-xl p-4 sm:p-6 text-white">
+              <h3 className="text-base sm:text-lg font-bold mb-4">Our Promise</h3>
+              <blockquote className="italic text-emerald-300 text-sm sm:text-base">
                 "Every kalam that enters our studio is treated as a sacred trust, 
                 deserving of the highest technical and spiritual standards."
               </blockquote>
@@ -363,34 +364,36 @@ const Studio = () => {
           </div>
         </div>
 
+        
+
         {/* Studio Spaces */}
-        <section className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-800 mb-4">Studio Spaces</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
+          <div className="text-center mb-10 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-4">Studio Spaces</h2>
+            <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto">
               Professional recording environments designed for optimal spiritual audio production
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {studioSpaces.map((space, index) => (
               <div key={index} className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300">
                 <div className="relative">
                   <img
                     src={space.image}
                     alt={space.name}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-40 sm:h-48 object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-white font-bold text-lg mb-1">{space.name}</h3>
+                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
+                    <h3 className="text-white font-bold text-base sm:text-lg">{space.name}</h3>
                   </div>
                 </div>
-                <div className="p-6">
-                  <p className="text-slate-600 text-sm mb-4 leading-relaxed">{space.description}</p>
+                <div className="p-4 sm:p-6">
+                  <p className="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed line-clamp-2">{space.description}</p>
                   <div className="space-y-2">
                     {space.features.map((feature, featureIndex) => (
-                      <div key={featureIndex} className="flex items-center space-x-2 text-xs text-slate-600">
+                      <div key={featureIndex} className="flex items-center space-x-2 text-xs sm:text-sm text-slate-600">
                         <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
                         <span>{feature}</span>
                       </div>
@@ -403,29 +406,29 @@ const Studio = () => {
         </section>
 
         {/* Services */}
-        <section className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-800 mb-4">Our Services</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
+          <div className="text-center mb-10 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-4">Our Services</h2>
+            <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto">
               Comprehensive production services designed to bring your sacred kalam to life with technical excellence and spiritual authenticity
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             {services.map((service, index) => {
               const Icon = service.icon;
               return (
-                <div key={index} className="bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Icon className="w-6 h-6 text-emerald-600" />
+                <div key={index} className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
+                  <div className="flex items-start space-x-3 sm:space-x-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-slate-800 mb-3">{service.title}</h3>
-                      <p className="text-slate-600 leading-relaxed mb-4">{service.description}</p>
-                      <div className="grid grid-cols-2 gap-2">
+                      <h3 className="text-base sm:text-lg lg:text-xl font-bold text-slate-800 mb-3">{service.title}</h3>
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4 line-clamp-3">{service.description}</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {service.features.map((feature, featureIndex) => (
-                          <div key={featureIndex} className="flex items-center space-x-2 text-sm text-slate-600">
+                          <div key={featureIndex} className="flex items-center space-x-2 text-xs sm:text-sm text-slate-600">
                             <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
                             <span>{feature}</span>
                           </div>
@@ -440,34 +443,34 @@ const Studio = () => {
         </section>
 
         {/* Equipment */}
-        <section className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-800 mb-4">Professional Equipment</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
+          <div className="text-center mb-10 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-4">Professional Equipment</h2>
+            <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto">
               State-of-the-art recording and production equipment ensuring the highest quality capture and reproduction of sacred performances
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {equipment.map((category, index) => (
               <div key={index} className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300">
                 <div className="relative">
                   <img
                     src={category.image}
                     alt={category.category}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-40 sm:h-48 object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-white font-bold text-lg">{category.category}</h3>
+                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
+                    <h3 className="text-white font-bold text-base sm:text-lg">{category.category}</h3>
                   </div>
                 </div>
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   <ul className="space-y-2">
                     {category.items.map((item, itemIndex) => (
-                      <li key={itemIndex} className="flex items-center space-x-2 text-slate-600">
-                        <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                        <span className="text-sm">{item}</span>
+                      <li key={itemIndex} className="flex items-center space-x-2 text-xs sm:text-sm text-slate-600">
+                        <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
+                        <span>{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -478,48 +481,48 @@ const Studio = () => {
         </section>
 
         {/* Recording Options */}
-        <section className="mb-20">
-          <div className="bg-slate-800 rounded-2xl p-8 text-white">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
+          <div className="bg-slate-800 rounded-2xl p-4 sm:p-6 lg:p-8 text-white">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-center">
               <div>
-                <h2 className="text-3xl font-bold mb-4">Recording Sessions</h2>
-                <p className="text-slate-300 leading-relaxed mb-6">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">Recording Sessions</h2>
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6">
                   SufiPulse Studio – USA offers both in-person and remote recording sessions to accommodate collaborators 
                   from around the world. Our expert team provides guidance throughout the entire process, ensuring each 
                   recording captures the spiritual essence of your kalam with our signature high-fidelity sound.
                 </p>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
-                    <MapPin className="w-5 h-5 text-emerald-300" />
-                    <span className="text-slate-300">SufiPulse Studio – USA In-Person Sessions</span>
+                    <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-300" />
+                    <span className="text-sm sm:text-base text-slate-300">SufiPulse Studio – USA In-Person Sessions</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <Calendar className="w-5 h-5 text-emerald-300" />
-                    <span className="text-slate-300">Remote Recording Support</span>
+                    <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-300" />
+                    <span className="text-sm sm:text-base text-slate-300">Remote Recording Support</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <Clock className="w-5 h-5 text-emerald-300" />
-                    <span className="text-slate-300">Flexible Scheduling</span>
+                    <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-300" />
+                    <span className="text-sm sm:text-base text-slate-300">Flexible Scheduling</span>
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="bg-slate-700 rounded-xl p-6">
-                  <h3 className="font-bold mb-2">In-Person Recording</h3>
-                  <p className="text-sm text-slate-300 mb-4">Experience SufiPulse Studio with our full team and equipment</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <div className="bg-slate-700 rounded-xl p-4 sm:p-6">
+                  <h3 className="font-bold mb-2 text-base sm:text-lg">In-Person Recording</h3>
+                  <p className="text-xs sm:text-sm text-slate-300 mb-4">Experience SufiPulse Studio with our full team and equipment</p>
                   <button
                     onClick={handleButtonClick}
-                    className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition-all duration-300"
+                    className="bg-emerald-600 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:bg-emerald-700 transition-all duration-300 text-sm sm:text-base"
                   >
                     Book In-Person Session
                   </button>
                 </div>
-                <div className="bg-slate-700 rounded-xl p-6">
-                  <h3 className="font-bold mb-2">Remote Collaboration</h3>
-                  <p className="text-sm text-slate-300 mb-4">High-quality remote recording with SufiPulse team support</p>
+                <div className="bg-slate-700 rounded-xl p-4 sm:p-6">
+                  <h3 className="font-bold mb-2 text-base sm:text-lg">Remote Collaboration</h3>
+                  <p className="text-xs sm:text-sm text-slate-300 mb-4">High-quality remote recording with SufiPulse team support</p>
                   <button
                     onClick={handleButtonClick}
-                    className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition-all duration-300"
+                    className="bg-emerald-600 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:bg-emerald-700 transition-all duration-300 text-sm sm:text-base"
                   >
                     Start Remote Session
                   </button>

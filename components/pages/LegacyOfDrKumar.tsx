@@ -81,7 +81,7 @@ const LegacyOfDrKumar = () => {
     {
       period: "Early Life",
       title: "Medical Training & Service",
-      description: "Trained at Government Medical College Srinagar, Kashmir India  served as Medical Officer at Department of Health Services Government of J&K.",
+      description: "Trained at Government Medical College Srinagar, Kashmir India served as Medical Officer at Department of Health Services Government of J&K.",
       significance: "Foundation of service to humanity",
       icon: Shield
     },
@@ -109,7 +109,7 @@ const LegacyOfDrKumar = () => {
     {
       period: "Service",
       title: "Banday Bagh Station",
-      description: "Established spiritual sanctuary at Banday Bagh Ganderbal Kashmir India serving seekers from around the world",
+      description: "Established spiritual sanctuary at Banday Bagh Ganderbal Kashmir India serving seekers from around the world",
       significance: "Practical manifestation of divine service",
       icon: Compass
     },
@@ -146,7 +146,6 @@ const LegacyOfDrKumar = () => {
     }
   ];
 
-  
   const currentEvent = timelineEvents[activeTimeline];
 
   return (
@@ -154,27 +153,27 @@ const LegacyOfDrKumar = () => {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
           <div className="text-center">
-            <div className="w-20 h-20 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <Crown className="w-10 h-10 text-white" />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-600 rounded-lg sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
+              <Crown className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
             </div>
-            <h1 className="text-4xl lg:text-6xl font-bold leading-tight mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 sm:mb-6">
               Legacy of Dr. Kumar
             </h1>
-            <h2 className="text-2xl lg:text-3xl text-emerald-300 font-light italic mb-8">
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-emerald-300 font-light italic mb-6 sm:mb-8">
               Qalandar-i-Kashmir – The Wandering Light, The Hidden Pearl of Kashmir
             </h2>
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-5xl mx-auto">
-              <p className="text-xl text-slate-300 leading-relaxed mb-6">
+            <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-emerald-500/20 max-w-4xl sm:max-w-5xl mx-auto">
+              <p className="text-sm sm:text-base lg:text-xl text-slate-300 leading-relaxed mb-4 sm:mb-6">
                 Dr. Ghulam Mohammad Kumar's legacy transcends the boundaries of time and space. 
                 From the sacred valleys of Kashmir to institutions across the globe, his spiritual 
                 influence continues to guide seekers toward divine realization.
               </p>
-              <blockquote className="text-2xl font-light italic text-emerald-300 mb-4">
+              <blockquote className="text-lg sm:text-xl lg:text-2xl font-light italic text-emerald-300 mb-3 sm:mb-4">
                 "More than a man, more than a mystic — he is a presence."
               </blockquote>
-              <p className="text-slate-300">
+              <p className="text-sm sm:text-base text-slate-300">
                 A wandering flame of Haqiqat, a silent earthquake in the hearts of seekers. 
                 He lives not to be followed, but to awaken.
               </p>
@@ -183,33 +182,31 @@ const LegacyOfDrKumar = () => {
         </div>
       </section>
 
-      
-
       {/* Legacy Aspects */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-3 sm:mb-4">
               Dimensions of His Legacy
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto">
               The multifaceted impact of Dr. Kumar's spiritual realization on individuals and institutions worldwide
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
             {legacyAspects.map((aspect, index) => {
               const Icon = aspect.icon;
               return (
-                <div key={index} className="bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
-                  <div className="flex items-start space-x-4 mb-6">
-                    <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
-                      <Icon className="w-6 h-6 text-emerald-600" />
+                <div key={index} className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 lg:p-8 shadow-md sm:shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
+                  <div className="flex items-start space-x-3 sm:space-x-4 mb-4 sm:mb-6">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-100 rounded-lg sm:rounded-xl flex items-center justify-center">
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-slate-800 mb-3">{aspect.title}</h3>
-                      <p className="text-slate-600 leading-relaxed mb-3">{aspect.description}</p>
-                      <div className="text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full inline-block mb-4">
+                      <h3 className="text-base sm:text-lg lg:text-xl font-bold text-slate-800 mb-2 sm:mb-3">{aspect.title}</h3>
+                      <p className="text-slate-600 leading-relaxed text-sm sm:text-base mb-2 sm:mb-3">{aspect.description}</p>
+                      <div className="text-xs sm:text-sm font-medium text-emerald-600 bg-emerald-50 px-2 sm:px-3 py-1 rounded-full inline-block mb-3 sm:mb-4">
                         {aspect.impact}
                       </div>
                     </div>
@@ -217,8 +214,8 @@ const LegacyOfDrKumar = () => {
                   <div className="space-y-2">
                     {aspect.details.map((detail, detailIndex) => (
                       <div key={detailIndex} className="flex items-start space-x-2">
-                        <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5" />
-                        <span className="text-sm text-slate-600 leading-relaxed">{detail}</span>
+                        <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 mt-0.5" />
+                        <span className="text-xs sm:text-sm text-slate-600 leading-relaxed">{detail}</span>
                       </div>
                     ))}
                   </div>
@@ -230,41 +227,41 @@ const LegacyOfDrKumar = () => {
       </section>
 
       {/* Spiritual Timeline */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-12 sm:py-16 lg:py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-3 sm:mb-4">
               Sacred Journey Timeline
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto">
               The transformative stages of Dr. Kumar's spiritual evolution
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start">
             {/* Timeline Navigation */}
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {timelineEvents.map((event, index) => (
                 <button
                   key={index}
                   onClick={() => setActiveTimeline(index)}
-                  className={`w-full text-left p-6 rounded-xl transition-all duration-200 ${
+                  className={`w-full text-left p-4 sm:p-6 rounded-lg sm:rounded-xl transition-all duration-200 ${
                     activeTimeline === index
                       ? 'bg-emerald-50 border-2 border-emerald-200'
                       : 'bg-white border border-slate-200 hover:bg-slate-50'
                   }`}
                 >
-                  <div className="flex items-center space-x-4">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                  <div className="flex items-center space-x-3 sm:space-x-4">
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${
                       activeTimeline === index
                         ? 'bg-emerald-600 text-white'
                         : 'bg-slate-100 text-slate-600'
                     }`}>
-                      <event.icon className="w-6 h-6" />
+                      <event.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-emerald-600">{event.period}</div>
-                      <h3 className="font-bold text-slate-800">{event.title}</h3>
+                      <div className="text-xs sm:text-sm font-medium text-emerald-600">{event.period}</div>
+                      <h3 className="text-sm sm:text-base font-bold text-slate-800">{event.title}</h3>
                     </div>
                   </div>
                 </button>
@@ -272,59 +269,57 @@ const LegacyOfDrKumar = () => {
             </div>
 
             {/* Timeline Content */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-100">
-              <div className="flex items-center space-x-4 mb-6">
-                <div className="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center">
-                  <currentEvent.icon className="w-8 h-8 text-emerald-600" />
+            <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 lg:p-8 shadow-md sm:shadow-lg border border-slate-100">
+              <div className="flex items-center space-x-3 sm:space-x-4 mb-4 sm:mb-6">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-100 rounded-lg sm:rounded-2xl flex items-center justify-center">
+                  <currentEvent.icon className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600" />
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-emerald-600 mb-1">{currentEvent.period}</div>
-                  <h3 className="text-2xl font-bold text-slate-800">{currentEvent.title}</h3>
+                  <div className="text-xs sm:text-sm font-medium text-emerald-600 mb-1">{currentEvent.period}</div>
+                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-800">{currentEvent.title}</h3>
                 </div>
               </div>
-              <p className="text-slate-600 leading-relaxed mb-6">{currentEvent.description}</p>
-              <div className="bg-emerald-50 rounded-lg p-4">
-                <h4 className="font-bold text-emerald-800 mb-2">Spiritual Significance</h4>
-                <p className="text-emerald-700 text-sm">{currentEvent.significance}</p>
+              <p className="text-slate-600 leading-relaxed text-sm sm:text-base mb-4 sm:mb-6">{currentEvent.description}</p>
+              <div className="bg-emerald-50 rounded-lg p-3 sm:p-4">
+                <h4 className="font-bold text-emerald-800 mb-2 text-sm sm:text-base">Spiritual Significance</h4>
+                <p className="text-emerald-700 text-xs sm:text-sm">{currentEvent.significance}</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      
-
       {/* Sacred Declaration */}
-      <section className="py-20 bg-emerald-50">
+      <section className="py-12 sm:py-16 lg:py-20 bg-emerald-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-8">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-6 sm:mb-8">
               Eternal Presence
             </h2>
             <div className="max-w-4xl mx-auto">
-              <blockquote className="text-2xl lg:text-3xl font-light italic text-slate-700 leading-relaxed mb-8">
+              <blockquote className="text-lg sm:text-xl lg:text-2xl font-light italic text-slate-700 leading-relaxed mb-6 sm:mb-8">
                 "He left the jungle with no shoes, but with a message for the world: Serve Allah's sound with silence, not sales."
               </blockquote>
-              <p className="text-lg text-slate-600 leading-relaxed mb-8">
+              <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed mb-6 sm:mb-8">
                 Dr. Kumar's legacy is not confined to the past—it is a living presence that continues 
                 to guide and inspire. Through the institutions he has influenced and the hearts he has 
                 touched, his light continues to illuminate the path for seekers worldwide.
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white rounded-xl p-6 shadow-lg">
-                  <CheckCircle className="w-8 h-8 text-emerald-600 mb-4" />
-                  <h3 className="font-bold text-slate-800 mb-2">Living Example</h3>
-                  <p className="text-sm text-slate-600">Demonstrating complete surrender to divine will</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-md sm:shadow-lg">
+                  <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600 mb-3 sm:mb-4" />
+                  <h3 className="font-bold text-slate-800 mb-2 text-sm sm:text-base">Living Example</h3>
+                  <p className="text-xs sm:text-sm text-slate-600">Demonstrating complete surrender to divine will</p>
                 </div>
-                <div className="bg-white rounded-xl p-6 shadow-lg">
-                  <CheckCircle className="w-8 h-8 text-emerald-600 mb-4" />
-                  <h3 className="font-bold text-slate-800 mb-2">Continuing Influence</h3>
-                  <p className="text-sm text-slate-600">Inspiring institutions and movements globally</p>
+                <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-md sm:shadow-lg">
+                  <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600 mb-3 sm:mb-4" />
+                  <h3 className="font-bold text-slate-800 mb-2 text-sm sm:text-base">Continuing Influence</h3>
+                  <p className="text-xs sm:text-sm text-slate-600">Inspiring institutions and movements globally</p>
                 </div>
-                <div className="bg-white rounded-xl p-6 shadow-lg">
-                  <CheckCircle className="w-8 h-8 text-emerald-600 mb-4" />
-                  <h3 className="font-bold text-slate-800 mb-2">Eternal Guidance</h3>
-                  <p className="text-sm text-slate-600">Providing direction for future generations</p>
+                <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-md sm:shadow-lg">
+                  <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600 mb-3 sm:mb-4" />
+                  <h3 className="font-bold text-slate-800 mb-2 text-sm sm:text-base">Eternal Guidance</h3>
+                  <p className="text-xs sm:text-sm text-slate-600">Providing direction for future generations</p>
                 </div>
               </div>
             </div>
@@ -333,35 +328,35 @@ const LegacyOfDrKumar = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 bg-slate-800 text-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-slate-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">
             Continue the Sacred Legacy
           </h2>
-          <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+          <p className="text-base sm:text-lg lg:text-xl text-slate-300 mb-6 sm:mb-8 leading-relaxed">
             Dr. Kumar's example shows us that true service to the Divine requires complete surrender 
             of worldly ambitions. Join our mission to serve sacred sound with silence, not sales.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Link
               href="/dr-kumar-foundation"
-              className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
+              className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
             >
-              <Mountain className="w-5 h-5" />
+              <Mountain className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Dr. Kumar Foundation</span>
             </Link>
             <Link
               href="/join"
-              className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200"
+              className="inline-flex items-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold transition-all duration-200 text-sm sm:text-base"
             >
-              <Heart className="w-5 h-5" />
+              <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Join Sacred Service</span>
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-8 py-4 rounded-xl font-semibold transition-all duration-200"
+              className="inline-flex items-center space-x-2 border-2 border-slate-600 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold transition-all duration-200 text-sm sm:text-base"
             >
-              <Leaf className="w-5 h-5" />
+              <Leaf className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Seek Guidance</span>
             </Link>
           </div>
