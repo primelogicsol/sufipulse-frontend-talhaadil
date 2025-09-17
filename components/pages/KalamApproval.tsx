@@ -305,14 +305,14 @@ const KalamApproval = () => {
                   onClick={() => handleRecordingRequest('studio', kalam.id)}
                   className="flex items-center justify-center space-x-2 px-4 py-2 sm:px-6 sm:py-3 bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition-colors text-sm sm:text-base"
                 >
-                  <Building2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <Building2 className="hidden lg:flex w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Studio Visit Request</span>
                 </button>
                 <button
                   onClick={() => handleRecordingRequest('remote', kalam.id)}
                   className="flex items-center justify-center space-x-2 px-4 py-2 sm:px-6 sm:py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-sm sm:text-base"
                 >
-                  <Wifi className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <Wifi className="hidden lg:flex w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Remote Recording Request</span>
                 </button>
               </div>

@@ -158,11 +158,11 @@ const DrKumarFoundation = () => {
 
 
       {/* From Medicine to Mystical */}
-      <section className="py-20 bg-white">
+      <section className="py-10 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
-              <Flame className="w-8 h-8 text-emerald-600 mr-2" />
+              <Flame className="hidden lg:flex w-8 h-8 text-emerald-600 mr-2" />
               From Medicine to the Mystical
             </h2>
           </div>
@@ -207,7 +207,7 @@ const DrKumarFoundation = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
-              <Moon className="w-8 h-8 text-emerald-600 mr-2" />
+              <Moon className="hidden lg:flex w-8 h-8 text-emerald-600 mr-2" />
               14 Years of Silence — The Birth of a Qalandar
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
@@ -274,7 +274,7 @@ const DrKumarFoundation = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
-              <FaDove className="w-8 h-8 text-emerald-600 mr-2" />
+              <FaDove className="hidden lg:flex w-8 h-8 text-emerald-600 mr-2" />
               Banday Bagh — The Spiritual Station
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
@@ -315,7 +315,7 @@ const DrKumarFoundation = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
-              <Brain className="w-8 h-8 text-emerald-600 mr-2" />
+              <Brain className="hidden lg:flex w-8 h-8 text-emerald-600 mr-2" />
               A Sufi Guide for the New Generation
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
@@ -368,7 +368,7 @@ const DrKumarFoundation = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
-              <FlaskConical className="w-8 h-8 text-emerald-600 mr-2" />
+              <FlaskConical className="hidden lg:flex w-8 h-8 text-emerald-600 mr-2" />
               The Sufi Science Center (SSC) — A Revolution in Thought
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
@@ -409,7 +409,7 @@ const DrKumarFoundation = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
-              <Globe className="w-8 h-8 text-emerald-600 mr-2" />
+              <Globe className="hidden lg:flex w-8 h-8 text-emerald-600 mr-2" />
               Dr. Kumar Foundation USA — A Light Across Oceans
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
@@ -478,7 +478,7 @@ const DrKumarFoundation = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center space-x-3 bg-white hover:bg-emerald-50 text-slate-800 hover:text-emerald-700 px-8 py-4 rounded-xl font-bold text-lg transition-all duration-200 transform hover:scale-105 shadow-xl"
             >
-              <Globe className="w-6 h-6" />
+              <Globe className="hidden lg:flex w-6 h-6" />
               <span>Visit Dr. Kumar Foundation</span>
               <ArrowRight className="w-6 h-6" />
             </a>

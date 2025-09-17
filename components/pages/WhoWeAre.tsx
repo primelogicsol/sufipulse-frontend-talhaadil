@@ -156,7 +156,7 @@ const WhoWeAre = () => {
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="w-20 h-20 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <div className="hidden w-20 h-20 bg-emerald-100 rounded-2xl lg:flex items-center justify-center mx-auto mb-6">
               <Globe className="w-10 h-10 text-emerald-600" />
             </div>
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
@@ -188,7 +188,7 @@ const WhoWeAre = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="w-20 h-20 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <div className="hidden lg:flex w-20 h-20 bg-emerald-100 rounded-2xl items-center justify-center mx-auto mb-6">
               <Target className="w-10 h-10 text-emerald-600" />
             </div>
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">

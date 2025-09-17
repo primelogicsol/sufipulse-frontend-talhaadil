@@ -6,19 +6,17 @@ import {
   Menu,
   X,
   ChevronDown,
-  User,
-  LogOut,
-  Settings,
   UserCircle,
+  Settings,
+  LogOut,
 } from "lucide-react";
-import { UserProfileDisplay } from "./UserProfile";
 import Cookies from "js-cookie";
-import { useAuth } from "@/context/AuthContext"; // Assuming this is where useAuth is imported from
+import { useAuth } from "@/context/AuthContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-
+  
   // Authentication state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [hasEverRegistered, setHasEverRegistered] = useState(false);
@@ -27,7 +25,6 @@ const Navbar = () => {
   >("hello");
   const [userName, setUserName] = useState("User");
 
-  // Use the auth context for logout
   const auth = useAuth();
   const logout = auth?.logout ?? (() => {});
 
@@ -36,24 +33,20 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    // Call the logout function from useAuth
     logout();
-    // Clear authentication cookies
     Cookies.remove("user_id");
     Cookies.remove("name");
     Cookies.remove("user_role");
-    // Clear localStorage for hasEverRegistered
     localStorage.removeItem("isRegistered");
     localStorage.removeItem("hasEverRegistered");
-    // Update state immediately
     setIsLoggedIn(false);
     setUserRole("hello");
     setUserName("User");
     setHasEverRegistered(false);
     setActiveDropdown(null);
+    setIsOpen(false);
   };
 
-  // Function to check cookies and update state
   const checkAuthStatus = () => {
     const userId = Cookies.get("user_id");
     const username = Cookies.get("name");
@@ -72,7 +65,6 @@ const Navbar = () => {
       setUserName(username || "User");
       setUserRole(role || "hello");
       setHasEverRegistered(true);
-      // Update localStorage to reflect registration
       localStorage.setItem("hasEverRegistered", "true");
     } else {
       setIsLoggedIn(false);
@@ -83,11 +75,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    // Check auth status on mount
     checkAuthStatus();
-
-    // Poll for cookie changes every 500ms
-    
   }, []);
 
   const getDashboardPath = (role: string) => {
@@ -136,20 +124,6 @@ const Navbar = () => {
   };
 
   const menuItems = [
-    // {
-    //   name: "Watch",
-    //   path: "/watch",
-    //   dropdown: [
-    //     { name: "All Videos", path: "/gallery" },
-    //     { name: "Qawwali", path: "/gallery?category=qawwali" },
-    //     { name: "Chant", path: "/gallery?category=chant" },
-    //     { name: "Anthem", path: "/gallery?category=anthem" },
-    //     { name: "Whisper Kalam", path: "/gallery?category=whisper" },
-    //     { name: "Instrumentals", path: "/gallery?category=instrumental" },
-    //     { name: "Featured Playlist", path: "/gallery?featured=true" },
-    //     { name: "By Theme", path: "/gallery?by=theme" },
-    //   ],
-    // },
     {
       name: "Writers",
       path: "/writers",
@@ -176,7 +150,6 @@ const Navbar = () => {
         { name: "How We Select Music Style", path: "/music-style-selection" },
       ],
     },
-   
     {
       name: "Reflections",
       path: "/studio-diaries",
@@ -227,19 +200,19 @@ const Navbar = () => {
           <div className="hidden lg:flex items-center space-x-1">
             <Link
               href="/"
-              className="px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
+              className="px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors text-sm"
             >
               Home
             </Link>
             <Link
               href="/gallery"
-              className="px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
+              className="px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors text-sm"
             >
               Watch
             </Link>
             <Link
               href="/partnership"
-              className="px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
+              className="px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors text-sm"
             >
               Collaborate
             </Link>
@@ -248,15 +221,13 @@ const Navbar = () => {
               <div key={item.name} className="relative">
                 <button
                   onClick={() => toggleDropdown(item.name)}
-                  className="flex items-center px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
+                  className="flex items-center px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors text-sm"
                 >
                   {item.name}
                   <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
-                
-
                 {activeDropdown === item.name && (
-                  <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-xl border border-slate-200 py-2 z-50">
+                  <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-slate-200 py-2 z-50">
                     {item.dropdown.map((subItem) => (
                       <Link
                         key={subItem.name}
@@ -269,17 +240,13 @@ const Navbar = () => {
                     ))}
                   </div>
                 )}
-                
               </div>
-              
             ))}
           </div>
-          
 
           {/* Right Side Actions */}
           <div className="hidden lg:flex items-center space-x-4">
             {isLoggedIn ? (
-              /* Authenticated User Menu */
               <div className="relative">
                 <button
                   onClick={() => toggleDropdown("user")}
@@ -296,7 +263,6 @@ const Navbar = () => {
                   </div>
                   <ChevronDown className="h-4 w-4" />
                 </button>
-
                 {activeDropdown === "user" && (
                   <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50">
                     <Link
@@ -321,17 +287,16 @@ const Navbar = () => {
                 )}
               </div>
             ) : (
-              /* Non-authenticated User Menu */
               <div className="flex items-center space-x-4">
                 <Link
                   href="/login"
-                  className="px-4 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
+                  className="px-4 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors text-sm"
                 >
                   Login
                 </Link>
                 <Link
                   href="/register"
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition-all duration-200"
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition-all duration-200 text-sm"
                 >
                   Join
                 </Link>
@@ -343,123 +308,164 @@ const Navbar = () => {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden p-2 rounded-md text-slate-700 hover:text-emerald-600 hover:bg-slate-100 transition-colors"
+            aria-label="Toggle menu"
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
+      </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="lg:hidden py-4 border-t border-slate-200">
-            <div className="space-y-2">
-              <Link
-                href="/"
-                className="block px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                href="/gallery"
-                className="block px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
+      {/* Mobile Navigation */}
+      <div
+        className={`lg:hidden fixed inset-y-0 right-0 w-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex flex-col h-full">
+          {/* Mobile header with close button */}
+          <div className="flex justify-between items-center p-4 border-b border-slate-200">
+            <Link href="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
+              <img
+                src="/Untitled (250 x 250 px) (1).png"
+                alt="SufiPulse Logo"
+                className="w-10 h-10 rounded-xl shadow-lg object-contain"
+              />
+              <div className="flex flex-col">
+                <span className="text-xl font-bold text-slate-800">
+                  SufiPulse
+                </span>
+                <span className="text-xs text-emerald-600 font-medium -mt-1">
+                  Global Collaboration
+                </span>
+              </div>
+            </Link>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="p-2 rounded-md text-slate-700 hover:text-emerald-600 hover:bg-slate-100"
+              aria-label="Close menu"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+
+          {/* Mobile menu content */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-2">
+            <Link
+              href="/"
+              className="block px-4 py-3 text-lg text-slate-700 hover:text-emerald-600 font-medium transition-colors rounded-md hover:bg-emerald-50"
+              onClick={() => setIsOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              href="/gallery"
+              className="block px-4 py-3 text-lg text-slate-700 hover:text-emerald-600 font-medium transition-colors rounded-md hover:bg-emerald-50"
+              onClick={() => setIsOpen(false)}
+            >
               Watch
-              </Link>
-              <Link
-                href="/partnership"
-                className="block px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
+            </Link>
+            <Link
+              href="/partnership"
+              className="block px-4 py-3 text-lg text-slate-700 hover:text-emerald-600 font-medium transition-colors rounded-md hover:bg-emerald-50"
+              onClick={() => setIsOpen(false)}
+            >
               Collaborate
-              </Link>
+            </Link>
 
-              {menuItems.map((item) => (
-                <div key={item.name}>
-                  <button
-                    onClick={() => toggleDropdown(`mobile-${item.name}`)}
-                    className="flex items-center justify-between w-full px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
-                  >
-                    {item.name}
-                    <ChevronDown className="h-4 w-4" />
-                  </button>
-
-                  {activeDropdown === `mobile-${item.name}` && (
-                    <div className="pl-6 space-y-1">
-                      {item.dropdown.map((subItem) => (
-                        <Link
-                          key={subItem.name}
-                          href={subItem.path}
-                          className="block px-3 py-2 text-sm text-slate-600 hover:text-emerald-600 transition-colors"
-                          onClick={() => {
-                            setIsOpen(false);
-                            setActiveDropdown(null);
-                          }}
-                        >
-                          {subItem.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-
-              {/* Mobile Auth */}
-              <div className="pt-4 border-t border-slate-200 space-y-2">
-                {isLoggedIn ? (
-                  <>
-                    <div className="px-3 py-2 border-b border-slate-200 mb-2">
-                      <div className="font-medium text-slate-800">
-                        {userName}
-                      </div>
-                      <div className="text-sm text-slate-500 capitalize">
-                        {userRole} Account
-                      </div>
-                    </div>
-                    <Link
-                      href={getDashboardPath(userRole)}
-                      className="flex items-center px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      <Settings className="h-4 w-4 mr-2" />
-                      Dashboard
-                    </Link>
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setIsOpen(false);
-                      }}
-                      className="flex items-center px-3 py-2 text-red-600 hover:text-red-700 font-medium transition-colors"
-                    >
-                      <LogOut className="h-4 w-4 mr-2" />
-                      Logout
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    (
+            {menuItems.map((item) => (
+              <div key={item.name}>
+                <button
+                  onClick={() => toggleDropdown(`mobile-${item.name}`)}
+                  className="flex items-center justify-between w-full px-4 py-3 text-lg text-slate-700 hover:text-emerald-600 font-medium transition-colors rounded-md hover:bg-emerald-50"
+                >
+                  {item.name}
+                  <ChevronDown
+                    className={`h-5 w-5 transition-transform duration-200 ${
+                      activeDropdown === `mobile-${item.name}` ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {activeDropdown === `mobile-${item.name}` && (
+                  <div className="pl-6 space-y-1 mt-1">
+                    {item.dropdown.map((subItem) => (
                       <Link
-                        href="/login"
-                        className="block w-full text-left px-3 py-2 text-slate-700 hover:text-emerald-600 font-medium transition-colors"
-                        onClick={() => setIsOpen(false)}
+                        key={subItem.name}
+                        href={subItem.path}
+                        className="block px-4 py-2 text-base text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-md transition-colors"
+                        onClick={() => {
+                          setIsOpen(false);
+                          setActiveDropdown(null);
+                        }}
                       >
-                        Login
+                        {subItem.name}
                       </Link>
-                    )
-                    <Link
-                      href="/register"
-                      className="block w-full text-left px-3 py-2 bg-emerald-600 text-white rounded-lg font-medium transition-colors"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Join 
-                    </Link>
-                  </>
+                    ))}
+                  </div>
                 )}
               </div>
+            ))}
+
+            {/* Mobile Auth */}
+            <div className="pt-4 border-t border-slate-200 space-y-2">
+              {isLoggedIn ? (
+                <>
+                  <div className="px-4 py-3 border-b border-slate-200 mb-2">
+                    <div className="font-medium text-lg text-slate-800">
+                      {userName}
+                    </div>
+                    <div className="text-sm text-slate-500 capitalize">
+                      {userRole} Account
+                    </div>
+                  </div>
+                  <Link
+                    href={getDashboardPath(userRole)}
+                    className="flex items-center px-4 py-3 text-lg text-slate-700 hover:text-emerald-600 font-medium transition-colors rounded-md hover:bg-emerald-50"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <Settings className="h-5 w-5 mr-2" />
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsOpen(false);
+                    }}
+                    className="flex items-center px-4 py-3 text-lg text-red-600 hover:text-red-700 font-medium transition-colors rounded-md hover:bg-red-50 w-full text-left"
+                  >
+                    <LogOut className="h-5 w-5 mr-2" />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className="block w-full text-left px-4 py-3 text-lg text-slate-700 hover:text-emerald-600 font-medium transition-colors rounded-md hover:bg-emerald-50"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="block w-full text-left px-4 py-3 text-lg bg-emerald-600 text-white rounded-lg font-medium transition-colors hover:bg-emerald-700"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Join
+                  </Link>
+                </>
+              )}
             </div>
           </div>
-        )}
+        </div>
       </div>
+
+      {/* Overlay for mobile menu */}
+      {isOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/50 z-40"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
     </nav>
   );
 };

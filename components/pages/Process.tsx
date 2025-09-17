@@ -273,7 +273,7 @@ const Process = () => {
                 <div key={step.number} className={`relative flex items-center ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'
                   }`}>
                   {/* Timeline Dot */}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-white rounded-full border-4 border-emerald-200 flex items-center justify-center z-10 hidden lg:flex shadow-lg">
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-white rounded-full border-4 border-emerald-200 items-center justify-center z-10 hidden lg:flex shadow-lg">
                     <span className="text-2xl font-bold text-emerald-600">{step.number}</span>
                   </div>
 
@@ -367,44 +367,7 @@ const Process = () => {
         </div>
       </div>
 
-      {/* Testimonials */}
-      <div className="bg-slate-50 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-slate-800 mb-4">Writer Experiences</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
-              Hear from writers who have experienced the complete SufiPulse journey
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-2xl p-8 shadow-lg border border-slate-100">
-                <div className="flex items-center space-x-4 mb-6">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-16 h-16 rounded-full object-cover ring-4 ring-emerald-100"
-                  />
-                  <div>
-                    <h4 className="font-bold text-slate-800">{testimonial.name}</h4>
-                    <p className="text-slate-600 text-sm">{testimonial.location}</p>
-                    <div className="flex space-x-1 mt-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 text-amber-400 fill-current" />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <blockquote className="text-slate-700 italic leading-relaxed">
-                  "{testimonial.quote}"
-                </blockquote>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
+     
       {/* FAQ Section */}
       <div className="bg-white py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

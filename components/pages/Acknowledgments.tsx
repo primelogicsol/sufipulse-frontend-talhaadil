@@ -41,14 +41,14 @@ const Acknowledgments = () => {
       title: "To the Faqeers, Writers, and Seekers",
       description: "Who trusted us with their sacred kalam",
       recognition: "The heart of our mission - without their sacred words, SufiPulse would not exist",
-      count: "89 Sacred Voices"
+      count: `${incrementWeekly(89)} Sacred Voices`
     },
     {
       icon: Mic,
       title: "To the Vocalists, Musicians, and Producers",
       description: "Who pour soul into every track",
       recognition: "The soul of our productions - transforming words into spiritual experiences",
-      count: "43 Divine Voices"
+      count: `${incrementWeekly(43)} Divine Voices`
     },
     {
       icon: Headphones,

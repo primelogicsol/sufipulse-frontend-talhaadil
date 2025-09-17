@@ -1,12 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import { 
-  Star, 
-  BookOpen, 
-  Users, 
-  Award, 
-  Globe, 
-  Heart, 
+import {
+  Star,
+  BookOpen,
+  Users,
+  Award,
+  Globe,
+  Heart,
   ArrowRight,
   Microscope,
   GraduationCap,
@@ -133,15 +133,15 @@ const SufiScienceCenter = () => {
             </h1>
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-5xl mx-auto">
               <p className="text-xl text-slate-300 leading-relaxed mb-6">
-                The Sufi Science Center is the mystical think tank behind SufiPulse. Bridging ancient Sufi metaphysics 
-                with modern scientific thought, the center explores the profound connections between spirituality, 
+                The Sufi Science Center is the mystical think tank behind SufiPulse. Bridging ancient Sufi metaphysics
+                with modern scientific thought, the center explores the profound connections between spirituality,
                 consciousness, and sound.
               </p>
               <blockquote className="text-2xl font-light italic text-emerald-300 mb-4">
                 "From the silence of the faqeer to the surge of the chorus — we are led by science, but governed by silence."
               </blockquote>
               <p className="text-slate-300">
-                The center mentors the lyrical and sonic vision of SufiPulse, ensuring that every production 
+                The center mentors the lyrical and sonic vision of SufiPulse, ensuring that every production
                 reflects both divine depth and scientific design.
               </p>
             </div>
@@ -165,40 +165,42 @@ const SufiScienceCenter = () => {
       </section>
 
       {/* Research Areas */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="w-16 h-16 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <FlaskConical className="w-8 h-8 text-emerald-600" />
+          <div className="text-center mb-10 sm:mb-12 lg:mb-16">
+            <div className="flex flex-col items-center mb-3 sm:mb-4">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-100 rounded-xl flex items-center justify-center">
+                <FlaskConical className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600" />
+              </div>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mt-2 sm:mt-3">
+                Research Areas
+              </h2>
             </div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4">
-              Research Areas
-            </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto px-2 sm:px-0">
               Comprehensive scientific investigation into the mystical dimensions of sound, consciousness, and spiritual experience
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             {researchAreas.map((area, index) => {
               const Icon = area.icon;
               return (
-                <div key={index} className="bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
-                  <div className="flex items-start space-x-4 mb-6">
-                    <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
-                      <Icon className="w-6 h-6 text-emerald-600" />
+                <div key={index} className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-md sm:shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
+                  <div className="flex items-start space-x-3 sm:space-x-4 mb-4 sm:mb-6">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-slate-800 mb-3">{area.title}</h3>
-                      <p className="text-slate-600 leading-relaxed">{area.description}</p>
+                      <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-2 sm:mb-3">{area.title}</h3>
+                      <p className="text-sm sm:text-base text-slate-600 leading-relaxed">{area.description}</p>
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-slate-800 text-sm mb-3">Research Focus:</h4>
+                    <h4 className="font-semibold text-slate-800 text-xs sm:text-sm mb-2 sm:mb-3">Research Focus:</h4>
                     {area.focus.map((focus, focusIndex) => (
                       <div key={focusIndex} className="flex items-start space-x-2">
-                        <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5" />
-                        <span className="text-sm text-slate-600 leading-relaxed">{focus}</span>
+                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-500 mt-0.5" />
+                        <span className="text-xs sm:text-sm text-slate-600 leading-relaxed">{focus}</span>
                       </div>
                     ))}
                   </div>
@@ -208,7 +210,6 @@ const SufiScienceCenter = () => {
           </div>
         </div>
       </section>
-
       {/* Center as Revolution */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -223,7 +224,7 @@ const SufiScienceCenter = () => {
               The Sufi Science Center was born as a spiritual think tank, a technological sanctuary, a metaphysical research lab.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {centerInitiatives.map((initiative, index) => (
               <div key={index} className="bg-white rounded-2xl p-8 shadow-lg border border-slate-100 text-center">
@@ -262,7 +263,7 @@ const SufiScienceCenter = () => {
               The center mentors the lyrical and sonic vision of SufiPulse, ensuring every production reflects both divine depth and scientific design
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {sufipulseGuidance.map((guidance, index) => (
               <div key={index} className="bg-slate-50 rounded-2xl p-8 border border-slate-100">
@@ -294,8 +295,8 @@ const SufiScienceCenter = () => {
                 "From the silence of the faqeer to the surge of the chorus — we are led by science, but governed by silence."
               </blockquote>
               <p className="text-lg text-slate-600 leading-relaxed mb-8">
-                The Sufi Science Center represents a revolutionary approach to understanding spirituality through 
-                scientific inquiry. We bridge the gap between ancient mystical wisdom and modern scientific 
+                The Sufi Science Center represents a revolutionary approach to understanding spirituality through
+                scientific inquiry. We bridge the gap between ancient mystical wisdom and modern scientific
                 understanding, creating a new paradigm for spiritual research and application.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -336,7 +337,7 @@ const SufiScienceCenter = () => {
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-6">
               <p className="text-white text-lg mb-4">
-                Discover our complete research archive, academic publications, and ongoing projects 
+                Discover our complete research archive, academic publications, and ongoing projects
                 at the official Sufi Science Center website.
               </p>
               <div className="flex items-center justify-center space-x-2 text-emerald-200 mb-4">
@@ -350,7 +351,7 @@ const SufiScienceCenter = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center space-x-3 bg-white hover:bg-emerald-50 text-slate-800 hover:text-emerald-700 px-8 py-4 rounded-xl font-bold text-lg transition-all duration-200 transform hover:scale-105 shadow-xl"
             >
-              <Globe className="w-6 h-6" />
+              <Globe className="hidden lg:flex w-6 h-6" />
               <span>Visit Sufi Science Center</span>
               <ArrowRight className="w-6 h-6" />
             </a>
@@ -363,7 +364,7 @@ const SufiScienceCenter = () => {
             Advance Sacred Science
           </h2>
           <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-            Join our research community or benefit from our scientific oversight through SufiPulse. 
+            Join our research community or benefit from our scientific oversight through SufiPulse.
             Together, we ensure that sacred wisdom is preserved and shared with both spiritual reverence and scientific rigor.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
