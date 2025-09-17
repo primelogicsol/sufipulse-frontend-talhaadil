@@ -222,7 +222,7 @@ const OurMission = () => {
             </h2>
             <div className="max-w-4xl mx-auto">
               <blockquote className="text-2xl lg:text-3xl font-light italic text-slate-700 leading-relaxed mb-8">
-                "Our mission is not just to create — it is to connect, awaken, and remind."
+                "Our mission is not just to create it is to connect, awaken, and remind."
               </blockquote>
               <p className="text-lg text-slate-600 leading-relaxed mb-8">
                 Every step of our mission is designed to honor sacred words while providing them with the 

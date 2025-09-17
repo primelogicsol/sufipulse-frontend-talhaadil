@@ -171,7 +171,7 @@ const LegacyOfDrKumar = () => {
                 influence continues to guide seekers toward divine realization.
               </p>
               <blockquote className="text-lg sm:text-xl lg:text-2xl font-light italic text-emerald-300 mb-3 sm:mb-4">
-                "More than a man, more than a mystic — he is a presence."
+                "More than a man, more than a mystic he is a presence."
               </blockquote>
               <p className="text-sm sm:text-base text-slate-300">
                 A wandering flame of Haqiqat, a silent earthquake in the hearts of seekers. 

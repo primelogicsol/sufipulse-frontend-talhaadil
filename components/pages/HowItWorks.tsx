@@ -98,7 +98,7 @@ const HowItWorks = () => {
               <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg sm:rounded-xl p-4 sm:p-6 border border-emerald-500/20">
                 <p className="text-emerald-300 font-medium mb-2 text-sm sm:text-base">Sacred Journey Promise</p>
                 <blockquote className="text-sm sm:text-base lg:text-lg italic">
-                  "From divine inspiration to global hearts — we handle everything"
+                  "From divine inspiration to global hearts we handle everything"
                 </blockquote>
               </div>
 

@@ -138,7 +138,7 @@ const SufiScienceCenter = () => {
                 consciousness, and sound.
               </p>
               <blockquote className="text-2xl font-light italic text-emerald-300 mb-4">
-                "From the silence of the faqeer to the surge of the chorus — we are led by science, but governed by silence."
+                "From the silence of the faqeer to the surge of the chorus we are led by science, but governed by silence."
               </blockquote>
               <p className="text-slate-300">
                 The center mentors the lyrical and sonic vision of SufiPulse, ensuring that every production
@@ -292,7 +292,7 @@ const SufiScienceCenter = () => {
             </h2>
             <div className="max-w-4xl mx-auto">
               <blockquote className="text-2xl lg:text-3xl font-light italic text-slate-700 leading-relaxed mb-8">
-                "From the silence of the faqeer to the surge of the chorus — we are led by science, but governed by silence."
+                "From the silence of the faqeer to the surge of the chorus we are led by science, but governed by silence."
               </blockquote>
               <p className="text-lg text-slate-600 leading-relaxed mb-8">
                 The Sufi Science Center represents a revolutionary approach to understanding spirituality through

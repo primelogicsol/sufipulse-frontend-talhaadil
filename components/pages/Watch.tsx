@@ -122,7 +122,7 @@ const Watch = () => {
                 </h1>
                 <p className="text-xl lg:text-2xl text-slate-300 leading-relaxed">
                   Experience divine kalam brought to life through global spiritual voices. 
-                  From Qawwali to whisper kalam — discover your soul's resonance.
+                  From Qawwali to whisper kalam discover your soul's resonance.
                 </p>
               </div>
               

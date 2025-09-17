@@ -176,7 +176,7 @@ const Contact = () => {
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-4xl mx-auto">
               <p className="text-xl text-slate-300 leading-relaxed mb-6">
                 Ready to share your divine Sufi kalam or collaborate with our global spiritual community?
-                From Kashmir's mystical valleys to the world — we'd love to hear from you.
+                From Kashmir's mystical valleys to the world we'd love to hear from you.
               </p>
               <blockquote className="text-2xl font-light italic text-emerald-300 mb-4">
                 "Every connection is a bridge between hearts seeking the Divine"
@@ -235,7 +235,7 @@ const Contact = () => {
                   ))}
                 </div>
                 <p className="text-slate-600 mt-6 italic">
-                  From divine inspiration to global impact — we bring your kalam to life everywhere.
+                  From divine inspiration to global impact we bring your kalam to life everywhere.
                 </p>
               </div>
             </div>

@@ -29,7 +29,7 @@ const EthicalPolicy = () => {
       icon: Award,
       title: "Credit with Integrity",
       description:
-        "Every contributor — whether a writer, vocalist, or sound engineer — is credited with transparency and honor.",
+        "Every contributor whether a writer, vocalist, or sound engineer is credited with transparency and honor.",
       policies: [
         "Full authorship credit on all platforms",
         "Transparent contributor recognition",

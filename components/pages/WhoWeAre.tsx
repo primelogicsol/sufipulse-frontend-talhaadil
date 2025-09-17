@@ -17,7 +17,7 @@ const WhoWeAre = () => {
     {
       icon: Globe,
       title: "Unite Ummah via Sound",
-      description: "From Kashmir to Los Angeles, from Cairo to Kuala Lumpur — every soul carrying divine lyrics deserves a global stage.",
+      description: "From Kashmir to Los Angeles, from Cairo to Kuala Lumpur every soul carrying divine lyrics deserves a global stage.",
       color: "text-emerald-600 bg-emerald-50"
     },
     {
@@ -73,7 +73,7 @@ const WhoWeAre = () => {
               <p className="text-xl text-slate-300 leading-relaxed mb-6">
                 SufiPulse is a spiritually-driven, non-commercial Sufi music production platform and collaboration hub for the global ummah. 
                 Founded in the United States and inspired by the legacy of sacred sound, SufiPulse brings together divine writers, vocalists, 
-                musicians, and producers in one purpose — to amplify the timeless voice of Haqq.
+                musicians, and producers in one purpose to amplify the timeless voice of Haqq.
               </p>
               <blockquote className="text-2xl font-light italic text-emerald-300 mb-4">
                 "We are not a label. We are a legacy."
@@ -81,7 +81,7 @@ const WhoWeAre = () => {
               <p className="text-slate-300">
                 Every kalam submitted here is treated with reverence, every note produced with intention. 
                 SufiPulse exists to preserve, elevate, and globally distribute sacred Sufi writings through 
-                cinematic, studio-grade productions — entirely free of charge.
+                cinematic, studio-grade productions entirely free of charge.
               </p>
             </div>
           </div>
@@ -130,7 +130,7 @@ const WhoWeAre = () => {
               <div className="bg-emerald-50 rounded-xl p-6 border border-emerald-100">
                 <h4 className="font-bold text-emerald-800 mb-3">Our Sacred Promise</h4>
                 <p className="text-emerald-700 text-sm leading-relaxed">
-                  "Our mission is not just to create — it is to connect, awaken, and remind."
+                  "Our mission is not just to create it is to connect, awaken, and remind."
                 </p>
               </div>
             </div>
@@ -237,12 +237,12 @@ const WhoWeAre = () => {
                 <p className="text-slate-300 text-lg leading-relaxed mb-6">
                   Every kalam submitted here is treated with reverence, every note produced with intention. 
                   SufiPulse exists to preserve, elevate, and globally distribute sacred Sufi writings through 
-                  cinematic, studio-grade productions — entirely free of charge.
+                  cinematic, studio-grade productions entirely free of charge.
                 </p>
                 <div className="bg-slate-700 rounded-xl p-6">
                   <h3 className="text-lg font-bold text-emerald-300 mb-3">Our Sacred Promise</h3>
                   <p className="text-slate-300 text-sm leading-relaxed">
-                    "Our mission is not just to create — it is to connect, awaken, and remind."
+                    "Our mission is not just to create it is to connect, awaken, and remind."
                   </p>
                 </div>
               </div>

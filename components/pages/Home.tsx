@@ -336,7 +336,7 @@ const Home = () => {
                   <span className="block text-emerald-400">Collaboration Studio</span>
                 </h2>
                 <p className="text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed">
-                  From Kashmir's sacred valleys to the global ummah — submit your Sufi kalam.
+                  From Kashmir's sacred valleys to the global ummah submit your Sufi kalam.
                   Let the world hear its pulse.
                 </p>
               </div>
@@ -472,7 +472,7 @@ const Home = () => {
               Your Sacred Journey
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto">
-              From divine inspiration to global spiritual impact — SufiPulse brings your kalam to life, free of cost.
+              From divine inspiration to global spiritual impact SufiPulse brings your kalam to life, free of cost.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
@@ -491,7 +491,7 @@ const Home = () => {
               </div>
               <h3 className="text-base sm:text-lg lg:text-xl font-bold text-slate-800 mb-3 sm:mb-4">2. We Create & Produce</h3>
               <p className="text-xs sm:text-sm lg:text-base text-slate-600 leading-relaxed">
-                Our team handles everything — musical direction, vocalist selection, professional recording, and production — completely free.
+                Our team handles everything musical direction, vocalist selection, professional recording, and production completely free.
               </p>
             </div>
             <div className="text-center">
@@ -582,7 +582,7 @@ const Home = () => {
               </blockquote>
               <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed mb-6 sm:mb-8">
                 SufiPulse exists as a spiritual service to the global ummah, providing a platform where sacred Sufi words
-                meet divine voices. Our mission transcends commercial interests — we are dedicated to amplifying the
+                meet divine voices. Our mission transcends commercial interests we are dedicated to amplifying the
                 timeless wisdom of Sufi poetry, with particular reverence for the mystical tradition of Kashmiri Sufism.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">

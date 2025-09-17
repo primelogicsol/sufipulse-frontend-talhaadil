@@ -109,7 +109,7 @@ const Acknowledgments = () => {
             </h1>
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-5xl mx-auto">
               <p className="text-xl text-slate-300 leading-relaxed mb-6">
-                We extend heartfelt gratitude to the voices behind the veil — every soul who contributes to 
+                We extend heartfelt gratitude to the voices behind the veil every soul who contributes to 
                 amplifying divine voices across the world through SufiPulse's sacred mission.
               </p>
               <blockquote className="text-2xl font-light italic text-emerald-300 mb-4">

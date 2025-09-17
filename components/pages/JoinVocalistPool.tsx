@@ -169,7 +169,7 @@ const JoinVocalistPool = () => {
                 "Every voice carries the potential to touch hearts across continents"
               </blockquote>
               <p className="text-slate-300">
-                Professional recording, global distribution, and full credit — all provided free.
+                Professional recording, global distribution, and full credit all provided free.
               </p>
             </motion.div>
           </div>

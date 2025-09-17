@@ -150,7 +150,7 @@ const SubmitKalam = () => {
                 "We don't sell divine lyrics. We amplify them."
               </blockquote>
               <p className="text-slate-300">
-                Submit your kalam and let the world hear its pulse — completely free.
+                Submit your kalam and let the world hear its pulse completely free.
               </p>
             </motion.div>
           </div>

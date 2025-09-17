@@ -21,7 +21,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-slate-300 text-sm leading-relaxed">
-              We don't sell divine lyrics. We amplify them. From Kashmir's sacred valleys to the global ummah — submit your Sufi kalam. Let the world hear its pulse.
+              We don't sell divine lyrics. We amplify them. From Kashmir's sacred valleys to the global ummah submit your Sufi kalam. Let the world hear its pulse.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="p-2 bg-slate-700 rounded-lg hover:bg-emerald-600 transition-colors duration-200">

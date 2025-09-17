@@ -140,12 +140,12 @@ const DrKumarFoundation = () => {
             </h2>
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-5xl mx-auto">
               <p className="text-xl text-slate-300 leading-relaxed mb-6">
-                In the sacred history of Kashmir — where mystics have roamed like silent rivers of divine remembrance —
+                In the sacred history of Kashmir where mystics have roamed like silent rivers of divine remembrance
                 one soul emerged beyond the veil of time: <strong className="text-emerald-300">Dr. Ghulam Mohammad Kumar</strong>,
                 lovingly known as Mama Ji or Kumar Sahib, the Qalandar of Kashmir.
               </p>
               <blockquote className="text-2xl font-light italic text-emerald-300 mb-4">
-                "More than a man, more than a mystic — he is a presence."
+                "More than a man, more than a mystic he is a presence."
               </blockquote>
               <p className="text-slate-300">
                 A wandering flame of Haqiqat, a silent earthquake in the hearts of seekers.
@@ -175,12 +175,12 @@ const DrKumarFoundation = () => {
                 be contained by clinics and contracts.
               </p>
               <p className="text-lg text-slate-600 leading-relaxed">
-                The call of Divine Love (Ishq-e-Haqiqi) shattered all worldly boundaries — and he walked away.
+                The call of Divine Love (Ishq-e-Haqiqi) shattered all worldly boundaries and he walked away.
               </p>
               <div className="bg-emerald-50 rounded-xl p-6 border border-emerald-100">
                 <p className="text-emerald-800 font-medium text-center">
                   He left the world of titles and salaries.<br />
-                  And walked into the wild — toward Fana, the annihilation in Allah.
+                  And walked into the wild toward Fana, the annihilation in Allah.
                 </p>
               </div>
             </div>
@@ -208,10 +208,10 @@ const DrKumarFoundation = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
               <Moon className="hidden lg:flex w-8 h-8 text-emerald-600 mr-2" />
-              14 Years of Silence — The Birth of a Qalandar
+              14 Years of Silence The Birth of a Qalandar
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
-              In the jungles of Ganderbal, he entered a sacred silence. For fourteen years, he lived in Muraqaba —
+              In the jungles of Ganderbal, he entered a sacred silence. For fourteen years, he lived in Muraqaba
               in absorption, in poverty, in truth.
             </p>
           </div>
@@ -275,7 +275,7 @@ const DrKumarFoundation = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
               <FaDove className="hidden lg:flex w-8 h-8 text-emerald-600 mr-2" />
-              Banday Bagh — The Spiritual Station
+              Banday Bagh The Spiritual Station
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
               In the lush valley of Serch Banday Bagh (Ganderbal - Kashmir - India), where the winds whisper with the voices of saints,
@@ -327,8 +327,8 @@ const DrKumarFoundation = () => {
             <div className="space-y-6">
               <div className="space-y-4 text-lg text-slate-600 leading-relaxed">
                 <p>He speaks in scientific codes and mystic signals, mixing timeless truth with modern reason.</p>
-                <p>He does not reject intellect — he sanctifies it.</p>
-                <p>He does not avoid science — he transforms it into divine reflection.</p>
+                <p>He does not reject intellect he sanctifies it.</p>
+                <p>He does not avoid science he transforms it into divine reflection.</p>
               </div>
               <div className="bg-slate-800 rounded-xl p-6 text-white">
                 <blockquote className="text-xl font-light italic text-emerald-300">
@@ -369,10 +369,10 @@ const DrKumarFoundation = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
               <FlaskConical className="hidden lg:flex w-8 h-8 text-emerald-600 mr-2" />
-              The Sufi Science Center (SSC) — A Revolution in Thought
+              The Sufi Science Center (SSC) A Revolution in Thought
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
-              To honor and spread his teachings, the Sufi Science Center was born —
+              To honor and spread his teachings, the Sufi Science Center was born
               a spiritual think tank, a technological sanctuary, a metaphysical research lab.
             </p>
           </div>
@@ -410,7 +410,7 @@ const DrKumarFoundation = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 mb-4 flex items-center justify-center">
               <Globe className="hidden lg:flex w-8 h-8 text-emerald-600 mr-2" />
-              Dr. Kumar Foundation USA — A Light Across Oceans
+              Dr. Kumar Foundation USA A Light Across Oceans
             </h2>
             <p className="text-xl text-slate-600 max-w-4xl mx-auto">
               To carry his vision beyond the borders of Kashmir, one of Dr. Kumar's American students
@@ -441,7 +441,7 @@ const DrKumarFoundation = () => {
                 <h4 className="text-xl font-bold text-slate-800 mb-3">Sacred Sustainability</h4>
               </div>
               <p className="text-slate-600 text-center leading-relaxed">
-                With no sponsors, no donations, and no commercialization —
+                With no sponsors, no donations, and no commercialization
                 it sustains itself through love, longing, and labor.
               </p>
             </div>
