@@ -360,43 +360,82 @@ export default function OtherAdminsPage() {
 
         {!showAddForm && (
           <>
-            <div className="hidden lg:block bg-slate-800 rounded-xl shadow-sm border border-slate-700 overflow-hidden">
-              <table className="min-w-full divide-y divide-slate-700">
-                <thead className="bg-emerald-50">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-emerald-900 uppercase tracking-wider">
-                      Admin Details
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-emerald-900 uppercase tracking-wider">
-                      Role
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-emerald-900 uppercase tracking-wider">
-                      Permissions
-                    </th>
-                    <th className="px-6 py-4 text-right text-xs font-semibold text-emerald-900 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-slate-800 divide-y divide-slate-700">
+            {admins.length === 0 ? (
+              <div className="text-center py-12">
+                <Users className="w-12 h-12 text-slate-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-white">No Sub-admins Found</h3>
+                <p className="text-sm text-slate-300">
+                  There are currently no sub-admins. Click "Add New Admin" to create one.
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="hidden lg:block bg-slate-800 rounded-xl shadow-sm border border-slate-700 overflow-hidden">
+                  <table className="min-w-full divide-y divide-slate-700">
+                    <thead className="bg-emerald-50">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-emerald-900 uppercase tracking-wider">
+                          Admin Details
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-emerald-900 uppercase tracking-wider">
+                          Role
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-emerald-900 uppercase tracking-wider">
+                          Permissions
+                        </th>
+                        <th className="px-6 py-4 text-right text-xs font-semibold text-emerald-900 uppercase tracking-wider">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-slate-800 divide-y divide-slate-700">
+                      {admins.map((admin) => (
+                        <tr key={admin.id} className="hover:bg-slate-700 transition-colors">
+                          <td className="px-6 py-4">
+                            <div>
+                              <div className="text-sm font-semibold text-white">{admin.name}</div>
+                              <div className="text-sm text-slate-300">{admin.email}</div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                              {admin.role}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="text-sm text-slate-300">{getPermissionsSummary(admin.permissions)}</div>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <div className="flex items-center justify-end space-x-2">
+                              <button
+                                onClick={() => handleEdit(admin)}
+                                className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-900/20 rounded-lg transition-colors"
+                              >
+                                <Edit className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => setShowDeleteConfirm(admin.id)}
+                                className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-900/20 rounded-lg transition-colors"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="lg:hidden space-y-4">
                   {admins.map((admin) => (
-                    <tr key={admin.id} className="hover:bg-slate-700 transition-colors">
-                      <td className="px-6 py-4">
+                    <div key={admin.id} className="bg-slate-800 rounded-xl shadow-sm border border-slate-700 p-6">
+                      <div className="flex items-start justify-between mb-4">
                         <div>
-                          <div className="text-sm font-semibold text-white">{admin.name}</div>
-                          <div className="text-sm text-slate-300">{admin.email}</div>
+                          <h3 className="text-lg font-semibold text-white">{admin.name}</h3>
+                          <p className="text-sm text-slate-300">{admin.email}</p>
                         </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
-                          {admin.role}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="text-sm text-slate-300">{getPermissionsSummary(admin.permissions)}</div>
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex items-center justify-end space-x-2">
+                        <div className="flex items-center space-x-2">
                           <button
                             onClick={() => handleEdit(admin)}
                             className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-900/20 rounded-lg transition-colors"
@@ -410,45 +449,18 @@ export default function OtherAdminsPage() {
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
-                      </td>
-                    </tr>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                          {admin.role}
+                        </span>
+                        <span className="text-sm text-slate-300">{getPermissionsSummary(admin.permissions)}</span>
+                      </div>
+                    </div>
                   ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="lg:hidden space-y-4">
-              {admins.map((admin) => (
-                <div key={admin.id} className="bg-slate-800 rounded-xl shadow-sm border border-slate-700 p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">{admin.name}</h3>
-                      <p className="text-sm text-slate-300">{admin.email}</p>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() => handleEdit(admin)}
-                        className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-900/20 rounded-lg transition-colors"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => setShowDeleteConfirm(admin.id)}
-                        className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-900/20 rounded-lg transition-colors"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
-                      {admin.role}
-                    </span>
-                    <span className="text-sm text-slate-300">{getPermissionsSummary(admin.permissions)}</span>
-                  </div>
                 </div>
-              ))}
-            </div>
+              </>
+            )}
           </>
         )}
       </div>
