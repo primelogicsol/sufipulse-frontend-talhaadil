@@ -28,7 +28,7 @@ const Studio = () => {
         "AKG C414",
         "Rode NT1 / Procaster"
       ],
-      image: "https://images.pexels.com/photos/164938/pexels-photo-164938.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/pics/Microphones.webp"
     },
     {
       category: "Audio Interfaces",
@@ -38,7 +38,7 @@ const Studio = () => {
         "Focusrite Scarlett / Clarett",
         "PreSonus Studio Series"
       ],
-      image: "https://images.pexels.com/photos/1751731/pexels-photo-1751731.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/pics/Audio interfaces.webp"
     },
     {
       category: "Digital Audio Workstations (DAWs)",
@@ -48,7 +48,7 @@ const Studio = () => {
         "Ableton Live",
         "Cubase"
       ],
-      image: "https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/pics/Digital Audio Workstations (DAWs).webp"
     },
     {
       category: "Monitoring & Headphones",
@@ -58,7 +58,7 @@ const Studio = () => {
         "Adam Audio A8H",
         "Beyerdynamic DT770/990"
       ],
-      image: "https://images.pexels.com/photos/1751731/pexels-photo-1751731.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/pics/Monitoring & Headphones.webp"
     },
     {
       category: "Acoustic Treatment",
@@ -68,7 +68,7 @@ const Studio = () => {
         "Bass Traps",
         "Diffusers"
       ],
-      image: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/pics/Acoustic Treatment.webp"
     },
     {
       category: "Recording & Production Tools",
@@ -78,7 +78,7 @@ const Studio = () => {
         "Audio Plugins Suite",
         "Backup Systems"
       ],
-      image: "https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/pics/Recording & Production Tools.webp"
     },
     {
       category: "Guitars & Bass",
@@ -88,7 +88,7 @@ const Studio = () => {
         "Taylor Acoustic",
         "Fender Precision Bass"
       ],
-      image: "https://images.pexels.com/photos/164938/pexels-photo-164938.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/pics/Guitars & Bass.webp"
     },
     {
       category: "Keyboards & Synths",
@@ -98,7 +98,7 @@ const Studio = () => {
         "Roland Juno-DS",
         "NI Komplete Kontrol"
       ],
-      image: "https://images.pexels.com/photos/1751731/pexels-photo-1751731.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/pics/Keyboards & Synths.webp"
     },
     {
       category: "Drums, Piano & Percussion",
@@ -108,7 +108,7 @@ const Studio = () => {
         "Yamaha C7 Grand Piano",
         "Tabla, Daf, Djembe, Cajón"
       ],
-      image: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/pics/Drums, Piano & Percussion.webp"
     }
   ];
 
@@ -191,19 +191,19 @@ const Studio = () => {
     {
       name: "Studio A - Main Recording Space",
       description: "SufiPulse Studio – USA, acoustically optimized for high-fidelity spiritual vocal recording",
-      image: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=800",
+      image: "/pics/StudioA.webp",
       features: ["Vocal isolation booth", "Live room", "Control room", "Acoustic treatment"]
     },
     {
       name: "Studio B - Mixing Suite",
       description: "Professional mixing environment with world-class monitoring and processing equipment",
-      image: "https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=800",
+      image: "/pics/StuddioB.webp",
       features: ["5.1 surround monitoring", "Analog mixing console", "Digital workstations", "Reference monitors"]
     },
     {
       name: "Studio C - Mastering Room",
       description: "Dedicated mastering suite for final polish and spiritual enhancement of sacred recordings",
-      image: "https://images.pexels.com/photos/164938/pexels-photo-164938.jpeg?auto=compress&cs=tinysrgb&w=800",
+      image: "/pics/StudioC.webp",
       features: ["Mastering grade monitors", "Analog processing", "Digital precision", "Quality assurance"]
     }
   ];
