@@ -1,4 +1,3 @@
-// app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -19,6 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://sufi-pulse.vercel.app"), // Set base URL for deployment
   title: "SufiPulse | Soulful Kalams & Spiritual Poetry",
   description:
     "SufiPulse is your gateway to soulful Kalams, Qawwalis, and timeless Sufi poetry. Discover mystical words, spiritual devotion, and divine inspiration.",
@@ -37,21 +37,21 @@ export const metadata: Metadata = {
   creator: "SufiPulse",
   publisher: "SufiPulse",
   icons: {
-    icon: "/Untitled (250 x 250 px) (1).png",
-    shortcut: "/Untitled (250 x 250 px) (1).png",
-    apple: "/Untitled (250 x 250 px) (1).png",
+    icon: "/favicon.ico", // Use .ico for broader compatibility
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png", // 180x180 for Apple devices
   },
   openGraph: {
     title: "SufiPulse | Soulful Kalams & Spiritual Poetry",
     description:
       "Immerse yourself in the world of Kalams, Qawwalis, and mystical Sufi expressions with SufiPulse.",
-    url: "https://sufipulse.com", // replace with your live domain
+    url: "https://sufi-pulse.vercel.app", // Matches deployment URL
     siteName: "SufiPulse",
     images: [
       {
-        url: "/Untitled (250 x 250 px) (1).png",
-        width: 800,
-        height: 800,
+        url: "/og-image.png", // Optimized for social media (1200x630)
+        width: 1200,
+        height: 630,
         alt: "SufiPulse Logo",
       },
     ],
@@ -63,12 +63,12 @@ export const metadata: Metadata = {
     title: "SufiPulse | Soulful Kalams & Spiritual Poetry",
     description:
       "A soulful collection of Kalams, Qawwalis, and spiritual poetry brought to life through SufiPulse.",
-    images: ["/Untitled (250 x 250 px) (1).png"],
-    creator: "@sufipulse", // optional
+    images: ["/og-image.png"], // Optimized for Twitter
+    creator: "@sufipulse",
   },
   category: "Spirituality",
   alternates: {
-    canonical: "https://sufipulse.com",
+    canonical: "https://sufi-pulse.vercel.app",
   },
 };
 
