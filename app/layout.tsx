@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sufi-pulse.vercel.app"), // Set base URL for deployment
+  metadataBase: new URL("https://sufi-pulse.vercel.app"),
   title: "SufiPulse | Soulful Kalams & Spiritual Poetry",
   description:
     "SufiPulse is your gateway to soulful Kalams, Qawwalis, and timeless Sufi poetry. Discover mystical words, spiritual devotion, and divine inspiration.",
@@ -37,19 +37,19 @@ export const metadata: Metadata = {
   creator: "SufiPulse",
   publisher: "SufiPulse",
   icons: {
-    icon: "/favicon.ico", // Use .ico for broader compatibility
-    shortcut: "/favicon.ico",
-    apple: "/apple-icon.png", // 180x180 for Apple devices
+    icon: "/logo23.png",
+    shortcut: "/logo23.png",
+    apple: "/logo23.png",
   },
   openGraph: {
     title: "SufiPulse | Soulful Kalams & Spiritual Poetry",
     description:
       "Immerse yourself in the world of Kalams, Qawwalis, and mystical Sufi expressions with SufiPulse.",
-    url: "https://sufi-pulse.vercel.app", // Matches deployment URL
+    url: "https://sufi-pulse.vercel.app",
     siteName: "SufiPulse",
     images: [
       {
-        url: "/og-image.png", // Optimized for social media (1200x630)
+        url: "/logo23.png",
         width: 1200,
         height: 630,
         alt: "SufiPulse Logo",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     title: "SufiPulse | Soulful Kalams & Spiritual Poetry",
     description:
       "A soulful collection of Kalams, Qawwalis, and spiritual poetry brought to life through SufiPulse.",
-    images: ["/og-image.png"], // Optimized for Twitter
+    images: ["/logo23.png"],
     creator: "@sufipulse",
   },
   category: "Spirituality",
