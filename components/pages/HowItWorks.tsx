@@ -130,7 +130,7 @@ const HowItWorks = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                
                 <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
-                  <h3 className="text-white text-base sm:text-xl font-bold mb-1 sm:mb-2">Complete Process Overview</h3>
+                  <h3 className="text-white text-base sm:text-xl font-bold ">Complete Process Overview</h3>
                   <p className="text-slate-200 text-xs sm:text-sm">See how we transform sacred words into global inspiration</p>
                 </div>
               </div>

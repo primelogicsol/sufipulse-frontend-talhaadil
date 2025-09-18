@@ -202,7 +202,7 @@ const WriterFAQs = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                
                 <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
-                  <h3 className="text-white text-lg sm:text-xl font-bold mb-1 sm:mb-2">Complete Writer Support</h3>
+                  <h3 className="text-white text-lg sm:text-xl font-bold ">Complete Writer Support</h3>
                   <p className="text-slate-200 text-xs sm:text-sm">All your questions answered with care and transparency</p>
                 </div>
               </div>

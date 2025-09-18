@@ -220,7 +220,7 @@ const SufiMusicTheory = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 
                 <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
-                  <h3 className="text-white text-base sm:text-xl font-bold mb-1 sm:mb-2">Sacred Sound Science</h3>
+                  <h3 className="text-white text-base sm:text-xl font-bold">Sacred Sound Science</h3>
                   <p className="text-slate-200 text-xs sm:text-sm">Where ancient wisdom meets modern understanding</p>
                 </div>
               </div>
@@ -240,7 +240,7 @@ const SufiMusicTheory = () => {
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                     <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600" />
                   </div>
-                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-1 sm:mb-2">{stat.number}</div>
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 ">{stat.number}</div>
                   <div className="text-xs sm:text-sm text-slate-600 font-medium">{stat.label}</div>
                 </div>
               );

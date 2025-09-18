@@ -402,7 +402,7 @@ const Home = () => {
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                     <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600" />
                   </div>
-                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-1 sm:mb-2">{stat.number}</div>
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 ">{stat.number}</div>
                   <div className="text-xs sm:text-sm text-slate-600 font-medium">{stat.label}</div>
                 </div>
               );
