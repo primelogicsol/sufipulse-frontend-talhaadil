@@ -386,7 +386,7 @@ const KalamLibrary = () => {
               href="/gallery"
               className="inline-flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold transition-all duration-200 text-sm sm:text-base"
             >
-              <span>Explore Full Library</span>
+              <span>Explore Published Library</span>
               <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </Link>
           </div>
@@ -447,7 +447,7 @@ const KalamLibrary = () => {
               className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 text-sm sm:text-base"
             >
               <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>Browse Library</span>
+              <span>Browse Published Library</span>
             </Link>
             <Link
               href="/writer/submit"

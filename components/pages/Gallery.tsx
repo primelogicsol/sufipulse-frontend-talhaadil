@@ -357,7 +357,7 @@ const Gallery = () => {
                   />
                   <div className="absolute top-2 sm:top-3 left-2 sm:left-3 right-2 sm:right-3 flex justify-between items-start">
                     <span className="text-xs font-medium text-white bg-emerald-600 px-2 py-1 rounded-lg capitalize">
-                      {video.category}
+                      Play Now
                     </span>
                     <div className="flex items-center space-x-1 text-white text-xs bg-black/40 backdrop-blur-sm px-2 py-1 rounded-lg">
                       <Clock className="w-3 h-3" />
