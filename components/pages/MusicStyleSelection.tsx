@@ -45,7 +45,7 @@ const MusicStyleSelection = () => {
       duration: '4-8 minutes',
       complexity: 'High',
       languages: ['Urdu', 'Arabic', 'Persian'],
-      image: 'https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=400'
+      image: '/pics/Music3.webp'
     },
     {
       id: 'chant',
@@ -69,7 +69,7 @@ const MusicStyleSelection = () => {
       duration: '3-6 minutes',
       complexity: 'Medium',
       languages: ['Arabic', 'English', 'Multilingual'],
-      image: 'https://images.pexels.com/photos/1616403/pexels-photo-1616403.jpeg?auto=compress&cs=tinysrgb&w=400'
+      image: '/pics/Music2.webp'
     },
     {
       id: 'anthem',
@@ -93,7 +93,7 @@ const MusicStyleSelection = () => {
       duration: '4-7 minutes',
       complexity: 'High',
       languages: ['English', 'Multilingual', 'Contemporary'],
-      image: 'https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400'
+      image: '/pics/Music1.webp'
     },
     {
       id: 'whisper',
@@ -117,7 +117,7 @@ const MusicStyleSelection = () => {
       duration: '2-5 minutes',
       complexity: 'Low',
       languages: ['Any language', 'Multilingual'],
-      image: 'https://images.pexels.com/photos/164938/pexels-photo-164938.jpeg?auto=compress&cs=tinysrgb&w=400'
+      image: '/pics/Music4.webp'
     }
   ];
 

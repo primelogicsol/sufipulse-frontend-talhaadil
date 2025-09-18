@@ -94,9 +94,10 @@ const Contact = () => {
     {
       icon: Music,
       title: 'Remote Vocalist Recording Hubs',
-      details: 'Srinagar, Kashmir – India; Dubai – UAE; Mumbai – India; Istanbul – Turkey',
+      details: 'Srinagar, Kashmir – India\nDubai – UAE\nMumbai – India\nIstanbul – Turkey',
       description: 'Global recording facilities'
-    },
+    }
+    ,
     {
       icon: Mail,
       title: 'Email Us',
@@ -176,7 +177,7 @@ const Contact = () => {
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-emerald-500/20 max-w-4xl mx-auto">
               <p className="text-xl text-slate-300 leading-relaxed mb-6">
                 Ready to share your divine Sufi kalam or collaborate with our global spiritual community?
-                From Kashmir's mystical valleys to the world we'd love to hear from you.
+                From Kashmir's mystical valleys to the world — we'd love to hear from you.
               </p>
               <blockquote className="text-2xl font-light italic text-emerald-300 mb-4">
                 "Every connection is a bridge between hearts seeking the Divine"
@@ -228,14 +229,14 @@ const Contact = () => {
                       <hub.icon className="w-8 h-8 text-emerald-500 flex-shrink-0" />
                       <div>
                         <h4 className="font-bold text-slate-800">{hub.title}</h4>
-                        <p className="text-slate-600">{hub.details}</p>
+                        <p className="text-slate-600 whitespace-pre-line">{hub.details}</p>
                         <p className="text-sm text-slate-500">{hub.description}</p>
                       </div>
                     </div>
                   ))}
                 </div>
                 <p className="text-slate-600 mt-6 italic">
-                  From divine inspiration to global impact we bring your kalam to life everywhere.
+                  From divine inspiration to global impact — we bring your kalam to life everywhere.
                 </p>
               </div>
             </div>
