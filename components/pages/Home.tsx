@@ -375,7 +375,7 @@ const Home = () => {
                 <img
                   src={featuredKalam[0]?.thumbnail || "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=800"}
                   alt="SufiPulse Studio"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-fit"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <button

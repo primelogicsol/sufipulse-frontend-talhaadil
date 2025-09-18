@@ -13,7 +13,7 @@ const Footer = () => {
               <img 
                 src="/Untitled (250 x 250 px) (1).png" 
                 alt="SufiPulse Logo" 
-                className="w-12 h-12 rounded-xl shadow-lg object-contain bg-white p-2"
+                className="w-14 h-14 rounded-xl shadow-lg object-contain bg-white p-0.5"
               />
               <div>
                 <h3 className="text-lg font-bold">SufiPulse</h3>

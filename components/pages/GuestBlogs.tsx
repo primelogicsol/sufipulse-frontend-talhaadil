@@ -169,11 +169,7 @@ const GuestBlogs = () => {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <button className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-600/90 hover:bg-emerald-600 rounded-full flex items-center justify-center transition-all duration-200 transform hover:scale-110">
-                    <Users className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-                  </button>
-                </div>
+               
                 <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
                   <h3 className="text-white text-base sm:text-xl font-bold mb-1 sm:mb-2">Global Spiritual Voices</h3>
                   <p className="text-slate-200 text-xs sm:text-sm">Insights from scholars, artists, and practitioners worldwide</p>
