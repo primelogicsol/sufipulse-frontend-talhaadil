@@ -38,10 +38,10 @@ const Studio = () => {
         "Focusrite Scarlett / Clarett",
         "PreSonus Studio Series"
       ],
-      image: "/pics/Audio interfaces.webp"
+      image: "/pics/audi.webp"
     },
     {
-      category: "Digital Audio Workstations (DAWs)",
+      category: "Digital Audio Workstations",
       items: [
         "Pro Tools",
         "Logic Pro X",
@@ -189,7 +189,7 @@ const Studio = () => {
 
   const studioSpaces = [
     {
-      name: "Studio A - Main Recording Space",
+      name: "Studio A - Main Recording",
       description: "SufiPulse Studio – USA, acoustically optimized for high-fidelity spiritual vocal recording",
       image: "/pics/StudioA.webp",
       features: ["Vocal isolation booth", "Live room", "Control room", "Acoustic treatment"]

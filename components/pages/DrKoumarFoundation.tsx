@@ -30,6 +30,7 @@ import {
   FlaskConical,
   Bird,
   BirdIcon, // Added for "Sufi Science Center"
+
 } from 'lucide-react';
 import { FaDove } from 'react-icons/fa';
 import { incrementYearly } from '@/lib/increment';
@@ -39,7 +40,7 @@ const DrKumarFoundation = () => {
     {
       phase: "Medical Training",
       period: "Early Years",
-      description: "Trained in modern medicine at Government Medical College Srinagar, served as Block Medical Officer",
+      description: "Trained in modern medicine at Government Medical College Srinagar, served as Medical Officer",
       icon: Shield
     },
     {
@@ -171,7 +172,7 @@ const DrKumarFoundation = () => {
             <div className="space-y-6">
               <p className="text-lg text-slate-600 leading-relaxed">
                 Born into an esteemed Kashmiri family of scholars and professionals, Dr. Kumar trained in modern medicine
-                at Government Medical College Srinagar and rose to become a Block Medical Officer. But his heart could not
+                at Government Medical College Srinagar and rose to become a Medical Officer. But his heart could not
                 be contained by clinics and contracts.
               </p>
               <p className="text-lg text-slate-600 leading-relaxed">
@@ -186,9 +187,9 @@ const DrKumarFoundation = () => {
             </div>
 
             <div className="relative">
-  <div className="aspect-square bg-[url('/pics/lab.webp')] bg-cover bg-center rounded-2xl p-8 flex items-center justify-center">
-  </div>
-</div>
+              <div className="aspect-square bg-[url('/pics/lab.webp')] bg-cover bg-center rounded-2xl p-8 flex items-center justify-center">
+              </div>
+            </div>
 
           </div>
         </div>
@@ -269,10 +270,23 @@ const DrKumarFoundation = () => {
               <FaDove className="hidden lg:flex w-8 h-8 text-emerald-600 mr-2" />
               Banday Bagh The Spiritual Station
             </h2>
-            <p className="text-xl text-slate-600 max-w-4xl mx-auto">
-              In the lush valley of Serch Banday Bagh (Ganderbal - Kashmir - India), where the winds whisper with the voices of saints,
-              Dr. Kumar's spiritual maqam serves as a beacon for broken hearts.
-            </p>
+
+
+            <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-3">
+              <p className="text-xl text-slate-600 flex-1">
+                In the lush valley of Serch Banday Bagh (Ganderbal - Kashmir - India), where the winds whisper with the voices of saints,
+                Dr. Kumar's spiritual maqam serves as a beacon for broken hearts.
+              </p>
+              <a
+                href="https://www.google.com/maps?q=34.239320,74.789440"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-emerald-600 hover:text-emerald-800 shrink-0"
+              >
+                <MapPin className="w-7 h-7" />
+              </a>
+            </div>
+
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
