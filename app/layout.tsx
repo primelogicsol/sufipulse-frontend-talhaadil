@@ -18,60 +18,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sufi-pulse.vercel.app"),
   title: "SufiPulse | Soulful Kalams & Spiritual Poetry",
   description:
     "SufiPulse is your gateway to soulful Kalams, Qawwalis, and timeless Sufi poetry. Discover mystical words, spiritual devotion, and divine inspiration.",
-  keywords: [
-    "SufiPulse",
-    "Kalams",
-    "Qawwalis",
-    "Sufi Poetry",
-    "Spiritual Music",
-    "Mystic Songs",
-    "Devotional Kalams",
-    "Nusrat Fateh Ali Khan",
-    "Sufism",
-  ],
-  authors: [{ name: "SufiPulse" }],
-  creator: "SufiPulse",
-  publisher: "SufiPulse",
-  icons: {
-    icon: "/logo23.png",
-    shortcut: "/logo23.png",
-    apple: "/logo23.png",
-  },
-  openGraph: {
-    title: "SufiPulse | Soulful Kalams & Spiritual Poetry",
-    description:
-      "Immerse yourself in the world of Kalams, Qawwalis, and mystical Sufi expressions with SufiPulse.",
-    url: "https://sufi-pulse.vercel.app",
-    siteName: "SufiPulse",
-    images: [
-      {
-        url: "/logo23.png",
-        width: 1200,
-        height: 630,
-        alt: "SufiPulse Logo",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "SufiPulse | Soulful Kalams & Spiritual Poetry",
-    description:
-      "A soulful collection of Kalams, Qawwalis, and spiritual poetry brought to life through SufiPulse.",
-    images: ["/logo23.png"],
-    creator: "@sufipulse",
-  },
-  category: "Spirituality",
-  alternates: {
-    canonical: "https://sufi-pulse.vercel.app",
-  },
-};
-
+  icons : {
+    icon : "/Untitled (250 x 250 px) (1).png",
+  }
+  
+  }
+  
 export default function RootLayout({
   children,
 }: {
