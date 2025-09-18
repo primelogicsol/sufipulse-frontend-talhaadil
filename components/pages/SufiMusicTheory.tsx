@@ -213,7 +213,7 @@ const SufiMusicTheory = () => {
             <div className="relative">
               <div className="aspect-[4/3] sm:aspect-video bg-slate-800 rounded-lg sm:rounded-xl overflow-hidden shadow-xl">
                 <img
-                  src="https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  src="/pics/writer3.jpg"
                   alt="Sufi Music Theory"
                   className="w-full h-full object-cover"
                 />
