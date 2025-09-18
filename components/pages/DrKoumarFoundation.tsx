@@ -186,18 +186,10 @@ const DrKumarFoundation = () => {
             </div>
 
             <div className="relative">
-              <div className="aspect-square bg-gradient-to-br from-emerald-100 to-slate-100 rounded-2xl p-8 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-24 h-24 bg-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Shield className="w-12 h-12 text-white" />
-                  </div>
-                  <h4 className="text-xl font-bold text-slate-800 mb-3">The Great Renunciation</h4>
-                  <p className="text-slate-600 text-sm">
-                    From worldly success to spiritual seeking
-                  </p>
-                </div>
-              </div>
-            </div>
+  <div className="aspect-square bg-[url('/pics/lab.webp')] bg-cover bg-center rounded-2xl p-8 flex items-center justify-center">
+  </div>
+</div>
+
           </div>
         </div>
       </section>
