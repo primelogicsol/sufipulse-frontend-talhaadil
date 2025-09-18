@@ -48,7 +48,7 @@ const Studio = () => {
         "Ableton Live",
         "Cubase"
       ],
-      image: "/pics/Digital Audio Workstations (DAWs).webp"
+      image: "/pics/digital-audio.webp"
     },
     {
       category: "Monitoring & Headphones",
@@ -58,7 +58,7 @@ const Studio = () => {
         "Adam Audio A8H",
         "Beyerdynamic DT770/990"
       ],
-      image: "/pics/Monitoring & Headphones.webp"
+      image: "/pics/monitor.webp"
     },
     {
       category: "Acoustic Treatment",
@@ -68,7 +68,7 @@ const Studio = () => {
         "Bass Traps",
         "Diffusers"
       ],
-      image: "/pics/Acoustic Treatment.webp"
+      image: "/pics/treatment.webp"
     },
     {
       category: "Recording & Production Tools",
@@ -78,7 +78,7 @@ const Studio = () => {
         "Audio Plugins Suite",
         "Backup Systems"
       ],
-      image: "/pics/Recording & Production Tools.webp"
+      image: "/pics/tools.webp"
     },
     {
       category: "Guitars & Bass",
@@ -88,7 +88,7 @@ const Studio = () => {
         "Taylor Acoustic",
         "Fender Precision Bass"
       ],
-      image: "/pics/Guitars & Bass.webp"
+      image: "/pics/bass.webp"
     },
     {
       category: "Keyboards & Synths",
@@ -98,7 +98,7 @@ const Studio = () => {
         "Roland Juno-DS",
         "NI Komplete Kontrol"
       ],
-      image: "/pics/Keyboards & Synths.webp"
+      image: "/pics/synths.webp"
     },
     {
       category: "Drums, Piano & Percussion",
@@ -108,7 +108,7 @@ const Studio = () => {
         "Yamaha C7 Grand Piano",
         "Tabla, Daf, Djembe, Cajón"
       ],
-      image: "/pics/Drums, Piano & Percussion.webp"
+      image: "/pics/percussion.webp"
     }
   ];
 
