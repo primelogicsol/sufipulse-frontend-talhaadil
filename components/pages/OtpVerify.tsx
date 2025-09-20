@@ -191,7 +191,7 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email, onVerified, on
                       onChange={e => handleInputChange(index, e.target.value)}
                       onKeyDown={e => handleKeyDown(index, e)}
                       onPaste={handlePaste}
-                      className="w-12 h-12 text-center text-xl font-semibold border-2 border-slate-300 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 transition-colors"
+                      className="w-7 h-7 md:w-12 md:h-12 text-center text-xl font-semibold border-2 border-slate-300 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 transition-colors"
                       disabled={loading}
                     />
                   ))}

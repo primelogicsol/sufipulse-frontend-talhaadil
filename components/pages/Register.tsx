@@ -35,7 +35,7 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
-  const [showOTPVerification, setShowOTPVerification] = useState(false)
+  const [showOTPVerification, setShowOTPVerification] = useState(true)
   const [userEmail, setUserEmail] = useState("")
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,9 +76,7 @@ const Register = () => {
       newErrors.confirmPassword = "Passwords do not match"
     }
 
-    if (!formData.acceptTerms) {
-      newErrors.acceptTerms = "You must accept the terms and conditions"
-    }
+  
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -274,7 +272,7 @@ const Register = () => {
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-3">I want to join as a:</label>
 
-                  <div className="flex bg-slate-100 rounded-lg p-1 gap-4">
+                  <div className="flex flex-col md:flex-row bg-slate-100 rounded-lg p-1 gap-4">
                     {userTypes.map((type) => {
                       const Icon = type.icon
                       return (
@@ -383,29 +381,7 @@ const Register = () => {
                   required
                 />
 
-                <div className="space-y-3">
-                  <motion.label whileHover={{ scale: 1.01 }} className="flex items-start space-x-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      name="acceptTerms"
-                      checked={formData.acceptTerms}
-                      onChange={handleInputChange}
-                      className="mt-1 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
-                    />
-                    <span className="text-sm text-slate-600">
-                      I agree to the{" "}
-                      <Link href="/terms" className="text-emerald-600 hover:text-emerald-700 font-medium">
-                        Terms of Service
-                      </Link>{" "}
-                      and{" "}
-                      <Link href="/privacy" className="text-emerald-600 hover:text-emerald-700 font-medium">
-                        Privacy Policy
-                      </Link>
-                    </span>
-                  </motion.label>
-                  {errors.acceptTerms && <p className="text-sm text-red-600">{errors.acceptTerms}</p>}
-                </div>
-
+                
                 <Button
                   disabled={formData.userType === ""}
                   type="submit"
