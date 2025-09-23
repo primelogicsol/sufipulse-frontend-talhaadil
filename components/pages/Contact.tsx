@@ -17,6 +17,14 @@ import {
 
 const Contact = () => {
   const [activeForm, setActiveForm] = useState('general');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+  const [status, setStatus] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const contactTypes = [
     {
@@ -96,8 +104,7 @@ const Contact = () => {
       title: 'Remote Vocalist Recording Hubs',
       details: 'Srinagar, Kashmir – India\nDubai – UAE\nMumbai – India\nIstanbul – Turkey',
       description: 'Global recording facilities'
-    }
-    ,
+    },
     {
       icon: Mail,
       title: 'Email Us',
@@ -113,14 +120,54 @@ const Contact = () => {
     { name: 'LinkedIn', href: '#', color: 'text-blue-700 hover:text-blue-800' }
   ];
 
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setStatus(null);
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        setStatus('Message sent successfully! We will get back to you soon.');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setStatus(result.error || 'Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      setStatus('An error occurred. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const renderForm = () => {
     return (
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">Your Name *</label>
             <input
               type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
               required
               className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
               placeholder="Enter your full name"
@@ -130,6 +177,9 @@ const Contact = () => {
             <label className="block text-sm font-medium text-slate-700 mb-2">Email Address *</label>
             <input
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
               required
               className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
               placeholder="your.email@example.com"
@@ -141,6 +191,9 @@ const Contact = () => {
           <label className="block text-sm font-medium text-slate-700 mb-2">Subject *</label>
           <input
             type="text"
+            name="subject"
+            value={formData.subject}
+            onChange={handleInputChange}
             required
             className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
             placeholder="What is your inquiry about?"
@@ -151,14 +204,44 @@ const Contact = () => {
           <label className="block text-sm font-medium text-slate-700 mb-2">Message *</label>
           <textarea
             rows={6}
+            name="message"
+            value={formData.message}
+            onChange={handleInputChange}
             required
             className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200"
             placeholder="Please share your message, questions, or how we can assist you..."
           ></textarea>
         </div>
+
+        {status && (
+          <div
+            className={`text-sm p-4 rounded-lg ${
+              status.includes('successfully')
+                ? 'bg-emerald-100 text-emerald-700'
+                : 'bg-red-100 text-red-700'
+            }`}
+          >
+            {status}
+          </div>
+        )}
+
+        <div className="mt-8 flex justify-end">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={`inline-flex items-center space-x-2 px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 ${
+              isSubmitting
+                ? 'bg-slate-500 text-white cursor-not-allowed'
+                : 'bg-slate-800 hover:bg-slate-700 text-white'
+            }`}
+          >
+            <Send className="w-5 h-5" />
+            <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+          </button>
+        </div>
       </form>
     );
-  }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -206,15 +289,6 @@ const Contact = () => {
 
                 {renderForm()}
 
-                <div className="mt-8 flex justify-end">
-                  <button
-                    type="submit"
-                    className="inline-flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
-                  >
-                    <Send className="w-5 h-5" />
-                    <span>Send Message</span>
-                  </button>
-                </div>
               </div>
             </div>
 
@@ -275,5 +349,6 @@ const Contact = () => {
     </div>
   );
 };
+
 
 export default Contact;
