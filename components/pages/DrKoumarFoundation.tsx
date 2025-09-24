@@ -85,7 +85,7 @@ const DrKumarFoundation = () => {
     {
       icon: Heart,
       title: "Spiritual Guidance",
-      description: "Direct teachings and presence of the Qalandar",
+      description: "Qalandar’s direct teachings & presence",
       details: "Transformative encounters with divine wisdom"
     }
   ];
