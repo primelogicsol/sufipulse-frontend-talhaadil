@@ -8,7 +8,6 @@ export function middleware(request: NextRequest) {
   const permissionsCookie = request.cookies.get("permissions")?.value;
   const isAuth = Boolean(accessToken);
 
-  // Parse permissions if available
   let permissions: Record<string, string[]> = {};
   try {
     if (permissionsCookie) {
@@ -18,7 +17,6 @@ export function middleware(request: NextRequest) {
     console.error("Failed to parse permissions cookie:", error);
   }
 
-  // Define protected and public routes
   const isAdminRoute = pathname.startsWith("/admin");
   const isVocalistRoute =
     pathname.startsWith("/vocalist") &&
@@ -27,7 +25,6 @@ export function middleware(request: NextRequest) {
   const isWriterRoute =
     pathname.startsWith("/writer") && pathname !== "/writer-faqs";
 
-  // Handle CORS preflight OPTIONS request
   if (request.method === "OPTIONS") {
     return new Response(null, {
       status: 200,
@@ -39,7 +36,6 @@ export function middleware(request: NextRequest) {
     });
   }
 
-  // Map admin subroutes to required permissions
   const permissionMap: Record<string, string> = {
     "/admin/vocalists": "vocalist",
     "/admin/writers": "writer",
@@ -52,40 +48,42 @@ export function middleware(request: NextRequest) {
     "/admin/blog": "blog",
   };
 
-  // Handle admin routes: require authentication and admin/subadmin role
   if (isAdminRoute) {
     if (!isAuth) {
-      // Redirect unauthenticated users to login
       const loginUrl = new URL("/aLogin", request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
     }
 
     if (userRole !== "admin" && userRole !== "sub-admin") {
-      // Redirect non-admin/subadmin users to root (/)
       return NextResponse.redirect(new URL("/", request.url));
     }
 
     if (userRole === "sub-admin") {
-      // Check permissions for subadmin
       const requiredPermission = Object.entries(permissionMap).find(([route]) =>
         pathname.startsWith(route)
       )?.[1];
 
-      if (requiredPermission && (!permissions[requiredPermission] || !permissions[requiredPermission].includes("view"))) {
-        // Redirect subadmin to /admin if they lack permission
+      if (
+        requiredPermission &&
+        (!permissions[requiredPermission] ||
+          !permissions[requiredPermission].includes("view"))
+      ) {
         return NextResponse.redirect(new URL("/admin", request.url));
       }
     }
   }
 
- 
+  // NEW: check vocalist/writer routes
+  if ((isVocalistRoute || isWriterRoute) && !isAuth) {
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
 
-  // Allow access to all other routes
   return NextResponse.next();
 }
 
-// Define which paths the middleware applies to
 export const config = {
   matcher: ["/admin/:path*", "/vocalist/:path*", "/writer/:path*"],
 };
