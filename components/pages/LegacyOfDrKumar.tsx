@@ -66,7 +66,7 @@ const LegacyOfDrKumar = () => {
     {
       icon: Globe,
       title: "Global Influence",
-      description: "Inspiring institutions and movements across continents",
+      description: "Inspiring spiritual movements and guiding institutions across cultures and continents.",
       impact: "Worldwide network of spiritual seekers",
       details: [
         "Dr. Kumar Foundation USA established",
