@@ -255,13 +255,7 @@ const Gallery = () => {
                   <Music className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Submit Your Kalam</span>
                 </Link>
-                <Link
-                  href="/writers"
-                  className="inline-flex items-center justify-center space-x-2 bg-slate-700 hover:bg-slate-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold transition-all duration-200 text-sm sm:text-base"
-                >
-                  <Users className="w-4 h-4 sm:w-5 sm:h-5" />
-                  <span>Meet Writers</span>
-                </Link>
+               
               </div>
             </div>
 
