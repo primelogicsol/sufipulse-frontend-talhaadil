@@ -45,7 +45,7 @@ const Acknowledgments = () => {
     },
     {
       icon: Mic,
-      title: "To the Vocalists, Musicians, and Producers",
+      title: "To Vocalists, Musicians & Producers",
       description: "Who pour soul into every track",
       recognition: "The soul of our productions - transforming words into spiritual experiences",
       count: `${incrementWeekly(43)} Divine Voices`

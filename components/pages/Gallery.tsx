@@ -383,10 +383,8 @@ const Gallery = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full capitalize">
-                      {video.category}
-                    </span>
+                  <div className="flex items-center justify-end">
+                   
                     <div className="flex space-x-2">
                       <button
                         className="p-2 text-slate-400 hover:text-emerald-600 transition-colors"

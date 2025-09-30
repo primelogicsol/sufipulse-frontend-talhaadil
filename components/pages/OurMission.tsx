@@ -29,7 +29,7 @@ const OurMission = () => {
     {
       icon: Globe,
       title: "Unity Through Sound",
-      description: "From Lahore to Los Angeles, from Cairo to Kuala Lumpur we believe every soul carrying divine lyrics deserves a global stage.",
+      description: "From Kashmir to Los Angeles, from Cairo to Kuala Lumpur we believe every soul carrying divine lyrics deserves a global stage.",
       stats: "50+ Countries Connected",
       color: "text-emerald-600 bg-emerald-50"
     },

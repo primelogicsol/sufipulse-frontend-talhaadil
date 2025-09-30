@@ -35,7 +35,7 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
-  const [showOTPVerification, setShowOTPVerification] = useState(true)
+  const [showOTPVerification, setShowOTPVerification] = useState(false)
   const [userEmail, setUserEmail] = useState("")
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

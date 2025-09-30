@@ -24,7 +24,7 @@ const Founder = () => {
         "Founded SufiPulse as a global platform for Sufi collaboration",
         "Bridged traditional Kashmiri Sufi poetry with contemporary expression",
         "Established non-commercial model for sacred art preservation",
-        "Created first global digital platform for Sufi kalam collaboration"
+        "First global digital platform for Sufi kalam collaboration"
       ]
     },
     {
@@ -42,7 +42,7 @@ const Founder = () => {
         "Developed SaaS solutions for creative collaboration",
         "Applied remote sensing technology to environmental projects",
         "Created emergency planning systems for community safety",
-        "Pioneered technology-enabled spiritual content distribution"
+        "Pioneered tech-enabled spiritual content distribution"
       ]
     }
   ];
