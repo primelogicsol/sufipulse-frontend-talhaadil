@@ -108,7 +108,7 @@ const Contact = () => {
     {
       icon: Mail,
       title: 'Email Us',
-      details: 'connect@sufipulse.org',
+      details: 'connect@sufipulse.com',
       description: 'Connect with us globally'
     }
   ];
