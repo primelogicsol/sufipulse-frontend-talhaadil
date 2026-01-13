@@ -284,7 +284,7 @@ const GuestBlogs = () => {
                     <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                     <span>{new Date(post.date).toLocaleDateString()}</span>
                   </div>
-                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 line-clamp-3">{post.content}</p>
+                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">{post.content}</p>
 
                   <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4">
                     {post.tags.slice(0, 2).map((tag, index) => (
@@ -312,9 +312,7 @@ const GuestBlogs = () => {
                         </div>
                       )}
                     </div>
-                    <button className="p-1 sm:p-2 text-slate-400 hover:text-emerald-600 transition-colors">
-                      <Share2 className="w-3 h-3 sm:w-4 sm:h-4" />
-                    </button>
+                    
                   </div>
                 </div>
               </div>
