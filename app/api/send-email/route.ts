@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 export async function POST(request: Request) {
   try {
@@ -8,8 +8,8 @@ export async function POST(request: Request) {
     // Validate input
     if (!name || !email || !subject || !message) {
       return NextResponse.json(
-        { error: 'All fields are required' },
-        { status: 400 }
+        { error: "All fields are required" },
+        { status: 400 },
       );
     }
 
@@ -110,14 +110,14 @@ export async function POST(request: Request) {
     const userEmail = await transporter.sendMail({
       from: '"SufiPulse" <connect@sufipulse.com>',
       to: email,
-      subject: 'Thank You for Contacting SufiPulse',
+      subject: "Thank You for Contacting SufiPulse",
       html: userEmailHtml,
     });
 
     // Send notification email to admin
     const adminEmail = await transporter.sendMail({
       from: '"SufiPulse" <connect@sufipulse.com>',
-      to: 'contact@sufipulse.com',
+      to: "contact@sufipulse.com",
       subject: `New Contact Form Submission: ${subject}`,
       html: adminEmailHtml,
     });
@@ -125,17 +125,27 @@ export async function POST(request: Request) {
     // Check if both emails were sent successfully
     if (userEmail.accepted.length > 0 && adminEmail.accepted.length > 0) {
       return NextResponse.json(
-        { message: 'Message sent successfully' },
-        { status: 200 }
+        { message: "Message sent successfully" },
+        { status: 200 },
       );
     } else {
-      throw new Error('Failed to send one or more emails');
+      throw new Error("Failed to send one or more emails");
     }
-  } catch (error) {
-    console.error('Error sending email:', error);
+  } catch (error: any) {
+    console.error("Error sending email:");
+    console.log(error);
+
+    console.error({
+      message: error?.message,
+      code: error?.code,
+      response: error?.response,
+      responseCode: error?.responseCode,
+      stack: error?.stack,
+    });
+
     return NextResponse.json(
-      { error: 'Failed to send message' },
-      { status: 500 }
+      { error: error?.message || "Failed to send message" },
+      { status: 500 },
     );
   }
 }
