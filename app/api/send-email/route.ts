@@ -15,7 +15,7 @@ export async function POST(request: Request) {
 
     // Create Nodemailer transporter
     const transporter = nodemailer.createTransport({
-      host: "smtp.ionos.com", // e.g., 'smtp.gmail.com'
+      host: "smtp.gmail.com", // e.g., 'smtp.gmail.com'
       port: 587, // e.g., 587 for TLS
       secure: false, // true for 465, false for other ports
       auth: {
