@@ -15,7 +15,7 @@ export async function POST(request: Request) {
 
     // Create Nodemailer transporter
     const transporter = nodemailer.createTransport({
-      host: "smtp.ionos.com", // e.g., 'smtp.gmail.com'
+      host: "smtp.gmail.com", // e.g., 'smtp.gmail.com'
       port: 587, // e.g., 587 for TLS
       secure: false, // true for 465, false for other ports
       auth: {
@@ -106,24 +106,18 @@ export async function POST(request: Request) {
       </div>
     `;
 
-    // Send confirmation email to the user
-    const userEmail = await transporter.sendMail({
-      from: '"SufiPulse" <connect@sufipulse.com>',
-      to: email,
-      subject: "Thank You for Contacting SufiPulse",
-      html: userEmailHtml,
-    });
+    
 
     // Send notification email to admin
     const adminEmail = await transporter.sendMail({
-      from: '"SufiPulse" <connect@sufipulse.com>',
-      to: "connect@sufipulse.com",
+      from: '"SufiPulse" <contact@sufipulse.com>',
+      to: "contact@sufipulse.com",
       subject: `New Contact Form Submission: ${subject}`,
       html: adminEmailHtml,
     });
 
     // Check if both emails were sent successfully
-    if (userEmail.accepted.length > 0 && adminEmail.accepted.length > 0) {
+    if (adminEmail.accepted.length > 0) {
       return NextResponse.json(
         { message: "Message sent successfully" },
         { status: 200 },
