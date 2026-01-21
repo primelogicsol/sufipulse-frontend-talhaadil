@@ -3,7 +3,7 @@ name: Deploy Frontend to Server
 on:
   push:
     branches:
-      - main  # deploy only when code is pushed to main branch
+      - dev  # deploy only when code is pushed to main branch
 
 jobs:
   deploy:
